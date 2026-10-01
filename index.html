@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="catalog.css">
+  <link rel="stylesheet" href="enhancements.css">
 </head>
 <body>
   <div class="topbar">Tư vấn kỹ thuật tận tâm · Đồng hành cùng mùa vụ bội thu</div>
@@ -52,6 +53,13 @@
         </div>
         <div class="floating-card"><span class="leaf-icon">♧</span><div><b>18.5SC</b><small>Công nghệ kiểm soát sâu hại</small></div></div>
       </div>
+    </section>
+
+    <section class="science-strip" aria-label="Khoa học bảo vệ cây trồng">
+      <div><strong>01</strong><span>Nhận diện<br>sâu bệnh</span></div>
+      <div><strong>02</strong><span>Đối chiếu<br>hoạt chất</span></div>
+      <div><strong>03</strong><span>Đúng cây trồng<br>đúng mục tiêu</span></div>
+      <p>Giải pháp được lựa chọn trên cơ sở khoa học, thông tin nhãn và điều kiện đồng ruộng thực tế.</p>
     </section>
 
     <section class="intro section" id="gioi-thieu">
@@ -101,6 +109,15 @@
         <article class="catalog-card reveal" data-category="fungicide"><div class="catalog-photo"><img src="assets/nofada-822wp.jpg" alt="Thuốc trừ bệnh Nofada 822WP"><span>Trừ bệnh</span></div><div class="catalog-body"><small>Lưu dẫn hai chiều</small><h3>Nofada 822WP</h3><p><b>Tricyclazole 440 + Isoprothiolane 350 + Hexaconazole 32 g/kg</b><br>Đăng ký trừ đạo ôn trên lúa; cách ly 14 ngày.</p><div><span>Gói 18 g</span><a href="tel:0388051282">Tư vấn →</a></div></div></article>
         <article class="catalog-card reveal" data-category="fungicide"><div class="catalog-photo"><img src="assets/masterone-26sc.jpg" alt="Thuốc trừ bệnh Masterone 26SC"><span>Trừ bệnh</span></div><div class="catalog-body"><small>Lưu dẫn hai chiều</small><h3>Masterone 26SC</h3><p><b>Fenoxanil 20% + Kresoxim-methyl 6%</b><br>Đăng ký trừ thán thư trên cà phê. Liều 0,25%; cách ly 10 ngày.</p><div><span>Gói 28 ml</span><a href="tel:0388051282">Tư vấn →</a></div></div></article>
       </div>
+      <div class="pest-showcase reveal">
+        <div class="pest-showcase-copy">
+          <div class="section-kicker">Nhận diện thực tế</div>
+          <h3>Một số sâu bệnh hại chính</h3>
+          <p>Hình minh họa hỗ trợ nhận diện ban đầu. Khi bấm vào từng sản phẩm, website sẽ trình bày nhóm đối tượng phòng trừ phù hợp với hoạt chất và thông tin đăng ký trên nhãn.</p>
+          <div class="pest-tags"><span>Sâu cuốn lá lúa</span><span>Bọ trĩ hoa cúc</span><span>Sâu keo mùa thu</span><span>Đạo ôn lúa</span></div>
+        </div>
+        <figure><img src="assets/sau-benh-minh-hoa-v2.png" alt="Minh họa sâu cuốn lá, bọ trĩ, sâu keo mùa thu và bệnh đạo ôn"><figcaption>Hình minh họa khoa học · Cần kiểm tra thực địa và đối chiếu nhãn trước khi sử dụng thuốc</figcaption></figure>
+      </div>
     </section>
 
     <section class="advice section" id="tu-van">
@@ -141,15 +158,23 @@
 
   <a class="floating-phone" href="tel:0388051282" aria-label="Gọi hotline"><span>☎</span><b>0388 051 282</b></a>
 
-  <dialog id="productModal">
+  <dialog id="productModal" class="product-modal">
     <button class="modal-close" aria-label="Đóng">×</button>
-    <p class="eyebrow">Hướng dẫn theo nhãn</p><h2>Pitako USA 18.5SC</h2>
-    <div class="modal-details">
-      <div><span>Cây trồng</span><b>Ngô</b></div><div><span>Đối tượng</span><b>Sâu keo mùa thu</b></div>
-      <div><span>Liều lượng</span><b>0,15 lít/ha</b></div><div><span>Lượng nước phun</span><b>500 lít/ha</b></div>
-      <div><span>Cách dùng</span><b>Pha 22 ml thuốc cho 18–20 lít nước</b></div><div><span>Thời gian cách ly</span><b>7 ngày</b></div>
+    <div class="modal-product-layout">
+      <div class="modal-product-image"><img id="modalProductImage" src="assets/pitako-usa-18-5sc.jpg" alt=""></div>
+      <div>
+        <p class="eyebrow">Thông tin sản phẩm</p><h2 id="modalProductName">Pitako USA 18.5SC</h2>
+        <p class="modal-active" id="modalActive">Chlorantraniliprole 18,5% w/w</p>
+        <h3>Đối tượng phòng trừ theo hoạt chất</h3>
+        <div class="target-chips" id="modalTargets"></div>
+        <p id="modalNote"></p>
+      </div>
     </div>
-    <p>Phun 1 lần khi sâu non tuổi 1–2 mới xuất hiện gây hại, mật độ khoảng 1 con/cây. Đọc kỹ hướng dẫn trên bao bì trước khi dùng.</p>
+    <div class="modal-pest-reference">
+      <img src="assets/sau-benh-minh-hoa-v2.png" alt="Một số sâu bệnh hại cây trồng thường gặp">
+      <div><strong>Hình ảnh nhận diện tham khảo</strong><span>Sâu cuốn lá · Bọ trĩ · Sâu keo mùa thu · Đạo ôn</span></div>
+    </div>
+    <p class="modal-disclaimer">Phạm vi tác động của hoạt chất không thay thế đối tượng đăng ký trên nhãn. Chỉ sử dụng theo đúng cây trồng, đối tượng, liều lượng và thời gian cách ly được ghi trên bao bì.</p>
     <a class="btn btn-primary" href="tel:0388051282">Liên hệ chuyên viên</a>
   </dialog>
   <div class="toast" role="status" aria-live="polite">Đã ghi nhận. Vui lòng gọi hotline để được tư vấn ngay.</div>
