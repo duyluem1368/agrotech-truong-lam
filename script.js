@@ -28,16 +28,12 @@ const pestPhotos = {
   'Sâu non bộ cánh vảy':'assets/pests/fall-armyworm.jpg',
   'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder.jpg',
   'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder.jpg',
-  'Sâu đục thân, sâu ăn lá':'assets/pests/rice-leaf-folder.jpg',
   'Bọ trĩ trên hoa cúc':'assets/pests/thrips.jpg',
   'Bọ trĩ':'assets/pests/thrips.jpg',
-  'Rệp mềm, rầy':'assets/pests/aphid.jpg',
-  'Rệp muội, rầy':'assets/pests/aphid.jpg',
-  'Rầy, rệp, bọ phấn':'assets/pests/brown-planthopper.jpg',
   'Bọ phấn, côn trùng chích hút':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
   'Bọ phấn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
   'Rỉ sắt trên hoa cúc':'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Chrysanthemum_white_rust.jpg/960px-Chrysanthemum_white_rust.jpg',
-  'Sâu ăn lá tuổi nhỏ':'assets/pests/rice-leaf-folder.jpg'
+  'Đạo ôn lá trên lúa':'assets/pests/rice-blast.jpg'
 };
 
 function targetLabel(target) { return target.replace(/^\d+\s*·?\s*/, ''); }
@@ -67,10 +63,11 @@ function openProductModal(card) {
     pestImage.style.opacity = '.25';
     setTimeout(() => {
       const exactPhoto = pestPhotos[label];
-      pestImage.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : `url("assets/atlas-${info.atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
-      pestImage.style.backgroundSize = exactPhoto ? 'cover' : '300% 200%';
-      pestImage.style.backgroundPosition = exactPhoto ? 'center' : info.pos;
-      document.querySelector('#modalPestCaption').textContent = exactPhoto ? `${label} · ảnh nhận diện đúng đối tượng` : `${label} · ảnh triệu chứng tham khảo`;
+      pestImage.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : 'none';
+      pestImage.style.backgroundSize = exactPhoto ? 'contain' : 'auto';
+      pestImage.style.backgroundPosition = 'center';
+      pestImage.classList.toggle('photo-pending', !exactPhoto);
+      document.querySelector('#modalPestCaption').textContent = exactPhoto ? `${label} · ảnh nhận diện đúng đối tượng` : `${label} · chưa hiển thị ảnh để tránh dùng sai đối tượng`;
       pestImage.setAttribute('aria-label', button.textContent);
       pestImage.style.opacity = '1';
     }, 160);
@@ -119,6 +116,7 @@ const cropNames = {rice:'Lúa',tea:'Chè',cucumber:'Dưa chuột',durian:'Sầu 
 const libraryPhotos = {
   'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
+  'Đạo ôn':'assets/pests/rice-blast.jpg',
   'Bọ xít muỗi':'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg/500px-Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg?utm_source=commons.wikimedia.org',
   'Bọ trĩ':'assets/pests/thrips.jpg',
   'Rệp mềm':'assets/pests/aphid.jpg',
@@ -152,9 +150,10 @@ function openPestDetail(crop, item) {
   const details = pestDetails[name] || genericDetails[atlas];
   const image = document.querySelector('#pestDetailImage');
   const exactPhoto = libraryPhotos[name];
-  image.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : `url("assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
-  image.style.backgroundSize = exactPhoto ? 'cover' : '300% 200%';
-  image.style.backgroundPosition = exactPhoto ? 'center' : pos;
+  image.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : 'none';
+  image.style.backgroundSize = exactPhoto ? 'contain' : 'auto';
+  image.style.backgroundPosition = 'center';
+  image.classList.toggle('photo-pending', !exactPhoto);
   image.setAttribute('aria-label', name);
   document.querySelector('#pestDetailType').textContent = atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại';
   document.querySelector('#pestDetailName').textContent = name;
@@ -166,7 +165,7 @@ function openPestDetail(crop, item) {
 }
 function renderCrop(crop) {
   const grid = document.querySelector('#pestLibraryGrid');
-  grid.innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos], index) => { const photo = libraryPhotos[name]; return `<article class="pest-item" tabindex="0" role="button" data-pest-index="${index}" aria-label="Xem chi tiết ${name}"><div class="pest-sprite" style="background-image:url('${photo || `assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png`}');background-size:${photo ? 'cover' : '300% 200%'};background-position:${photo ? 'center' : pos}"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`; }).join('');
+  grid.innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos], index) => { const photo = libraryPhotos[name]; return `<article class="pest-item" tabindex="0" role="button" data-pest-index="${index}" aria-label="Xem chi tiết ${name}"><div class="pest-sprite${photo ? '' : ' photo-pending'}" style="background-image:${photo ? `url('${photo}')` : 'none'};background-size:contain;background-position:center"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`; }).join('');
   grid.querySelectorAll('.pest-item').forEach(card => {
     const open = () => openPestDetail(crop, cropLibrary[crop][Number(card.dataset.pestIndex)]);
     card.addEventListener('click', open);
