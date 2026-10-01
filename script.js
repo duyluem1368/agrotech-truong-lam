@@ -22,6 +22,26 @@ const productKnowledge = {
   'Techtimex 50WG': { active:'Emamectin benzoate 49 g/kg + Matrine 1 g/kg · IRAC 6 + hoạt chất sinh học', mechanism:'Kích hoạt kênh chloride + tác động thần kinh đa điểm', analysis:'Emamectin benzoate làm tăng dòng ion chloride qua màng tế bào thần kinh, khiến sâu nhanh ngừng ăn, tê liệt và chết. Matrine có nguồn gốc thảo mộc, bổ sung tác động tiếp xúc và vị độc. Phối hợp phù hợp để kiểm soát sâu non ăn lá và hỗ trợ quản lý tính kháng.', targets:['01 · Sâu cuốn lá trên lúa','02 · Sâu ăn lá tuổi nhỏ','03 · Sâu non bộ cánh vảy'], note:'Đối tượng đăng ký trên nhãn: sâu cuốn lá trên lúa. Liều 100–150 g/ha; lượng nước 400–600 lít/ha; phun khi sâu tuổi 1–2; cách ly 7 ngày.', atlas:'insect', pos:'0% 0%', pest:'Sâu cuốn lá nhỏ – sâu non cuốn lá và cạo biểu bì lúa' }
 };
 
+const pestPhotos = {
+  'Sâu keo mùa thu trên ngô':'assets/pests/fall-armyworm.jpg',
+  'Sâu ăn lá, sâu xanh':'assets/pests/rice-leaf-folder.jpg',
+  'Sâu non bộ cánh vảy':'assets/pests/fall-armyworm.jpg',
+  'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder.jpg',
+  'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder.jpg',
+  'Sâu đục thân, sâu ăn lá':'assets/pests/rice-leaf-folder.jpg',
+  'Bọ trĩ trên hoa cúc':'assets/pests/thrips.jpg',
+  'Bọ trĩ':'assets/pests/thrips.jpg',
+  'Rệp mềm, rầy':'assets/pests/aphid.jpg',
+  'Rệp muội, rầy':'assets/pests/aphid.jpg',
+  'Rầy, rệp, bọ phấn':'assets/pests/brown-planthopper.jpg',
+  'Bọ phấn, côn trùng chích hút':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
+  'Bọ phấn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
+  'Rỉ sắt trên hoa cúc':'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Chrysanthemum_white_rust.jpg/960px-Chrysanthemum_white_rust.jpg',
+  'Sâu ăn lá tuổi nhỏ':'assets/pests/rice-leaf-folder.jpg'
+};
+
+function targetLabel(target) { return target.replace(/^\d+\s*·?\s*/, ''); }
+
 function openProductModal(card) {
   const name = card.querySelector('h3').textContent.trim();
   const image = card.querySelector('img');
@@ -32,7 +52,6 @@ function openProductModal(card) {
   document.querySelector('#modalActive').textContent = info.active;
   document.querySelector('#modalMechanism').textContent = info.mechanism;
   document.querySelector('#modalAnalysis').textContent = info.analysis;
-  const targetPositions = info.atlas === 'disease' ? [info.pos, '50% 0%', '100% 100%'] : [info.pos, '0% 100%', '100% 0%'];
   const targetBox = document.querySelector('#modalTargets');
   targetBox.innerHTML = info.targets.map((target, index) => `<button type="button" class="${index === 0 ? 'active' : ''}" data-target-index="${index}">${target}</button>`).join('');
   document.querySelector('#modalNote').textContent = info.note;
@@ -41,17 +60,23 @@ function openProductModal(card) {
   pestImage.style.backgroundPosition = info.pos;
   pestImage.setAttribute('aria-label', info.pest);
   document.querySelector('#modalPestCaption').textContent = info.pest;
-  targetBox.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => {
+  const showTarget = (button) => {
     targetBox.querySelectorAll('button').forEach(item => item.classList.remove('active'));
     button.classList.add('active');
+    const label = targetLabel(button.textContent);
     pestImage.style.opacity = '.25';
     setTimeout(() => {
-      pestImage.style.backgroundPosition = targetPositions[index] || info.pos;
-      document.querySelector('#modalPestCaption').textContent = button.textContent.replace(/^\d+\s*·\s*/, '');
+      const exactPhoto = pestPhotos[label];
+      pestImage.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : `url("assets/atlas-${info.atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
+      pestImage.style.backgroundSize = exactPhoto ? 'cover' : '300% 200%';
+      pestImage.style.backgroundPosition = exactPhoto ? 'center' : info.pos;
+      document.querySelector('#modalPestCaption').textContent = exactPhoto ? `${label} · ảnh nhận diện đúng đối tượng` : `${label} · ảnh triệu chứng tham khảo`;
       pestImage.setAttribute('aria-label', button.textContent);
       pestImage.style.opacity = '1';
     }, 160);
-  }));
+  };
+  targetBox.querySelectorAll('button').forEach(button => button.addEventListener('click', () => showTarget(button)));
+  showTarget(targetBox.querySelector('button'));
   modal.showModal();
 }
 
@@ -91,6 +116,17 @@ const cropLibrary = {
   coffee:[['Rệp sáp','Bám chùm quả, rễ và cành','insect','50% 100%'],['Bọ trĩ','Hại hoa và chồi non','insect','0% 100%'],['Thán thư','Khô cành, đốm lá và quả','disease','100% 100%']]
 };
 const cropNames = {rice:'Lúa',tea:'Chè',cucumber:'Dưa chuột',durian:'Sầu riêng',citrus:'Cam, quýt',coffee:'Cà phê'};
+const libraryPhotos = {
+  'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder.jpg',
+  'Rầy nâu':'assets/pests/brown-planthopper.jpg',
+  'Bọ xít muỗi':'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg/500px-Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg?utm_source=commons.wikimedia.org',
+  'Bọ trĩ':'assets/pests/thrips.jpg',
+  'Rệp mềm':'assets/pests/aphid.jpg',
+  'Sương mai':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Downy_mildew_on_leaves_of_Cucumis_sativus.jpg/500px-Downy_mildew_on_leaves_of_Cucumis_sativus.jpg?utm_source=commons.wikimedia.org',
+  'Rệp sáp':'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Long-fringed_Astelia_Mealybug_%28Rastrococcus_asteliae%29.jpg/500px-Long-fringed_Astelia_Mealybug_%28Rastrococcus_asteliae%29.jpg?utm_source=commons.wikimedia.org',
+  'Rầy chổng cánh':'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Asian_citrus_psyllid_%28Diaphorina_citri%29_on_Citrus_%C3%97_aurantiifolia.jpg/500px-Asian_citrus_psyllid_%28Diaphorina_citri%29_on_Citrus_%C3%97_aurantiifolia.jpg?utm_source=commons.wikimedia.org',
+  'Loét vi khuẩn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Citrus_canker_on_foliage.jpg/500px-Citrus_canker_on_foliage.jpg?utm_source=commons.wikimedia.org'
+};
 const pestDetails = {
   'Sâu cuốn lá nhỏ':['Bướm hoạt động về đêm, đẻ trứng rải rác trên lá; sâu non thường trải qua 5 tuổi và phát triển mạnh trong ruộng xanh tốt, ẩm độ cao.','Sâu non nhả tơ cuốn dọc lá lúa, sống bên trong và cạo biểu bì làm lá thành vệt trắng; hại nặng làm giảm diện tích quang hợp.','Vệ sinh đồng ruộng, bón đạm cân đối, bảo vệ thiên địch và thăm đồng để xử lý khi sâu tuổi nhỏ đạt ngưỡng. Chỉ dùng thuốc đăng ký cho sâu cuốn lá trên lúa.'],
   'Rầy nâu':['Trứng được đẻ trong mô bẹ lá; rầy non và trưởng thành tập trung ở gốc lúa. Quần thể tăng nhanh trong ruộng rậm, bón thừa đạm và thời tiết nóng ẩm.','Chích hút nhựa ở bẹ, mật số cao gây vàng và cháy rầy; đồng thời có thể truyền virus vàng lùn, lùn xoắn lá.','Gieo sạ đồng loạt, mật độ hợp lý, bón phân cân đối, giữ thiên địch và kiểm tra sát gốc. Chỉ xử lý khi đạt ngưỡng, dùng thuốc đúng nhãn và tránh phun tràn lan.'],
@@ -115,8 +151,10 @@ function openPestDetail(crop, item) {
   const [name, symptom, atlas, pos] = item;
   const details = pestDetails[name] || genericDetails[atlas];
   const image = document.querySelector('#pestDetailImage');
-  image.style.backgroundImage = `url("assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
-  image.style.backgroundPosition = pos;
+  const exactPhoto = libraryPhotos[name];
+  image.style.backgroundImage = exactPhoto ? `url("${exactPhoto}")` : `url("assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
+  image.style.backgroundSize = exactPhoto ? 'cover' : '300% 200%';
+  image.style.backgroundPosition = exactPhoto ? 'center' : pos;
   image.setAttribute('aria-label', name);
   document.querySelector('#pestDetailType').textContent = atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại';
   document.querySelector('#pestDetailName').textContent = name;
@@ -128,7 +166,7 @@ function openPestDetail(crop, item) {
 }
 function renderCrop(crop) {
   const grid = document.querySelector('#pestLibraryGrid');
-  grid.innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos], index) => `<article class="pest-item" tabindex="0" role="button" data-pest-index="${index}" aria-label="Xem chi tiết ${name}"><div class="pest-sprite" style="background-image:url('assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png');background-position:${pos}"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`).join('');
+  grid.innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos], index) => { const photo = libraryPhotos[name]; return `<article class="pest-item" tabindex="0" role="button" data-pest-index="${index}" aria-label="Xem chi tiết ${name}"><div class="pest-sprite" style="background-image:url('${photo || `assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png`}');background-size:${photo ? 'cover' : '300% 200%'};background-position:${photo ? 'center' : pos}"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`; }).join('');
   grid.querySelectorAll('.pest-item').forEach(card => {
     const open = () => openPestDetail(crop, cropLibrary[crop][Number(card.dataset.pestIndex)]);
     card.addEventListener('click', open);
@@ -141,6 +179,18 @@ document.querySelector('.modal-close').addEventListener('click', () => modal.clo
 modal.addEventListener('click', event => { if (event.target === modal) modal.close(); });
 document.querySelector('.pest-modal-close').addEventListener('click', () => pestDetailModal.close());
 pestDetailModal.addEventListener('click', event => { if (event.target === pestDetailModal) pestDetailModal.close(); });
+
+const newsGrid = document.querySelector('#newsGrid');
+const newsUpdated = document.querySelector('#newsUpdated');
+const escapeNews = value => String(value || '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+fetch('news-data.json', { cache: 'no-store' }).then(response => response.ok ? response.json() : Promise.reject()).then(data => {
+  const updated = new Date(data.updatedAt);
+  newsUpdated.textContent = `lúc ${updated.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}, ${updated.toLocaleDateString('vi-VN')}`;
+  newsGrid.innerHTML = data.items.map(item => `<article class="news-card reveal visible"><div class="news-meta"><span>${escapeNews(item.source)}</span><time datetime="${escapeNews(item.date)}">${new Date(item.date).toLocaleDateString('vi-VN')}</time></div><h3>${escapeNews(item.title)}</h3><p>${escapeNews(item.summary)}</p><a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer">Đọc bản tin gốc →</a></article>`).join('');
+}).catch(() => {
+  newsUpdated.textContent = 'chưa thể tải dữ liệu';
+  newsGrid.innerHTML = '<article class="news-card"><h3>Không tải được bản tin</h3><p>Vui lòng thử tải lại trang hoặc liên hệ chuyên viên để nhận thông tin tại địa phương.</p></article>';
+});
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
