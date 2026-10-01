@@ -52,3 +52,15 @@
 .pest-sprite{background-repeat:no-repeat;background-color:#eef3ef}
 .pest-sprite.photo-pending{position:relative;background-image:none!important}
 .pest-sprite.photo-pending:after{content:"Chưa dùng ảnh minh họa để tránh nhầm đối tượng";position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--muted);font-size:11px;font-weight:700}
+
+/* v7: crop-led featured presentation and a stronger product focal point. */
+.featured-media{isolation:isolate;background-image:linear-gradient(135deg,rgba(5,48,32,.12),rgba(5,48,32,.54)),url("assets/hero-lua-che-v4-no-sun.png");background-size:cover;background-position:center}
+.featured-crop-corn .featured-media{background-position:24% 58%}
+.featured-crop-rice .featured-media{background-position:70% 68%}
+.featured-crop-flower .featured-media{background-position:50% 42%}
+.featured-media:before{content:"";position:absolute;inset:9%;z-index:-1;background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,.52) 30%,transparent 68%);filter:blur(10px)}
+.featured-media>img{position:relative;z-index:1;max-width:66%;max-height:390px;filter:drop-shadow(0 28px 22px rgba(0,24,13,.45)) drop-shadow(0 0 16px rgba(255,255,255,.7));transform:translateY(-3px)}
+.featured-media>span{z-index:2;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.consult-form .btn-accent{background:#08714e}
+.consult-form .btn-accent:hover{background:#06563d}
+@media(max-width:620px){.featured-media>img{max-width:62%;max-height:235px}.featured-media:before{inset:2%}}

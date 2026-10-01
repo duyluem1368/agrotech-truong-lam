@@ -23,11 +23,9 @@ const productKnowledge = {
 };
 
 const pestPhotos = {
-  'Sâu keo mùa thu trên ngô':'assets/pests/fall-armyworm.jpg',
-  'Sâu ăn lá, sâu xanh':'assets/pests/rice-leaf-folder.jpg',
-  'Sâu non bộ cánh vảy':'assets/pests/fall-armyworm.jpg',
-  'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder.jpg',
-  'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder.jpg',
+  'Sâu keo mùa thu trên ngô':'assets/pests/fall-armyworm-larva.jpg',
+  'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder-larva.jpg',
+  'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder-larva.jpg',
   'Bọ trĩ trên hoa cúc':'assets/pests/thrips.jpg',
   'Bọ trĩ':'assets/pests/thrips.jpg',
   'Bọ phấn, côn trùng chích hút':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
@@ -114,7 +112,7 @@ const cropLibrary = {
 };
 const cropNames = {rice:'Lúa',tea:'Chè',cucumber:'Dưa chuột',durian:'Sầu riêng',citrus:'Cam, quýt',coffee:'Cà phê'};
 const libraryPhotos = {
-  'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder.jpg',
+  'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder-larva.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
   'Đạo ôn':'assets/pests/rice-blast.jpg',
   'Bọ xít muỗi':'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg/500px-Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg?utm_source=commons.wikimedia.org',
@@ -207,7 +205,20 @@ const form = document.querySelector('#consultForm');
 const toast = document.querySelector('.toast');
 form.addEventListener('submit', event => {
   event.preventDefault();
+  const data = new FormData(form);
+  const name = String(data.get('name') || '').trim();
+  const phone = String(data.get('phone') || '').trim();
+  const issue = String(data.get('issue') || '').trim();
+  const message = [
+    'YÊU CẦU TƯ VẤN THUỐC BVTV',
+    `Họ tên: ${name}`,
+    `Số điện thoại: ${phone}`,
+    `Cây trồng / tình trạng: ${issue || 'Chưa mô tả'}`,
+    `Gửi từ website lúc: ${new Date().toLocaleString('vi-VN')}`
+  ].join('\n');
+  const zaloUrl = `https://zalo.me/0388051282?text=${encodeURIComponent(message)}`;
+  window.open(zaloUrl, '_blank', 'noopener,noreferrer');
+  toast.textContent = 'Đang mở Zalo với nội dung tư vấn đã điền.';
   toast.classList.add('show');
-  form.reset();
   setTimeout(() => toast.classList.remove('show'), 4000);
 });
