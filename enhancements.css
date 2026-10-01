@@ -65,3 +65,8 @@
 .consult-form .btn-accent{background:#08714e}
 .consult-form .btn-accent:hover{background:#06563d}
 @media(max-width:620px){.featured-media>img{max-width:88%;max-height:285px}.featured-crop-flower .featured-media>img{max-width:56%;max-height:290px}.featured-media:before{inset:2%}}
+/* Company registration details in the site footer */
+footer{grid-template-columns:1.35fr 1.35fr 1fr}
+.footer-contact p{margin:7px 0;line-height:1.55}
+.footer-contact strong{color:#fff}
+@media(max-width:620px){footer{grid-template-columns:1fr}}
