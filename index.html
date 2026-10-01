@@ -46,13 +46,6 @@
           <div><strong>An toàn</strong><span>Tuân thủ nhãn thuốc</span></div>
         </div>
       </div>
-      <div class="hero-visual reveal">
-        <div class="photo-frame">
-          <span class="photo-label">Sản phẩm nổi bật</span>
-          <img src="assets/pitako-usa-18-5sc.jpg" alt="Thuốc trừ sâu Pitako USA 18.5SC, mặt trước và sau bao bì">
-        </div>
-        <div class="floating-card"><span class="leaf-icon">♧</span><div><b>18.5SC</b><small>Công nghệ kiểm soát sâu hại</small></div></div>
-      </div>
     </section>
 
     <section class="science-strip" aria-label="Khoa học bảo vệ cây trồng">
@@ -165,6 +158,7 @@
         <p class="modal-active" id="modalActive">Chlorantraniliprole 18,5% w/w</p>
         <div class="mode-analysis"><small>Cơ chế tác động</small><strong id="modalMechanism"></strong><p id="modalAnalysis"></p></div>
         <h3>Đối tượng ưu tiên theo mức độ hữu hiệu</h3>
+        <p class="target-hint">Chạm vào từng đối tượng để xem hình ảnh minh họa</p>
         <div class="target-chips" id="modalTargets"></div>
         <p id="modalNote"></p>
       </div>
@@ -175,6 +169,23 @@
     </div>
     <p class="modal-disclaimer">Phạm vi tác động của hoạt chất không thay thế đối tượng đăng ký trên nhãn. Chỉ sử dụng theo đúng cây trồng, đối tượng, liều lượng và thời gian cách ly được ghi trên bao bì.</p>
     <a class="btn btn-primary" href="tel:0388051282">Liên hệ chuyên viên</a>
+  </dialog>
+  <dialog id="pestDetailModal" class="pest-detail-modal">
+    <button class="modal-close pest-modal-close" aria-label="Đóng">×</button>
+    <div class="pest-detail-layout">
+      <div class="pest-detail-image pest-sprite" id="pestDetailImage" role="img"></div>
+      <div>
+        <p class="eyebrow" id="pestDetailType">Sâu hại</p>
+        <h2 id="pestDetailName"></h2>
+        <p class="pest-detail-crop" id="pestDetailCrop"></p>
+        <div class="pest-facts">
+          <section><span>01</span><div><h3>Đặc tính sinh trưởng, phát triển</h3><p id="pestDetailGrowth"></p></div></section>
+          <section><span>02</span><div><h3>Đặc điểm gây hại</h3><p id="pestDetailDamage"></p></div></section>
+          <section><span>03</span><div><h3>Cách phòng trừ</h3><p id="pestDetailControl"></p></div></section>
+        </div>
+      </div>
+    </div>
+    <p class="modal-disclaimer">Cần kiểm tra thực tế đồng ruộng và ưu tiên quản lý dịch hại tổng hợp (IPM). Khi dùng thuốc bảo vệ thực vật, chỉ sử dụng sản phẩm có đăng ký và tuân thủ đúng nhãn.</p>
   </dialog>
   <div class="toast" role="status" aria-live="polite">Đã ghi nhận. Vui lòng gọi hotline để được tư vấn ngay.</div>
   <script src="script.js"></script>

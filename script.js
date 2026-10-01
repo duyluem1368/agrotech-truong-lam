@@ -30,13 +30,26 @@ function openProductModal(card) {
   document.querySelector('#modalActive').textContent = info.active;
   document.querySelector('#modalMechanism').textContent = info.mechanism;
   document.querySelector('#modalAnalysis').textContent = info.analysis;
-  document.querySelector('#modalTargets').innerHTML = info.targets.map(target => `<span>${target}</span>`).join('');
+  const targetPositions = info.atlas === 'disease' ? [info.pos, '50% 0%', '100% 100%'] : [info.pos, '0% 100%', '100% 0%'];
+  const targetBox = document.querySelector('#modalTargets');
+  targetBox.innerHTML = info.targets.map((target, index) => `<button type="button" class="${index === 0 ? 'active' : ''}" data-target-index="${index}">${target}</button>`).join('');
   document.querySelector('#modalNote').textContent = info.note;
   const pestImage = document.querySelector('#modalPestImage');
   pestImage.style.backgroundImage = `url("assets/atlas-${info.atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
   pestImage.style.backgroundPosition = info.pos;
   pestImage.setAttribute('aria-label', info.pest);
   document.querySelector('#modalPestCaption').textContent = info.pest;
+  targetBox.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => {
+    targetBox.querySelectorAll('button').forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+    pestImage.style.opacity = '.25';
+    setTimeout(() => {
+      pestImage.style.backgroundPosition = targetPositions[index] || info.pos;
+      document.querySelector('#modalPestCaption').textContent = button.textContent.replace(/^\d+\s*·\s*/, '');
+      pestImage.setAttribute('aria-label', button.textContent);
+      pestImage.style.opacity = '1';
+    }, 160);
+  }));
   modal.showModal();
 }
 
@@ -75,13 +88,57 @@ const cropLibrary = {
   citrus:[['Rầy chổng cánh','Chích hút đọt, môi giới greening','insect','100% 100%'],['Rệp sáp','Bám chùm quả, cuống và cành','insect','50% 100%'],['Loét vi khuẩn','Vết sần có quầng vàng','disease','50% 100%']],
   coffee:[['Rệp sáp','Bám chùm quả, rễ và cành','insect','50% 100%'],['Bọ trĩ','Hại hoa và chồi non','insect','0% 100%'],['Thán thư','Khô cành, đốm lá và quả','disease','100% 100%']]
 };
+const cropNames = {rice:'Lúa',tea:'Chè',cucumber:'Dưa chuột',durian:'Sầu riêng',citrus:'Cam, quýt',coffee:'Cà phê'};
+const pestDetails = {
+  'Sâu cuốn lá nhỏ':['Bướm hoạt động về đêm, đẻ trứng rải rác trên lá; sâu non thường trải qua 5 tuổi và phát triển mạnh trong ruộng xanh tốt, ẩm độ cao.','Sâu non nhả tơ cuốn dọc lá lúa, sống bên trong và cạo biểu bì làm lá thành vệt trắng; hại nặng làm giảm diện tích quang hợp.','Vệ sinh đồng ruộng, bón đạm cân đối, bảo vệ thiên địch và thăm đồng để xử lý khi sâu tuổi nhỏ đạt ngưỡng. Chỉ dùng thuốc đăng ký cho sâu cuốn lá trên lúa.'],
+  'Rầy nâu':['Trứng được đẻ trong mô bẹ lá; rầy non và trưởng thành tập trung ở gốc lúa. Quần thể tăng nhanh trong ruộng rậm, bón thừa đạm và thời tiết nóng ẩm.','Chích hút nhựa ở bẹ, mật số cao gây vàng và cháy rầy; đồng thời có thể truyền virus vàng lùn, lùn xoắn lá.','Gieo sạ đồng loạt, mật độ hợp lý, bón phân cân đối, giữ thiên địch và kiểm tra sát gốc. Chỉ xử lý khi đạt ngưỡng, dùng thuốc đúng nhãn và tránh phun tràn lan.'],
+  'Đạo ôn':['Nấm sinh nhiều bào tử trong điều kiện mát, ẩm, sương kéo dài; phát tán theo gió và nước. Ruộng bón thừa đạm, giống nhiễm dễ bùng phát.','Tạo vết hình thoi tâm xám trên lá; có thể hại đốt thân, cổ bông làm lép hạt hoặc gãy cổ bông.','Dùng giống khỏe, xử lý hạt, bón cân đối và tránh thừa đạm. Theo dõi thời tiết, loại bỏ nguồn bệnh và dùng thuốc đăng ký ở giai đoạn sớm theo đúng nhãn.'],
+  'Bọ xít muỗi':['Thành trùng và ấu trùng ưa tán chè non, hoạt động mạnh sáng sớm hoặc chiều mát; mật số thường tăng trong điều kiện ẩm và tán rậm.','Chích hút búp và lá non tạo chấm thâm, mô quanh vết chích khô đen; búp biến dạng, giảm năng suất và chất lượng chè.','Tỉa tán thông thoáng, thu hái đúng lứa, vệ sinh cỏ ký chủ và bảo vệ thiên địch. Theo dõi búp non, chỉ dùng thuốc được đăng ký khi mật số vượt ngưỡng.'],
+  'Bọ trĩ':['Cơ thể rất nhỏ, sống kín trong búp, hoa hoặc mặt dưới lá; vòng đời ngắn nên tăng mật số nhanh khi khô nóng.','Chích hút làm lá non xoăn, bạc hoặc hóa đồng; trên hoa và quả non gây sẹo, giảm chất lượng thương phẩm.','Vệ sinh vườn, tưới đủ ẩm, dùng bẫy dính và bảo vệ thiên địch. Luân phiên hoạt chất khác nhóm cơ chế, phun đúng vị trí cư trú và đúng nhãn.'],
+  'Thán thư chè':['Nấm tồn tại trên lá, cành bệnh và phát tán nhờ mưa; phát triển thuận lợi khi tán ẩm, mưa kéo dài và cây suy yếu.','Vết nâu từ mép hoặc chóp lá lan rộng, có thể xuất hiện chấm đen; lá khô rụng, cành non suy giảm.','Thu gom lá bệnh, tỉa tán thoáng, bón cân đối và hạn chế làm lá ướt kéo dài. Sử dụng thuốc trừ bệnh có đăng ký ở giai đoạn sớm.'],
+  'Rệp mềm':['Sinh sản nhanh, nhiều loài đẻ con không qua giao phối; tập trung thành cụm ở đọt và mặt dưới lá, phát triển mạnh khi thời tiết mát khô.','Chích hút làm lá quăn, cây còi; tiết mật ngọt gây nấm bồ hóng và có thể truyền virus.','Loại bỏ ổ rệp, quản lý cỏ ký chủ, dùng vòi nước hoặc biện pháp sinh học, bảo vệ bọ rùa và ong ký sinh. Khi cần, chọn thuốc lưu dẫn có đăng ký.'],
+  'Sương mai':['Tác nhân tạo bào tử mạnh khi lá ướt lâu, ẩm độ cao và nhiệt độ mát; lan nhanh qua nước mưa, gió và tàn dư bệnh.','Vết vàng góc cạnh bị giới hạn bởi gân lá; mặt dưới có lớp mốc, lá cháy và giảm quang hợp.','Luân canh, làm giàn thông thoáng, tưới gốc vào buổi sáng, loại bỏ lá bệnh. Phòng sớm bằng sản phẩm đăng ký và luân phiên nhóm cơ chế.'],
+  'Rệp sáp':['Rệp phủ sáp trắng, trú ở khe cuống, chùm quả, cành hoặc rễ; thường được kiến bảo vệ và phát tán qua cây giống, dụng cụ.','Chích hút làm cây suy, quả kém phát triển; mật ngọt tạo nấm bồ hóng và che phủ bề mặt lá, quả.','Kiểm soát kiến, tỉa cành thoáng, vệ sinh cây giống và bảo vệ thiên địch. Xử lý sớm khi ổ rệp còn nhỏ, bảo đảm thuốc tiếp xúc được vị trí ẩn nấp.'],
+  'Phytophthora':['Mầm bệnh tồn tại trong đất và tàn dư, tạo bào tử di động theo nước; bùng phát khi mưa nhiều, úng và thoát nước kém.','Gây thối rễ, xì mủ thân cành và thối trái; mô bệnh nâu sẫm, ẩm, lan nhanh và có thể làm chết cây.','Làm mô cao, thoát nước tốt, tránh gây vết thương và không để trái chạm đất. Cạo bỏ mô bệnh đúng kỹ thuật, khử trùng dụng cụ và dùng thuốc đăng ký theo khuyến cáo.'],
+  'Rầy chổng cánh':['Trưởng thành đẻ trứng trên đọt non; ấu trùng sống tập trung trên chồi. Mật số tăng theo các đợt ra lộc và chúng là môi giới truyền bệnh greening.','Chích hút làm đọt cong, lá biến dạng; nguy hiểm nhất là truyền vi khuẩn gây vàng lá gân xanh.','Dùng cây giống sạch bệnh, quản lý cây ký chủ, tỉa bỏ cây bệnh và theo dõi đồng loạt các đợt lộc. Bảo vệ thiên địch, xử lý rầy trên đọt non theo đúng nhãn.'],
+  'Loét vi khuẩn':['Vi khuẩn xâm nhập qua khí khổng và vết thương, phát tán bởi mưa gió, dụng cụ và cây giống; nặng hơn trong mùa mưa bão.','Vết sần nâu có quầng vàng trên lá, cành và quả; gây rụng lá, giảm phẩm chất và là nguồn lây lan.','Dùng giống sạch, chắn gió, tỉa tiêu hủy cành bệnh, khử trùng dụng cụ và hạn chế gây xây xát. Áp dụng sản phẩm có đăng ký theo hướng dẫn địa phương.'],
+  'Thán thư':['Nấm tồn tại trên cành, lá, quả bệnh; bào tử phát tán theo mưa và phát triển mạnh khi ẩm cao, cây mang nhiều quả hoặc suy yếu.','Gây đốm lá, khô cành và vết lõm sẫm trên quả; có thể làm rụng quả non và khô chùm quả.','Tỉa cành thông thoáng, thu gom nguồn bệnh, dinh dưỡng cân đối và tránh tưới ướt tán. Phòng ở thời kỳ nguy cơ và luân phiên thuốc đăng ký khác nhóm FRAC.']
+};
+const genericDetails = {
+  insect:['Côn trùng thường phát triển nhanh khi thức ăn non dồi dào và thời tiết thuận lợi; cần theo dõi đồng ruộng định kỳ để nhận biết sớm.','Chích hút hoặc ăn mô non làm giảm quang hợp, biến dạng bộ phận cây và tạo điều kiện cho tác nhân bệnh xâm nhập.','Vệ sinh đồng ruộng, canh tác cân đối, bảo vệ thiên địch và chỉ dùng thuốc có đăng ký khi mật số đạt ngưỡng. Luân phiên nhóm hoạt chất để hạn chế kháng.'],
+  disease:['Tác nhân bệnh tồn tại trên cây, tàn dư hoặc trong đất và thường phát tán mạnh khi ẩm độ cao, mưa kéo dài.','Bệnh làm tổn thương lá, thân hoặc quả, giảm quang hợp và năng suất; triệu chứng có thể lan nhanh khi điều kiện thuận lợi.','Dùng giống sạch, vệ sinh vườn, tạo thông thoáng và quản lý nước tốt. Phát hiện sớm, dùng sản phẩm có đăng ký và luân phiên cơ chế tác động.']
+};
+const pestDetailModal = document.querySelector('#pestDetailModal');
+function openPestDetail(crop, item) {
+  const [name, symptom, atlas, pos] = item;
+  const details = pestDetails[name] || genericDetails[atlas];
+  const image = document.querySelector('#pestDetailImage');
+  image.style.backgroundImage = `url("assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png")`;
+  image.style.backgroundPosition = pos;
+  image.setAttribute('aria-label', name);
+  document.querySelector('#pestDetailType').textContent = atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại';
+  document.querySelector('#pestDetailName').textContent = name;
+  document.querySelector('#pestDetailCrop').textContent = `${cropNames[crop]} · Dấu hiệu: ${symptom}`;
+  document.querySelector('#pestDetailGrowth').textContent = details[0];
+  document.querySelector('#pestDetailDamage').textContent = details[1];
+  document.querySelector('#pestDetailControl').textContent = details[2];
+  pestDetailModal.showModal();
+}
 function renderCrop(crop) {
-  document.querySelector('#pestLibraryGrid').innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos]) => `<article class="pest-item"><div class="pest-sprite" style="background-image:url('assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png');background-position:${pos}"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`).join('');
+  const grid = document.querySelector('#pestLibraryGrid');
+  grid.innerHTML = cropLibrary[crop].map(([name,symptom,atlas,pos], index) => `<article class="pest-item" tabindex="0" role="button" data-pest-index="${index}" aria-label="Xem chi tiết ${name}"><div class="pest-sprite" style="background-image:url('assets/atlas-${atlas === 'disease' ? 'benh-hai' : 'con-trung'}-v3.png');background-position:${pos}"></div><div><small>${atlas === 'disease' ? 'Bệnh hại' : 'Sâu hại'}</small><h4>${name}</h4><p>${symptom}</p></div></article>`).join('');
+  grid.querySelectorAll('.pest-item').forEach(card => {
+    const open = () => openPestDetail(crop, cropLibrary[crop][Number(card.dataset.pestIndex)]);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+  });
 }
 document.querySelectorAll('[data-crop]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-crop]').forEach(item => item.classList.remove('active')); button.classList.add('active'); renderCrop(button.dataset.crop); }));
 renderCrop('rice');
 document.querySelector('.modal-close').addEventListener('click', () => modal.close());
 modal.addEventListener('click', event => { if (event.target === modal) modal.close(); });
+document.querySelector('.pest-modal-close').addEventListener('click', () => pestDetailModal.close());
+pestDetailModal.addEventListener('click', event => { if (event.target === pestDetailModal) pestDetailModal.close(); });
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
