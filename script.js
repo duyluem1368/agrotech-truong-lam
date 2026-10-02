@@ -248,3 +248,31 @@ if (backgroundMusic && musicToggle) {
     }
   });
 }
+
+// Hạn chế thao tác sao chép/lưu ảnh thông thường trên máy tính và điện thoại.
+// Đây là lớp bảo vệ giao diện; ảnh hiển thị trên web vẫn có thể bị chụp màn hình.
+const protectedMediaSelector = [
+  'img',
+  '.featured-media',
+  '.catalog-photo',
+  '.product-image',
+  '.modal-product-image',
+  '.modal-pest-reference',
+  '.pest-sprite',
+  '.pest-detail-image',
+  '.photo-frame',
+  '.hero'
+].join(',');
+
+document.querySelectorAll('img').forEach(image => {
+  image.draggable = false;
+  image.setAttribute('draggable', 'false');
+});
+
+document.addEventListener('dragstart', event => {
+  if (event.target.closest?.(protectedMediaSelector)) event.preventDefault();
+});
+
+document.addEventListener('contextmenu', event => {
+  if (event.target.closest?.(protectedMediaSelector)) event.preventDefault();
+});

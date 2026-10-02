@@ -90,3 +90,12 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .music-icon{font-size:1.15rem;line-height:1}
 @keyframes musicPulse{50%{transform:scale(1.25) rotate(8deg)}}
 @media(max-width:640px){.music-toggle{right:.8rem;bottom:5rem;padding:.72rem}.music-label{display:none}}
+
+/* Hạn chế tải/copy ảnh bằng các thao tác phổ biến trên desktop và mobile. */
+img,.featured-media,.catalog-photo,.product-image,.modal-product-image,
+.modal-pest-reference,.pest-sprite,.pest-detail-image,.photo-frame,.hero{
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
