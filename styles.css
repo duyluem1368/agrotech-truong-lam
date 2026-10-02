@@ -25,3 +25,37 @@
 .visitor-counter{display:flex;align-items:center;gap:10px;margin-top:16px;min-height:24px}.visitor-counter img{width:auto;height:24px;max-width:220px;object-fit:contain;background:transparent;padding:0;border-radius:4px}.visitor-counter small{color:#93aaa0;font-size:10px;line-height:1.3}
 @media(max-width:980px){.site-header{height:82px}.brand{width:156px;height:70px}.brand img{width:132px;height:64px}.nav{top:82px}}
 @media(max-width:620px){.brand{width:142px;height:66px;padding:5px 10px}.brand img{width:120px;height:58px}.footer-logo-panel{width:200px;min-height:134px}.footer-logo-panel img{width:170px;height:110px}}
+
+/* Header logo v3: edge-to-edge artwork with orbiting star glints. */
+.site-header .brand{
+  width:238px;
+  height:100%;
+  margin-left:calc(-1 * clamp(24px,5vw,76px));
+  padding:0 8px;
+  border:0;
+  border-right:1px solid rgba(7,82,59,.14);
+  border-radius:0 18px 18px 0;
+  overflow:visible;
+  background:linear-gradient(120deg,#fff 5%,#f3f8ef 55%,#e2efda 100%);
+  box-shadow:12px 0 30px rgba(5,52,37,.12);
+}
+.site-header .brand>img{
+  width:100%;
+  height:100%;
+  padding:0;
+  object-fit:contain;
+  transform:scale(1.1);
+  transform-origin:center;
+}
+.logo-stars{position:absolute;inset:-7px;z-index:5;pointer-events:none;filter:drop-shadow(0 0 5px rgba(255,230,92,.95))}
+.logo-stars i{position:absolute;left:0;top:0;width:15px;height:15px;opacity:0;offset-path:inset(3px round 15px);offset-rotate:0deg;animation:logo-star-orbit 6.4s linear infinite}
+.logo-stars i:before,.logo-stars i:after{content:"";position:absolute;left:50%;top:50%;background:#fffbd2;border-radius:999px;transform:translate(-50%,-50%)}
+.logo-stars i:before{width:2px;height:15px;box-shadow:0 0 8px 2px rgba(255,226,79,.9)}
+.logo-stars i:after{width:15px;height:2px;box-shadow:0 0 8px 2px rgba(255,255,255,.85)}
+.logo-stars i:nth-child(2){animation-delay:-1.6s;transform:scale(.68)}
+.logo-stars i:nth-child(3){animation-delay:-3.2s;transform:scale(.86)}
+.logo-stars i:nth-child(4){animation-delay:-4.8s;transform:scale(.58)}
+@keyframes logo-star-orbit{0%{offset-distance:0%;opacity:0}5%,17%{opacity:1}22%{opacity:.25}27%,100%{offset-distance:100%;opacity:0}}
+@media(max-width:980px){.site-header .brand{width:204px;margin-left:calc(-1 * clamp(24px,5vw,76px))}.site-header .brand>img{transform:scale(1.08)}}
+@media(max-width:620px){.site-header .brand{width:174px;margin-left:-24px;padding:0 4px}.site-header .brand>img{transform:scale(1.06)}.logo-stars{inset:-5px}.logo-stars i{width:12px;height:12px;animation-duration:7.2s}.logo-stars i:before{height:12px}.logo-stars i:after{width:12px}}
+@media(prefers-reduced-motion:reduce){.logo-stars i{animation:none!important;display:none}}
