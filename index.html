@@ -31,6 +31,7 @@
     <nav class="nav" aria-label="Điều hướng chính">
       <a href="#gioi-thieu">Giới thiệu</a>
       <a href="#san-pham">Sản phẩm</a>
+      <a href="#gia-vat-tu">Giá vật tư</a>
       <a href="#tin-tuc">Tin dự báo</a>
       <a href="#tu-van">Tư vấn kỹ thuật</a>
       <a href="#an-toan">Sử dụng an toàn</a>
@@ -125,6 +126,24 @@
       </div>
     </section>
 
+    <section class="market-section section" id="gia-vat-tu">
+      <div class="section-heading market-heading">
+        <div><div class="section-kicker">Nhịp đập thị trường</div><h2>Giá vật tư nông nghiệp</h2></div>
+        <p>Bản tin giá mới theo nguồn công khai, trình bày rõ thời điểm và đơn vị. Chạm vào từng thẻ để xem bảng giá chi tiết tại nguồn.</p>
+      </div>
+      <div class="market-toolbar">
+        <div class="market-status"><span class="live-dot"></span><div><strong>Tự động cập nhật hằng ngày</strong><small id="marketUpdated">Đang tải dữ liệu…</small></div></div>
+        <div class="market-tabs" role="group" aria-label="Lọc nhóm vật tư">
+          <button class="active" data-market-filter="all">Tất cả</button>
+          <button data-market-filter="fertilizer">Phân bón</button>
+          <button data-market-filter="pesticide">Thuốc BVTV</button>
+          <button data-market-filter="seed">Giống</button>
+        </div>
+      </div>
+      <div class="market-grid" id="marketGrid" aria-live="polite"></div>
+      <div class="market-note"><strong>Giá tham khảo:</strong> Giá thực tế có thể thay đổi theo khu vực, đại lý, thương hiệu và quy cách đóng gói. Luôn kiểm tra ngày đăng và xác nhận lại với nơi bán trước khi giao dịch.</div>
+    </section>
+
     <section class="news-section section" id="tin-tuc">
       <div class="section-heading">
         <div><div class="section-kicker">Cập nhật đồng ruộng</div><h2>Tin dự báo sâu bệnh mới nhất</h2></div>
@@ -167,7 +186,7 @@
   <footer>
     <div class="footer-brand"><div class="footer-logo-panel animated-logo"><img src="assets/logo-agrotech-truong-lam-transparent-v2.png" alt="Agrotech Trường Lâm"></div><p>Giải pháp thiết thực cho mùa vụ bền vững.</p><div class="visitor-counter" title="Bộ đếm lượt tải trang, bắt đầu ghi nhận từ ngày 02/10/2026"><img src="https://visitor-badge.laobi.icu/badge?page_id=agrotechtruonglam.com.vn&amp;left_text=L%C6%B0%E1%BB%A3t%20truy%20c%E1%BA%ADp&amp;v=2" alt="Tổng số lượt truy cập website" referrerpolicy="no-referrer"><small>Ghi nhận từ 02/10/2026</small></div></div>
     <div class="footer-contact"><h4>Thông tin doanh nghiệp</h4><p><strong>Công ty TNHH Agrotech Trường Lâm</strong></p><p>Mã số thuế: 0111231570</p><p>Nhà số 3, Ngách 158/193 Phố Ngọc Hà, Phường Ngọc Hà, TP Hà Nội, Việt Nam</p><a href="tel:0388051282">Hotline/Zalo: 0388 051 282</a></div>
-    <div><h4>Điều hướng</h4><a href="#gioi-thieu">Giới thiệu</a><a href="#san-pham">Sản phẩm</a><a href="#tin-tuc">Tin dự báo</a><a href="#an-toan">Sử dụng an toàn</a></div>
+    <div><h4>Điều hướng</h4><a href="#gioi-thieu">Giới thiệu</a><a href="#san-pham">Sản phẩm</a><a href="#gia-vat-tu">Giá vật tư</a><a href="#tin-tuc">Tin dự báo</a><a href="#an-toan">Sử dụng an toàn</a></div>
     <div class="copyright">© 2026 Agrotech Trường Lâm. All rights reserved. · Nhạc: “A Kind of Hope” — Scott Buckley (CC BY 4.0)</div>
   </footer>
 
@@ -218,6 +237,6 @@
     <p class="modal-disclaimer">Cần kiểm tra thực tế đồng ruộng và ưu tiên quản lý dịch hại tổng hợp (IPM). Khi dùng thuốc bảo vệ thực vật, chỉ sử dụng sản phẩm có đăng ký và tuân thủ đúng nhãn.</p>
   </dialog>
   <div class="toast" role="status" aria-live="polite">Đã ghi nhận. Vui lòng gọi hotline để được tư vấn ngay.</div>
-  <script src="script.js?v=20261003-motto-v4-mobile"></script>
+  <script src="script.js?v=20261003-market-v1"></script>
 </body>
 </html>

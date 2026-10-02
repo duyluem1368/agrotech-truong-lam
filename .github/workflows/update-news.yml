@@ -1,4 +1,4 @@
-name: Cập nhật tin dự báo sâu bệnh
+name: Cập nhật tin sâu bệnh và giá vật tư
 
 on:
   schedule:
@@ -17,11 +17,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Lấy các bản tin mới nhất
-        run: python scripts/update_news.py
+        run: |
+          python scripts/update_news.py
+          python scripts/update_market.py
       - name: Lưu dữ liệu khi có thay đổi
         run: |
           git config user.name "agrotech-news-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add news-data.json
-          git diff --cached --quiet || git commit -m "Tự động cập nhật tin dự báo sâu bệnh"
+          git add news-data.json market-data.json
+          git diff --cached --quiet || git commit -m "Tự động cập nhật tin sâu bệnh và giá vật tư"
           git push
