@@ -26,15 +26,35 @@ const pestPhotos = {
   'Sâu keo mùa thu trên ngô':'assets/pests/fall-armyworm-larva.jpg',
   'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder-larva.jpg',
   'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder-larva.jpg',
+  'Sâu đục thân, sâu ăn lá':'assets/pests/rice-stem-borer.webp',
+  'Sâu ăn lá, sâu xanh':'assets/pests/geometer-caterpillar.webp',
+  'Sâu ăn lá tuổi nhỏ':'assets/pests/fall-armyworm-larva.jpg',
+  'Sâu non bộ cánh vảy':'assets/pests/fall-armyworm-larva.jpg',
   'Bọ trĩ trên hoa cúc':'assets/pests/thrips.jpg',
   'Bọ trĩ':'assets/pests/thrips.jpg',
   'Rệp mềm':'assets/pests/aphid.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
   'Bọ phấn, côn trùng chích hút':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
   'Bọ phấn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bemisia_tabaci_under_leaf_of_eggplant.jpg/500px-Bemisia_tabaci_under_leaf_of_eggplant.jpg?utm_source=commons.wikimedia.org',
+  'Thán thư trên thanh long':'assets/pests/dragon-fruit-anthracnose.webp',
+  'Sương mai, mốc sương':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Downy_mildew_on_leaves_of_Cucumis_sativus.jpg/500px-Downy_mildew_on_leaves_of_Cucumis_sativus.jpg?utm_source=commons.wikimedia.org',
+  'Đốm lá do nấm':'assets/pests/tea-anthracnose.webp',
   'Rỉ sắt trên hoa cúc':'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Chrysanthemum_white_rust.jpg/960px-Chrysanthemum_white_rust.jpg',
-  'Đạo ôn lá trên lúa':'assets/pests/rice-blast.jpg'
+  'Đạo ôn lá trên lúa':'assets/pests/rice-blast.jpg',
+  'Đạo ôn cổ bông':'assets/pests/rice-neck-blast.webp',
+  'Nhóm bệnh nấm trên lúa theo nhãn':'assets/pests/rice-blast.jpg',
+  'Thán thư trên cà phê':'assets/pests/coffee-anthracnose.webp',
+  'Bệnh nấm giai đoạn xâm nhiễm sớm':'assets/pests/coffee-anthracnose.webp',
+  'Nhóm bệnh nấm ở giai đoạn mới xuất hiện':'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Chrysanthemum_white_rust.jpg/960px-Chrysanthemum_white_rust.jpg',
+  'Bảo vệ lá theo phạm vi ghi trên nhãn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Chrysanthemum_white_rust.jpg/960px-Chrysanthemum_white_rust.jpg'
 };
+
+const representativeTargets = new Set([
+  'Sâu đục thân, sâu ăn lá', 'Sâu ăn lá, sâu xanh', 'Sâu ăn lá tuổi nhỏ', 'Sâu non bộ cánh vảy',
+  'Sương mai, mốc sương', 'Đốm lá do nấm', 'Nhóm bệnh nấm trên lúa theo nhãn',
+  'Bệnh nấm giai đoạn xâm nhiễm sớm', 'Nhóm bệnh nấm ở giai đoạn mới xuất hiện',
+  'Bảo vệ lá theo phạm vi ghi trên nhãn'
+]);
 
 function targetLabel(target) { return target.replace(/^\d+\s*·?\s*/, ''); }
 
@@ -67,7 +87,9 @@ function openProductModal(card) {
       pestImage.style.backgroundSize = exactPhoto ? 'contain' : 'auto';
       pestImage.style.backgroundPosition = 'center';
       pestImage.classList.toggle('photo-pending', !exactPhoto);
-      document.querySelector('#modalPestCaption').textContent = exactPhoto ? `${label} · ảnh nhận diện đúng đối tượng` : `${label} · chưa hiển thị ảnh để tránh dùng sai đối tượng`;
+      document.querySelector('#modalPestCaption').textContent = exactPhoto
+        ? `${label} · ${representativeTargets.has(label) ? 'ảnh đại diện cho nhóm đối tượng' : 'ảnh nhận diện đúng đối tượng'}`
+        : `${label} · chưa hiển thị ảnh để tránh dùng sai đối tượng`;
       pestImage.setAttribute('aria-label', button.textContent);
       pestImage.style.opacity = '1';
     }, 160);
