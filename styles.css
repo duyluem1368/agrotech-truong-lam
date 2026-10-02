@@ -7,8 +7,21 @@
 .brand{width:184px;height:84px;display:flex;align-items:center;justify-content:center;padding:7px 13px;background:linear-gradient(145deg,#fff 20%,#edf5e8 100%);border:1px solid rgba(7,82,59,.18);border-left:4px solid var(--green);border-radius:0 14px 14px 0;box-shadow:0 9px 24px rgba(5,52,37,.14);position:relative;overflow:hidden}
 .brand:after{content:"";position:absolute;width:58px;height:58px;border-radius:50%;background:rgba(184,217,75,.18);right:-24px;bottom:-29px}
 .brand img{width:156px;height:76px;object-fit:contain;position:relative;z-index:1}
-.footer-logo-panel{width:220px;min-height:148px;display:flex;align-items:center;justify-content:center;padding:14px 18px;background:linear-gradient(145deg,#fff,#eef5e9);border-left:5px solid var(--lime);border-radius:0 18px 18px 0;box-shadow:0 18px 45px rgba(0,0,0,.2)}
+.footer-logo-panel{width:220px;min-height:148px;display:flex;align-items:center;justify-content:center;padding:14px 18px;background:linear-gradient(145deg,#fff,#eef5e9);border-left:5px solid var(--lime);border-radius:0 18px 18px 0;box-shadow:0 18px 45px rgba(0,0,0,.2);position:relative;overflow:hidden}
 .footer-logo-panel img{width:188px;height:122px;object-fit:contain;background:transparent;padding:0}
+.animated-logo{isolation:isolate;transform-origin:50% 60%;animation:logo-arrival 1.15s cubic-bezier(.2,.85,.25,1.2) both,logo-breathe 5.6s ease-in-out 1.25s infinite}
+.animated-logo img{animation:logo-focus 1.25s cubic-bezier(.18,.85,.24,1) both,logo-float 5.6s ease-in-out 1.25s infinite;filter:drop-shadow(0 7px 9px rgba(7,82,59,.12));will-change:transform,filter}
+.animated-logo:before{content:"";position:absolute;z-index:2;top:-35%;bottom:-35%;left:-65%;width:34%;background:linear-gradient(105deg,transparent 0,rgba(255,255,255,.18) 28%,rgba(255,255,255,.92) 50%,rgba(207,241,163,.42) 67%,transparent 100%);transform:skewX(-18deg);pointer-events:none;animation:logo-shine 5.6s cubic-bezier(.22,.7,.28,1) .8s infinite}
+.animated-logo:after{content:"";position:absolute;z-index:0;inset:12%;border:1px solid rgba(11,106,73,.2);border-radius:50%;opacity:0;pointer-events:none;animation:logo-ripple 5.6s ease-out 1.2s infinite}
+.brand.animated-logo:after{right:auto;bottom:auto;width:auto;height:auto;background:transparent}
+.animated-logo:hover img{filter:drop-shadow(0 10px 13px rgba(7,82,59,.24)) saturate(1.08);transform:translateY(-2px) scale(1.035)}
+@keyframes logo-arrival{0%{opacity:0;transform:perspective(500px) rotateY(-20deg) scale(.78)}65%{opacity:1;transform:perspective(500px) rotateY(3deg) scale(1.035)}100%{opacity:1;transform:none}}
+@keyframes logo-focus{0%{opacity:0;transform:translateY(10px) scale(.84);filter:blur(8px) drop-shadow(0 0 0 transparent)}58%{opacity:1;filter:blur(0) drop-shadow(0 10px 16px rgba(7,82,59,.22))}100%{transform:none;filter:drop-shadow(0 7px 9px rgba(7,82,59,.12))}}
+@keyframes logo-shine{0%,12%{left:-65%;opacity:0}18%{opacity:1}35%,100%{left:135%;opacity:0}}
+@keyframes logo-ripple{0%,18%{opacity:0;transform:scale(.72)}24%{opacity:.7}42%,100%{opacity:0;transform:scale(1.35)}}
+@keyframes logo-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes logo-float{0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 7px 9px rgba(7,82,59,.12))}50%{transform:translateY(-2px) scale(1.012);filter:drop-shadow(0 10px 13px rgba(7,82,59,.19))}}
+@media(prefers-reduced-motion:reduce){.animated-logo,.animated-logo img,.animated-logo:before,.animated-logo:after{animation:none!important;transform:none!important}}
 .visitor-counter{display:flex;align-items:center;gap:10px;margin-top:16px;min-height:24px}.visitor-counter img{width:auto;height:24px;max-width:220px;object-fit:contain;background:transparent;padding:0;border-radius:4px}.visitor-counter small{color:#93aaa0;font-size:10px;line-height:1.3}
 @media(max-width:980px){.site-header{height:82px}.brand{width:156px;height:70px}.brand img{width:132px;height:64px}.nav{top:82px}}
 @media(max-width:620px){.brand{width:142px;height:66px;padding:5px 10px}.brand img{width:120px;height:58px}.footer-logo-panel{width:200px;min-height:134px}.footer-logo-panel img{width:170px;height:110px}}
