@@ -288,8 +288,8 @@ if (mottoText) {
         mottoIndex = (mottoIndex + 1) % mottos.length;
         mottoText.textContent = mottos[mottoIndex];
         mottoText.classList.remove('is-changing');
-      }, 360);
-    }, 4200);
+      }, 560);
+    }, 6500);
   }
 }
 
