@@ -1,18 +1,68 @@
 {
-  "updatedAt": "2026-10-02T23:09:47+00:00",
-  "method": "Tự động tìm kiếm online; chỉ lấy giá có trong tiêu đề nguồn công khai",
+  "updatedAt": "2026-10-02T23:22:48+00:00",
+  "method": "Tự động tìm kiếm online; ưu tiên bảng giá theo ngày và giữ liên kết nguồn công khai",
   "groups": [
     {
       "name": "Phân Urê",
       "items": [
         {
           "name": "Urê Cà Mau",
-          "price": "675.000 đồng/bao",
-          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
-          "source": "Báo Hà Tĩnh",
-          "date": "2026-04-29",
-          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQRVdLd01yZUgybEJIQ244ZklONXZEdXFrcFowNl9Td1Zjdk5NTEd4bmJndHhtWGtWWC1JX1V3cDl6WXNLRklvazN5ZnBYZWR5eXBBYk9CbHFJTkN5NEVYTk0wM2FJWkZ6UFY4ZmdRbU1DMXlQdVpWQWsxbWV3cWJHRnNER0ZYTFlFdjFXZFZ0TEpYa2FrOUJlUw?oc=5",
-          "sourceTitle": "Giá phân bón hôm nay 29/4/2026: Urê Cà Mau 675.000 đồng/bao"
+          "price": "660.000 – 690.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        },
+        {
+          "name": "Urê Phú Mỹ",
+          "price": "540.000 – 660.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        },
+        {
+          "name": "Urê Hà Bắc",
+          "price": "560.000 – 590.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        }
+      ]
+    },
+    {
+      "name": "Phân NPK",
+      "items": [
+        {
+          "name": "NPK 20-20-15 Đầu Trâu",
+          "price": "950.000 – 980.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        },
+        {
+          "name": "NPK 20-20-15 Bình Điền",
+          "price": "890.000 – 930.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        },
+        {
+          "name": "NPK 16-16-8",
+          "price": "610.000 – 820.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
         }
       ]
     },
@@ -20,22 +70,31 @@
       "name": "Phân Kali và Lân",
       "items": [
         {
+          "name": "Kali bột",
+          "price": "510.000 – 600.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
+        },
+        {
           "name": "Lân Lâm Thao",
-          "price": "305.000 đồng/bao",
-          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
-          "source": "baodanang.vn",
-          "date": "2026-05-19",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPVnFDUjhWZUtaNWRwbEJ5OEhhVDVuQmlZcHV6N0pLeWUzQ1BqUlNKdVlRc0N6NEJjTUg0d1Jia0hnUFNEOHhRc0E3Tzg1eW1OdVZrb3BWZDNoaUpUT3ZTUlEwQ0NLdU1iSW5EZ3k3NzRqU1JWZzRrTEVDLVhhZ1dIazJIaExPTmxiUW5oa0tYV2xfanEyX1lGemQ0OGozOHc?oc=5",
-          "sourceTitle": "Giá phân bón hôm nay 19/5/2026: Lân Lâm Thao rẻ nhất 305.000 đồng"
+          "price": "250.000 – 310.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
         },
         {
           "name": "DAP",
-          "price": "1.245.000 đồng/bao",
-          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
-          "source": "Báo Nghệ An",
-          "date": "2026-05-19",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPWlotekhXa3lNbld1emU1MFZqcHo4dTNuaWlpOTZvaWdQM2hCaGFwVlp0MlZsS0V3YWZKeDI2Q2tsQjExSkJTUkVoa0pVQVgzTHlBa0htZ3VzVlRXeTlDdWh1aEVGSGlmUVhZVFNjMnRBRTlGWFBGMlVZSTVYVVlrZlk5UHgxZ3ZDQzQ3Sm1aWTc4WHJXeDdj?oc=5",
-          "sourceTitle": "Giá phân bón hôm nay 19/5/2026: DAP Nga 1.245.000 đồng/bao"
+          "price": "840.000 – 1.300.000 đồng/bao",
+          "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-03",
+          "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
+          "sourceTitle": "Bảng giá phân bón mới nhất ngày 03/10/2026"
         }
       ]
     }

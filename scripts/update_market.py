@@ -12,6 +12,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 from pathlib import Path
 
 PRODUCTS = [
@@ -32,6 +33,106 @@ PRICE_RE = re.compile(
     r"\s*(?:/\s*)?(?P<unit>bao|kg|tấn|chai|gói|lít)?",
     re.I,
 )
+
+DAILY_PRICE_URL = "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/"
+
+
+class TableParser(HTMLParser):
+    """Collect simple table rows without adding a third-party dependency."""
+
+    def __init__(self):
+        super().__init__()
+        self.in_cell = False
+        self.cell = []
+        self.row = []
+        self.rows = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("td", "th"):
+            self.in_cell = True
+            self.cell = []
+
+    def handle_data(self, data):
+        if self.in_cell:
+            self.cell.append(data)
+
+    def handle_endtag(self, tag):
+        if tag in ("td", "th") and self.in_cell:
+            self.row.append(re.sub(r"\s+", " ", "".join(self.cell)).strip())
+            self.in_cell = False
+        elif tag == "tr":
+            if len(self.row) >= 3:
+                self.rows.append(self.row[:3])
+            self.row = []
+
+
+def price_numbers(text):
+    values = []
+    for value in re.findall(r"\d{1,3}(?:[.\s]\d{3})+", text):
+        number = int(re.sub(r"\D", "", value))
+        if 100_000 <= number <= 5_000_000:
+            values.append(number)
+    return values
+
+
+def daily_match(product, kind, brand):
+    """Match the site's table vocabulary to the names used on our page."""
+    kind, brand = normalise(kind), normalise(brand)
+    name = normalise(product["name"])
+    if name == "urê cà mau":
+        return "urê" in kind and "cà mau" in brand
+    if name == "urê phú mỹ":
+        return "urê" in kind and "phú mỹ" in brand
+    if name == "urê hà bắc":
+        return "urê" in kind and "hà bắc" in brand
+    if name == "npk 20-20-15 đầu trâu":
+        return "npk 20-20-15" in kind and "đầu trâu" in brand
+    if name == "npk 20-20-15 bình điền":
+        return "npk 20-20-15" in kind and "bình điền" in brand
+    if name == "npk 16-16-8":
+        return kind in ("npk 16-16-8", "phân npk 16-16-8")
+    if name == "kali bột":
+        return "kali bột" in kind
+    if name == "lân lâm thao":
+        return "lân" in kind and "lâm thao" in brand
+    if name == "dap":
+        return "dap" in kind
+    return False
+
+
+def fetch_daily_prices():
+    """Read the current dated price tables, including prices buried in article body."""
+    request = urllib.request.Request(DAILY_PRICE_URL, headers={"User-Agent": "AgrotechTruongLam/3.0"})
+    html = urllib.request.urlopen(request, timeout=30).read().decode("utf-8", "replace")
+    date_match = re.search(r"Bảng giá phân Bón mới nhất\s*-\s*(\d{1,2})/(\d{1,2})/(\d{4})", html, re.I)
+    if not date_match:
+        raise ValueError("Nguồn bảng giá không có ngày công bố")
+    day, month, year = map(int, date_match.groups())
+    price_date = f"{year:04d}-{month:02d}-{day:02d}"
+    parser = TableParser()
+    parser.feed(html)
+    items = {}
+    for product in PRODUCTS:
+        values = []
+        for kind, brand, price in parser.rows:
+            if daily_match(product, kind, brand):
+                values.extend(price_numbers(price))
+        if not values:
+            continue
+        low, high = min(values), max(values)
+        low_text = f"{low:,}".replace(",", ".")
+        high_text = f"{high:,}".replace(",", ".")
+        price_text = f"{low_text} đồng/bao" if low == high else f"{low_text} – {high_text} đồng/bao"
+        items[product["name"]] = {
+            "name": product["name"],
+            "price": price_text,
+            "detail": "Giá tham khảo tổng hợp theo khu vực và thương hiệu",
+            "source": "Bảng Giá Nông Sản",
+            "date": price_date,
+            "url": DAILY_PRICE_URL,
+            "sourceTitle": f"Bảng giá phân bón mới nhất ngày {day:02d}/{month:02d}/{year}",
+        }
+    return items
 
 
 def search(query):
@@ -114,9 +215,15 @@ def load_previous():
 
 
 previous = load_previous()
+try:
+    daily = fetch_daily_prices()
+except Exception as exc:
+    print(f"Không đọc được bảng giá theo ngày: {exc}")
+    daily = {}
 found = []
 for product in PRODUCTS:
-    item = find_product(product) or previous.get(product["name"])
+    # Prefer the dated full table; Google News remains a fallback for outages.
+    item = daily.get(product["name"]) or find_product(product) or previous.get(product["name"])
     if item:
         found.append((product["group"], item))
 
@@ -133,7 +240,7 @@ if not groups and previous:
 
 payload = {
     "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    "method": "Tự động tìm kiếm online; chỉ lấy giá có trong tiêu đề nguồn công khai",
+    "method": "Tự động tìm kiếm online; ưu tiên bảng giá theo ngày và giữ liên kết nguồn công khai",
     "groups": groups,
 }
 Path("market-data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
