@@ -70,3 +70,11 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .footer-contact p{margin:7px 0;line-height:1.55}
 .footer-contact strong{color:#fff}
 @media(max-width:620px){footer{grid-template-columns:1fr}}
+/* Nhạc nền: chỉ phát sau khi người xem chủ động bật. */
+.music-toggle{position:fixed;right:1.2rem;bottom:5.2rem;z-index:60;display:flex;align-items:center;gap:.5rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.7rem 1rem;background:#064b36;color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.2);font:700 .82rem/1 Manrope,sans-serif;cursor:pointer;transition:.2s ease}
+.music-toggle:hover{transform:translateY(-2px);background:#087052}
+.music-toggle.is-playing{background:#d9a32a;color:#173c2f}
+.music-toggle.is-playing .music-icon{animation:musicPulse 1.25s ease-in-out infinite}
+.music-icon{font-size:1.15rem;line-height:1}
+@keyframes musicPulse{50%{transform:scale(1.25) rotate(8deg)}}
+@media(max-width:640px){.music-toggle{right:.8rem;bottom:5rem;padding:.72rem}.music-label{display:none}}

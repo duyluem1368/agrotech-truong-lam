@@ -224,3 +224,27 @@ form.addEventListener('submit', event => {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 4000);
 });
+const backgroundMusic = document.querySelector('#backgroundMusic');
+const musicToggle = document.querySelector('#musicToggle');
+if (backgroundMusic && musicToggle) {
+  backgroundMusic.volume = 0.22;
+  musicToggle.addEventListener('click', async () => {
+    if (backgroundMusic.paused) {
+      try {
+        await backgroundMusic.play();
+        musicToggle.classList.add('is-playing');
+        musicToggle.setAttribute('aria-pressed', 'true');
+        musicToggle.setAttribute('aria-label', 'Tắt nhạc nền');
+        musicToggle.querySelector('.music-label').textContent = 'Tắt nhạc';
+      } catch (error) {
+        musicToggle.querySelector('.music-label').textContent = 'Thử lại';
+      }
+    } else {
+      backgroundMusic.pause();
+      musicToggle.classList.remove('is-playing');
+      musicToggle.setAttribute('aria-pressed', 'false');
+      musicToggle.setAttribute('aria-label', 'Bật nhạc nền');
+      musicToggle.querySelector('.music-label').textContent = 'Bật nhạc';
+    }
+  });
+}
