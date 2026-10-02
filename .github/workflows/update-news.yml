@@ -24,6 +24,6 @@ jobs:
         run: |
           git config user.name "agrotech-news-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add news-data.json market-data.json
+          git add news-data.json market-data.json gia-phan-bon-hom-nay/index.html sitemap.xml
           git diff --cached --quiet || git commit -m "Tự động cập nhật tin sâu bệnh và giá vật tư"
           git push
