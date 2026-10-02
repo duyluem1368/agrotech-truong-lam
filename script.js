@@ -270,6 +270,29 @@ form.addEventListener('submit', event => {
 });
 const backgroundMusic = document.querySelector('#backgroundMusic');
 const musicToggle = document.querySelector('#musicToggle');
+
+const mottoText = document.querySelector('#mottoText');
+if (mottoText) {
+  const mottos = [
+    'Vững cây hôm nay — Bội thu ngày mai',
+    'Hiểu cây trồng — Đúng giải pháp — Trọn niềm tin',
+    'Đồng hành cùng nhà nông, kiến tạo mùa vụ bền vững',
+    'Chăm từng mầm xanh — Gieo triệu mùa vàng'
+  ];
+  let mottoIndex = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reducedMotion) {
+    setInterval(() => {
+      mottoText.classList.add('is-changing');
+      setTimeout(() => {
+        mottoIndex = (mottoIndex + 1) % mottos.length;
+        mottoText.textContent = mottos[mottoIndex];
+        mottoText.classList.remove('is-changing');
+      }, 360);
+    }, 4200);
+  }
+}
+
 if (backgroundMusic && musicToggle) {
   backgroundMusic.volume = 0.22;
   musicToggle.addEventListener('click', async () => {
