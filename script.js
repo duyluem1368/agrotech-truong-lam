@@ -117,14 +117,26 @@ const cropNames = {rice:'Lúa',tea:'Chè',lychee:'Vải',cucumber:'Dưa chuột'
 const libraryPhotos = {
   'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder-larva.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
+  'Sâu đục thân lúa':'assets/pests/rice-stem-borer.webp',
   'Đạo ôn':'assets/pests/rice-blast.jpg',
+  'Đen lép hạt':'assets/pests/rice-grain-discoloration.webp',
   'Bọ xít muỗi':'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg/500px-Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg?utm_source=commons.wikimedia.org',
   'Bọ trĩ':'assets/pests/thrips.jpg',
+  'Rầy xanh':'assets/pests/tea-green-leafhopper.webp',
+  'Thán thư chè':'assets/pests/tea-anthracnose.webp',
+  'Phồng rộp lá chè':'assets/pests/tea-blister-blight.webp',
+  'Bọ xít':'assets/pests/litchi-stink-bug.webp',
+  'Sâu đo':'assets/pests/geometer-caterpillar.webp',
+  'Sâu que':'assets/pests/litchi-stick-caterpillar.webp',
+  'Thán thư vải':'assets/pests/litchi-anthracnose.webp',
+  'Sương mai vải':'assets/pests/litchi-downy-blight.webp',
   'Rệp mềm':'assets/pests/aphid.jpg',
   'Sương mai':'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Downy_mildew_on_leaves_of_Cucumis_sativus.jpg/500px-Downy_mildew_on_leaves_of_Cucumis_sativus.jpg?utm_source=commons.wikimedia.org',
   'Rệp sáp':'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Long-fringed_Astelia_Mealybug_%28Rastrococcus_asteliae%29.jpg/500px-Long-fringed_Astelia_Mealybug_%28Rastrococcus_asteliae%29.jpg?utm_source=commons.wikimedia.org',
+  'Phytophthora':'assets/pests/durian-phytophthora.webp',
   'Rầy chổng cánh':'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Asian_citrus_psyllid_%28Diaphorina_citri%29_on_Citrus_%C3%97_aurantiifolia.jpg/500px-Asian_citrus_psyllid_%28Diaphorina_citri%29_on_Citrus_%C3%97_aurantiifolia.jpg?utm_source=commons.wikimedia.org',
-  'Loét vi khuẩn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Citrus_canker_on_foliage.jpg/500px-Citrus_canker_on_foliage.jpg?utm_source=commons.wikimedia.org'
+  'Loét vi khuẩn':'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Citrus_canker_on_foliage.jpg/500px-Citrus_canker_on_foliage.jpg?utm_source=commons.wikimedia.org',
+  'Thán thư':'assets/pests/coffee-anthracnose.webp'
 };
 const pestDetails = {
   'Sâu cuốn lá nhỏ':['Bướm hoạt động về đêm, đẻ trứng rải rác trên lá; sâu non thường trải qua 5 tuổi và phát triển mạnh trong ruộng xanh tốt, ẩm độ cao.','Sâu non nhả tơ cuốn dọc lá lúa, sống bên trong và cạo biểu bì làm lá thành vệt trắng; hại nặng làm giảm diện tích quang hợp.','Vệ sinh đồng ruộng, bón đạm cân đối, bảo vệ thiên địch và thăm đồng để xử lý khi sâu tuổi nhỏ đạt ngưỡng. Chỉ dùng thuốc đăng ký cho sâu cuốn lá trên lúa.'],

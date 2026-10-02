@@ -7,5 +7,12 @@ Các ảnh nhận diện sâu bệnh được dùng nhằm mục đích minh h�
 - Brown planthopper (`Nilaparvata lugens`), onion thrips (`Thrips tabaci`) và cotton aphid (`Aphis gossypii`): Wikimedia Commons.
 - Rice blast (`Magnaporthe oryzae`, tên cũ `Magnaporthe grisea`): Wikimedia Commons.
 - Whitefly (`Bemisia tabaci`), tea mosquito bug (`Helopeltis theivora`), mealybug, Asian citrus psyllid (`Diaphorina citri`), cucumber downy mildew, citrus canker và chrysanthemum white rust: Wikimedia Commons, liên kết trực tiếp tới ảnh gốc/thumbnail.
+- Sâu đục thân lúa hai chấm (`Scirpophaga incertulas`): Wikimedia Commons, tệp `Scirpophaga incertulas.jpg`.
+- Rầy xanh chè (`Empoasca onukii`): Wikimedia Commons, tệp `Empoasca (Matsumurasca) onukii ... Figure 1.jpg`.
+- Phồng rộp lá chè (`Exobasidium vexans`): Wikimedia Commons, tệp `Exobasidium vexans on Camellia sinens.jpg`.
+- Bọ xít vải (`Tessaratoma papillosa`): Wikimedia Commons, tệp `Tessaratoma papillosa (34910603342).jpg`.
+- Sâu đo (họ `Geometridae`): Wikimedia Commons, tệp `Geometridae caterpillar (26798418231).jpg`.
+
+Các ảnh minh họa triệu chứng đen lép hạt lúa, sâu que trên vải, thán thư vải, sương mai vải, thán thư chè, Phytophthora trên sầu riêng và thán thư cà phê được tạo theo dạng minh họa khoa học từ mô tả triệu chứng nông học. Những ảnh này dùng để hỗ trợ nhận biết đặc điểm điển hình, không phải ảnh mẫu giám định.
 
 Ảnh chỉ hỗ trợ nhận diện ban đầu; không thay thế chẩn đoán tại đồng ruộng.
