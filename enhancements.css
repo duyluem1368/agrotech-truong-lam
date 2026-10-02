@@ -90,6 +90,21 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .music-toggle.is-playing .music-icon{animation:musicPulse 1.25s ease-in-out infinite}
 .music-icon{font-size:1.15rem;line-height:1}
 @keyframes musicPulse{50%{transform:scale(1.25) rotate(8deg)}}
+
+/* Mobile header: keep the rotating motto visible as a dedicated lower ribbon. */
+@media(max-width:700px){
+  .site-header{height:126px;padding-bottom:40px;position:sticky}
+  .site-header .brand{width:176px;height:86px;align-self:flex-start;margin-left:-24px}
+  .site-header .brand>img{height:86px}
+  .site-header .header-motto{display:flex;position:absolute;left:0;right:0;bottom:0;width:100%;min-width:0;height:40px;margin:0;padding:5px 48px 5px 22px;gap:7px;color:#fff;background:linear-gradient(90deg,#06442f,#08714e 70%,#07523b);box-shadow:inset 0 1px rgba(255,255,255,.12);overflow:hidden}
+  .site-header .header-motto:after{left:48px;right:22px;bottom:3px;background:linear-gradient(90deg,#d8ef77,transparent)}
+  .site-header .motto-mark{height:24px;font-size:32px;line-height:.95;color:#d8ef77}
+  .site-header .motto-copy{width:100%;white-space:nowrap;overflow:hidden}
+  .site-header .motto-copy strong{font-family:Manrope,Arial,sans-serif;font-size:11px;line-height:1.45;font-weight:800;overflow:hidden;text-overflow:ellipsis;color:#fff}
+  .site-header .motto-copy small{display:none}
+  .site-header .nav-toggle{position:absolute;right:22px;top:27px;margin:0;z-index:7}
+  .site-header .nav{top:126px}
+}
 @media(max-width:640px){.music-toggle{right:.8rem;bottom:5rem;padding:.72rem}.music-label{display:none}}
 
 /* Hạn chế tải/copy ảnh bằng các thao tác phổ biến trên desktop và mobile. */
