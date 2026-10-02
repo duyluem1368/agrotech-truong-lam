@@ -237,26 +237,18 @@ fetch('news-data.json', { cache: 'no-store' }).then(response => response.ok ? re
 
 const marketGrid = document.querySelector('#marketGrid');
 const marketUpdated = document.querySelector('#marketUpdated');
-const marketLabels = { fertilizer: 'Phân bón', pesticide: 'Thuốc BVTV', seed: 'Giống' };
-const marketTrendLabels = { up: '↗ Xu hướng tăng', down: '↘ Xu hướng giảm', stable: '→ Ít biến động' };
-let marketItems = [];
-function renderMarket(filter = 'all') {
+let marketGroups = [];
+function renderMarket() {
   if (!marketGrid) return;
-  const items = filter === 'all' ? marketItems : marketItems.filter(item => item.category === filter);
-  marketGrid.innerHTML = items.length ? items.map(item => `<article class="market-card"><div class="market-card-head"><span class="market-category">${escapeNews(marketLabels[item.category] || 'Vật tư')}</span><span class="market-trend ${escapeNews(item.trend)}">${escapeNews(marketTrendLabels[item.trend] || marketTrendLabels.stable)}</span></div><h3>${escapeNews(item.title)}</h3>${item.price ? `<div class="market-price-highlight">${escapeNews(item.price)}</div>` : ''}<p>${escapeNews(item.summary)}</p><footer><span>${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')}</span><a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer">Xem nguồn →</a></footer></article>`).join('') : '<article class="market-card"><h3>Chưa có báo giá phù hợp</h3><p>Hệ thống sẽ hiển thị khi tìm thấy nguồn công khai có ngày và nội dung rõ ràng.</p></article>';
+  marketGrid.innerHTML = marketGroups.length ? marketGroups.map(group => `<section class="market-price-group"><h3>${escapeNews(group.name)}</h3><ul>${(group.items || []).map(item => `<li><div class="market-price-line"><strong>${escapeNews(item.name)}:</strong> <span>${escapeNews(item.price)}</span></div>${item.detail ? `<small>${escapeNews(item.detail)}</small>` : ''}<a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer" title="${escapeNews(item.sourceTitle || '')}">${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')} ↗</a></li>`).join('')}</ul></section>`).join('') : '<section class="market-price-group"><h3>Chưa có báo giá phù hợp</h3><p>Hệ thống sẽ hiển thị khi tìm thấy nguồn công khai có giá và ngày đăng rõ ràng.</p></section>';
 }
 if (marketGrid && marketUpdated) {
   fetch('market-data.json', { cache: 'no-store' }).then(response => response.ok ? response.json() : Promise.reject()).then(data => {
-    marketItems = Array.isArray(data.items) ? data.items : [];
+    marketGroups = Array.isArray(data.groups) ? data.groups : [];
     const updated = new Date(data.updatedAt);
     marketUpdated.textContent = `Lần quét: ${updated.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}, ${updated.toLocaleDateString('vi-VN')}`;
     renderMarket();
   }).catch(() => { marketUpdated.textContent = 'Chưa thể tải dữ liệu'; renderMarket(); });
-  document.querySelectorAll('[data-market-filter]').forEach(button => button.addEventListener('click', () => {
-    document.querySelectorAll('[data-market-filter]').forEach(item => item.classList.remove('active'));
-    button.classList.add('active');
-    renderMarket(button.dataset.marketFilter);
-  }));
 }
 
 const observer = new IntersectionObserver(entries => {

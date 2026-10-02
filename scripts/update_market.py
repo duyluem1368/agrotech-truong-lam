@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Build a transparent daily feed of Vietnamese agricultural input price reports."""
+"""Build a compact, source-linked Vietnamese fertilizer price list.
+
+Google News RSS is used as the search index.  We deliberately publish only
+prices that are present in a result headline; this keeps the unattended job
+from inventing a number or confusing a general market article with a quote.
+"""
 import email.utils
 import json
 import re
@@ -9,75 +14,127 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
-QUERIES = {
-    "fertilizer": ["giá phân bón hôm nay Việt Nam Urê DAP Kali NPK", "thị trường phân bón Việt Nam giá mới nhất"],
-    "pesticide": ["giá thuốc bảo vệ thực vật Việt Nam", "thị trường thuốc bảo vệ thực vật giá"],
-    "seed": ["giá giống lúa hôm nay", "giá hạt giống cây trồng Việt Nam"],
-}
+PRODUCTS = [
+    {"group": "Phân Urê", "name": "Urê Cà Mau", "aliases": ("urê cà mau", "ure cà mau")},
+    {"group": "Phân Urê", "name": "Urê Phú Mỹ", "aliases": ("urê phú mỹ", "ure phú mỹ")},
+    {"group": "Phân Urê", "name": "Urê Hà Bắc", "aliases": ("urê hà bắc", "ure hà bắc")},
+    {"group": "Phân NPK", "name": "NPK 20-20-15 Đầu Trâu", "aliases": ("npk 20-20-15 đầu trâu",)},
+    {"group": "Phân NPK", "name": "NPK 20-20-15 Bình Điền", "aliases": ("npk 20-20-15 bình điền",)},
+    {"group": "Phân NPK", "name": "NPK 16-16-8", "aliases": ("npk 16-16-8",)},
+    {"group": "Phân Kali và Lân", "name": "Kali bột", "aliases": ("kali bột",)},
+    {"group": "Phân Kali và Lân", "name": "Lân Lâm Thao", "aliases": ("lân lâm thao",)},
+    {"group": "Phân Kali và Lân", "name": "DAP", "aliases": ("dap",)},
+]
 
-def fetch(query):
-    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": query, "hl": "vi", "gl": "VN", "ceid": "VN:vi"})
-    request = urllib.request.Request(url, headers={"User-Agent": "AgrotechTruongLam/1.0"})
-    return ET.fromstring(urllib.request.urlopen(request, timeout=30).read())
+PRICE_RE = re.compile(
+    r"(?P<low>\d{1,3}(?:[.\s]\d{3})+)\s*(?:đ|đồng)?"
+    r"(?:\s*[-–—]\s*(?P<high>\d{1,3}(?:[.\s]\d{3})+)\s*(?:đ|đồng)?)?"
+    r"\s*(?:/\s*)?(?P<unit>bao|kg|tấn|chai|gói|lít)?",
+    re.I,
+)
 
-def trend(title):
-    text = title.lower()
-    if any(word in text for word in ("tăng", "neo cao", "lập đỉnh")): return "up"
-    if any(word in text for word in ("giảm", "hạ nhiệt", "đi xuống")): return "down"
-    return "stable"
 
-def price_text(title):
-    patterns = [r"\b\d{1,3}(?:[.,]\d{3})+(?:\s*(?:đồng|triệu)(?:/\w+)?)", r"\b\d+(?:[.,]\d+)?\s*triệu/bao"]
-    found = []
-    for pattern in patterns:
-        found.extend(re.findall(pattern, title, flags=re.I))
-    return " · ".join(dict.fromkeys(found))
+def search(query):
+    params = {"q": query, "hl": "vi", "gl": "VN", "ceid": "VN:vi"}
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(params)
+    request = urllib.request.Request(url, headers={"User-Agent": "AgrotechTruongLam/2.0"})
+    return ET.fromstring(urllib.request.urlopen(request, timeout=30).read()).findall(".//item")
 
-def describe(category):
-    return {
-        "fertilizer": "Bản tin giá hoặc diễn biến thị trường Urê, DAP, Kali, NPK và các nhóm phân bón chính.",
-        "pesticide": "Thông tin thị trường thuốc bảo vệ thực vật; cần đối chiếu hoạt chất, quy cách và đại lý tại địa phương.",
-        "seed": "Thông tin giá giống cây trồng; cần đối chiếu giống, cấp xác nhận, vụ sản xuất và khu vực cung ứng.",
-    }[category]
 
-def relevant(category, title):
-    text = title.lower()
-    if not re.search(r"(?<!\w)giá(?!\w)", text):
-        return False
-    if category == "fertilizer":
-        return any(term in text for term in ("giá phân bón", "bảng giá", "giá urê", "giá ure", "giá dap", "giá kali", "giá npk"))
-    if category == "pesticide":
-        return any(term in text for term in ("giá thuốc bảo vệ thực vật", "giá thuốc bvtv", "giá thuốc trừ sâu", "giá thuốc trừ bệnh"))
-    return any(term in text for term in ("giá giống", "giá hạt giống"))
+def normalise(text):
+    return re.sub(r"\s+", " ", text.lower().replace("–", "-").replace("—", "-")).strip()
 
-items = {}
-for category, queries in QUERIES.items():
-    for query in queries:
-        try:
-            nodes = fetch(query).findall(".//item")
-        except Exception as exc:
-            print(f"Skip {query}: {exc}")
+
+def extract_price(title):
+    matches = []
+    for match in PRICE_RE.finditer(title):
+        low = int(re.sub(r"\D", "", match.group("low")))
+        high = int(re.sub(r"\D", "", match.group("high") or "")) if match.group("high") else None
+        # Ignore dates, percentages and business figures that are not retail bag prices.
+        if low < 100_000 or low > 5_000_000 or (high and (high < low or high > 5_000_000)):
             continue
-        for node in nodes[:15]:
-            raw_title = (node.findtext("title") or "").strip()
-            url = (node.findtext("link") or "").strip()
-            if not raw_title or not url: continue
-            parts = raw_title.rsplit(" - ", 1)
-            title = parts[0].strip()
-            source = parts[1].strip() if len(parts) == 2 else "Nguồn báo chí"
-            if not relevant(category, title): continue
-            try:
-                date = email.utils.parsedate_to_datetime(node.findtext("pubDate") or "").astimezone(timezone.utc)
-            except Exception:
-                continue
-            key = re.sub(r"\W+", " ", title.lower()).strip()
-            items[key] = {"category": category, "title": title, "source": source, "date": date.date().isoformat(), "url": url, "trend": trend(title), "price": price_text(title), "summary": describe(category)}
+        unit = (match.group("unit") or "bao").lower()
+        low_text = f"{low:,}".replace(",", ".")
+        if high:
+            high_text = f"{high:,}".replace(",", ".")
+            matches.append(f"{low_text} – {high_text} đồng/{unit}")
+        else:
+            matches.append(f"{low_text} đồng/{unit}")
+    return matches[0] if matches else ""
 
-ordered = sorted(items.values(), key=lambda item: item["date"], reverse=True)
-selected = []
-for category in QUERIES:
-    selected.extend([item for item in ordered if item["category"] == category][:3])
-selected = sorted(selected, key=lambda item: item["date"], reverse=True)[:9]
-payload = {"updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"), "items": selected}
+
+def parse_result(node, product):
+    raw_title = (node.findtext("title") or "").strip()
+    link = (node.findtext("link") or "").strip()
+    if not raw_title or not link:
+        return None
+    parts = raw_title.rsplit(" - ", 1)
+    title = parts[0].strip()
+    source = parts[1].strip() if len(parts) == 2 else "Nguồn báo chí"
+    text = normalise(title)
+    if not any(alias in text for alias in product["aliases"]):
+        return None
+    price = extract_price(title)
+    if not price:
+        return None
+    try:
+        published = email.utils.parsedate_to_datetime(node.findtext("pubDate") or "").astimezone(timezone.utc)
+    except Exception:
+        return None
+    return {
+        "name": product["name"],
+        "price": price,
+        "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
+        "source": source,
+        "date": published.date().isoformat(),
+        "url": link,
+        "sourceTitle": title,
+    }
+
+
+def find_product(product):
+    query = f'"{product["name"]}" giá đồng bao phân bón'
+    candidates = []
+    try:
+        for node in search(query):
+            item = parse_result(node, product)
+            if item:
+                candidates.append(item)
+    except Exception as exc:
+        print(f"Không tìm được {product['name']}: {exc}")
+    return max(candidates, key=lambda item: item["date"], default=None)
+
+
+def load_previous():
+    try:
+        data = json.loads(Path("market-data.json").read_text(encoding="utf-8"))
+        return {item["name"]: item for group in data.get("groups", []) for item in group.get("items", [])}
+    except Exception:
+        return {}
+
+
+previous = load_previous()
+found = []
+for product in PRODUCTS:
+    item = find_product(product) or previous.get(product["name"])
+    if item:
+        found.append((product["group"], item))
+
+groups = []
+for group_name in dict.fromkeys(product["group"] for product in PRODUCTS):
+    rows = [item for group, item in found if group == group_name]
+    if rows:
+        groups.append({"name": group_name, "items": rows})
+
+# Never replace a useful published list with an empty result after a temporary
+# network/search failure.
+if not groups and previous:
+    raise SystemExit("Không có kết quả mới; giữ nguyên market-data.json")
+
+payload = {
+    "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    "method": "Tự động tìm kiếm online; chỉ lấy giá có trong tiêu đề nguồn công khai",
+    "groups": groups,
+}
 Path("market-data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-print(f"Wrote {len(selected)} market items")
+print(f"Đã ghi {sum(len(group['items']) for group in groups)} mức giá / {len(groups)} nhóm")

@@ -1,35 +1,43 @@
 {
-  "updatedAt": "2026-10-02T18:25:07+00:00",
-  "items": [
+  "updatedAt": "2026-10-02T23:09:47+00:00",
+  "method": "Tự động tìm kiếm online; chỉ lấy giá có trong tiêu đề nguồn công khai",
+  "groups": [
     {
-      "category": "fertilizer",
-      "title": "Giá phân bón hôm nay 21/5/2026: Ure Cà Mau giữ mốc 690.000 đồng/bao",
-      "source": "Báo Đà Nẵng",
-      "date": "2026-05-21",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSFZzY2E4TDF3STBfUFZiUU1ZWUszdzdPaFBpR3RJMkVrZXg2MVBOQ1VaRXJsXzVVYzNya3VFYld1Q0lURFBBcE9MN2psYlQtb2UxNjA5eUpjTGhvNFZhNUg4cGhzRGZDWG11UnZzN0paV1R6b054V1hVN0JUMWVFUUZOMUZiVkNrVkMwQlFsREpnWDVhTUFrR29MRXdHeWplYnc?oc=5",
-      "trend": "stable",
-      "price": "690.000 đồng/bao",
-      "summary": "Bản tin giá hoặc diễn biến thị trường Urê, DAP, Kali, NPK và các nhóm phân bón chính."
+      "name": "Phân Urê",
+      "items": [
+        {
+          "name": "Urê Cà Mau",
+          "price": "675.000 đồng/bao",
+          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
+          "source": "Báo Hà Tĩnh",
+          "date": "2026-04-29",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQRVdLd01yZUgybEJIQ244ZklONXZEdXFrcFowNl9Td1Zjdk5NTEd4bmJndHhtWGtWWC1JX1V3cDl6WXNLRklvazN5ZnBYZWR5eXBBYk9CbHFJTkN5NEVYTk0wM2FJWkZ6UFY4ZmdRbU1DMXlQdVpWQWsxbWV3cWJHRnNER0ZYTFlFdjFXZFZ0TEpYa2FrOUJlUw?oc=5",
+          "sourceTitle": "Giá phân bón hôm nay 29/4/2026: Urê Cà Mau 675.000 đồng/bao"
+        }
+      ]
     },
     {
-      "category": "fertilizer",
-      "title": "Giá phân bón hôm nay 18/5/2026: Doanh nghiệp Q1/2026 lãi vọt 91% lên 789 tỷ, hoàn thành 67% kế hoạch năm",
-      "source": "baonghean.vn",
-      "date": "2026-05-18",
-      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPU3o4RGU1OGVmZkRiNk1fQ25RM2dNS0RPeXdUb1BmTzJBMHEtb0pPbVpMSzh0MlU4NHgxX0RBd3lNS3U0aTNjbUNOQ1FmcVc0RGwwazdOUUFsUzZuSjhIdVpRc2VrWWE4dlJaNV9nMzdDTlNNRjF6ajltek9JS0drVkhjNXZ1TWxuUzdYTkdxTjdraVc0ZzhuaUdCbV9rQjRHamtjMDZOYkEtQ1lzMXBDM0hKWTFVeGEtS0hmSVAydW9lYkl0WUtiUkxCQzVaSFlK?oc=5",
-      "trend": "stable",
-      "price": "",
-      "summary": "Bản tin giá hoặc diễn biến thị trường Urê, DAP, Kali, NPK và các nhóm phân bón chính."
-    },
-    {
-      "category": "fertilizer",
-      "title": "Giá phân bón hôm nay 12/5/2026: Xuất khẩu tăng 51% từ đầu năm",
-      "source": "Báo Hà Tĩnh",
-      "date": "2026-05-12",
-      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPUW5OWUp1bEtVdFctTGVZMG9KeE5VSk1NUFgyclkxQmZ1NFZGT3VfdnlGSFpZVjg2QUNSaXVLbzF3VDlVZ2ZXamRpdVg4V1hqX25GWU1velJ1Q09BZHlIc1J6dW5vMEZBSVJlZ2ZSdmRHaDAwQWhoT3VTdGdqdmlaWVpwVG9NNkJ1UkxxcHNEeHQ3Z2VsR21Ya0ZR?oc=5",
-      "trend": "up",
-      "price": "",
-      "summary": "Bản tin giá hoặc diễn biến thị trường Urê, DAP, Kali, NPK và các nhóm phân bón chính."
+      "name": "Phân Kali và Lân",
+      "items": [
+        {
+          "name": "Lân Lâm Thao",
+          "price": "305.000 đồng/bao",
+          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
+          "source": "baodanang.vn",
+          "date": "2026-05-19",
+          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPVnFDUjhWZUtaNWRwbEJ5OEhhVDVuQmlZcHV6N0pLeWUzQ1BqUlNKdVlRc0N6NEJjTUg0d1Jia0hnUFNEOHhRc0E3Tzg1eW1OdVZrb3BWZDNoaUpUT3ZTUlEwQ0NLdU1iSW5EZ3k3NzRqU1JWZzRrTEVDLVhhZ1dIazJIaExPTmxiUW5oa0tYV2xfanEyX1lGemQ0OGozOHc?oc=5",
+          "sourceTitle": "Giá phân bón hôm nay 19/5/2026: Lân Lâm Thao rẻ nhất 305.000 đồng"
+        },
+        {
+          "name": "DAP",
+          "price": "1.245.000 đồng/bao",
+          "detail": "Giá tham khảo theo bài đăng mới nhất tìm thấy",
+          "source": "Báo Nghệ An",
+          "date": "2026-05-19",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPWlotekhXa3lNbld1emU1MFZqcHo4dTNuaWlpOTZvaWdQM2hCaGFwVlp0MlZsS0V3YWZKeDI2Q2tsQjExSkJTUkVoa0pVQVgzTHlBa0htZ3VzVlRXeTlDdWh1aEVGSGlmUVhZVFNjMnRBRTlGWFBGMlVZSTVYVVlrZlk5UHgxZ3ZDQzQ3Sm1aWTc4WHJXeDdj?oc=5",
+          "sourceTitle": "Giá phân bón hôm nay 19/5/2026: DAP Nga 1.245.000 đồng/bao"
+        }
+      ]
     }
   ]
 }
