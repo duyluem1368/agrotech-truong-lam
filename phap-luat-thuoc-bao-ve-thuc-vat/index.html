@@ -24,6 +24,12 @@
 
     <section class="notice"><strong>Lưu ý pháp lý</strong><p>Nội dung dưới đây nhằm hỗ trợ tra cứu nhanh, không thay thế toàn văn văn bản và không phải tư vấn pháp lý. Khi thực hiện thủ tục hoặc giao dịch, cần đối chiếu văn bản gốc và tình trạng hiệu lực.</p></section>
 
+    <section class="live-laws" aria-labelledby="liveLawTitle">
+      <div class="heading"><p class="eyebrow">Theo dõi tự động 3 giờ/lần</p><h2 id="liveLawTitle">Văn bản mới từ nguồn chính thức</h2></div>
+      <div class="live-law-status"><span></span><strong>Đang đồng bộ</strong><small id="legalUpdated">Đang tải thời gian cập nhật…</small></div>
+      <div class="live-law-list" id="legalUpdates" aria-live="polite"><p>Đang tải văn bản mới…</p></div>
+    </section>
+
     <section class="latest">
       <div class="heading"><p class="eyebrow">Mới và đáng chú ý</p><h2>Cập nhật năm 2026</h2></div>
       <article class="law-card priority">
@@ -64,5 +70,16 @@
     </section>
   </main>
   <footer><p>Agrotech Trường Lâm · Hotline <a href="tel:0388051282">0388 051 282</a></p><a href="https://ppd.gov.vn/van-ban-chinh-sach.html" target="_blank" rel="noopener">Kho văn bản chính sách của Cục ↗</a></footer>
+  <script>
+    fetch('/legal-updates.json?ts=' + Date.now()).then(r => r.ok ? r.json() : Promise.reject()).then(data => {
+      const updated = new Date(data.updatedAt);
+      document.querySelector('#legalUpdated').textContent = 'Lần kiểm tra: ' + updated.toLocaleString('vi-VN');
+      document.querySelector('#legalUpdates').innerHTML = data.items.length ? data.items.map(item => `
+        <article><div><time>${item.date}</time><small>${item.source}</small></div><h3>${item.title}</h3><a href="${item.url}" target="_blank" rel="noopener">Mở nguồn chính thức ↗</a></article>`).join('') : '<p>Chưa ghi nhận văn bản mới.</p>';
+    }).catch(() => {
+      document.querySelector('#legalUpdated').textContent = 'Chưa tải được dữ liệu mới';
+      document.querySelector('#legalUpdates').innerHTML = '<p>Vui lòng dùng các liên kết văn bản đã được kiểm tra ở bên dưới.</p>';
+    });
+  </script>
 </body>
 </html>
