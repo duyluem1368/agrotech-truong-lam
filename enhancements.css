@@ -74,10 +74,12 @@
 .featured-media>img{position:relative;z-index:1;max-width:88%;max-height:470px;filter:drop-shadow(0 30px 25px rgba(0,24,13,.5)) drop-shadow(0 0 18px rgba(255,255,255,.72));transform:translateY(-3px)}
 .featured-crop-flower .featured-media>img{max-width:62%;max-height:500px}
 .featured-techtimex .featured-media>img{max-width:92%;max-height:445px;border-radius:8px}
+.featured-samtako .featured-media>img{max-width:96%;max-height:455px;border-radius:8px}
 .featured-media>span{z-index:2;box-shadow:0 8px 22px rgba(0,0,0,.18)}
 .consult-form .btn-accent{background:#08714e}
 .consult-form .btn-accent:hover{background:#06563d}
 @media(max-width:620px){.featured-media>img{max-width:88%;max-height:285px}.featured-crop-flower .featured-media>img{max-width:56%;max-height:290px}.featured-techtimex .featured-media>img{max-width:90%;max-height:275px}.featured-media:before{inset:2%}}
+@media(max-width:620px){.featured-samtako .featured-media>img{max-width:96%;max-height:275px}}
 /* Company registration details in the site footer */
 footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .footer-contact p{margin:7px 0;line-height:1.55}
