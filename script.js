@@ -28,13 +28,13 @@ const pestPhotos = {
   'Sâu keo mùa thu trên ngô':'assets/pests/fall-armyworm-larva.jpg',
   'Sâu cuốn lá lúa':'assets/pests/rice-leaf-folder-larva.jpg',
   'Sâu cuốn lá trên lúa':'assets/pests/rice-leaf-folder-larva.jpg',
-  'Sâu đục thân, sâu ăn lá':'assets/pests/rice-stem-borer.webp',
+  'Sâu đục thân, sâu ăn lá':'assets/pests/rice-stem-borer-inside-rice-v2.png',
   'Sâu ăn lá, sâu xanh':'assets/pests/geometer-caterpillar.webp',
   'Sâu ăn lá tuổi nhỏ':'assets/pests/fall-armyworm-larva.jpg',
   'Sâu non bộ cánh vảy':'assets/pests/fall-armyworm-larva.jpg',
   'Bọ trĩ trên hoa cúc':'assets/pests/thrips.jpg',
   'Bọ trĩ':'assets/pests/thrips.jpg',
-  'Sâu đục thân':'assets/pests/rice-stem-borer.webp',
+  'Sâu đục thân':'assets/pests/rice-stem-borer-inside-rice-v2.png',
   'Sâu cuốn lá':'assets/pests/rice-leaf-folder-larva.jpg',
   'Rệp mềm':'assets/pests/aphid.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
@@ -59,6 +59,7 @@ const representativeTargets = new Set([
   'Bệnh nấm giai đoạn xâm nhiễm sớm', 'Nhóm bệnh nấm ở giai đoạn mới xuất hiện',
   'Bảo vệ lá theo phạm vi ghi trên nhãn'
 ]);
+const illustrativeTargets = new Set(['Sâu đục thân', 'Sâu đục thân, sâu ăn lá']);
 
 function targetLabel(target) { return target.replace(/^\d+\s*·?\s*/, ''); }
 
@@ -92,7 +93,7 @@ function openProductModal(card) {
       pestImage.style.backgroundPosition = 'center';
       pestImage.classList.toggle('photo-pending', !exactPhoto);
       document.querySelector('#modalPestCaption').textContent = exactPhoto
-        ? `${label} · ${representativeTargets.has(label) ? 'ảnh đại diện cho nhóm đối tượng' : 'ảnh nhận diện đúng đối tượng'}`
+        ? `${label} · ${illustrativeTargets.has(label) ? 'ảnh minh họa sâu gây hại trong thân lúa' : representativeTargets.has(label) ? 'ảnh đại diện cho nhóm đối tượng' : 'ảnh nhận diện đúng đối tượng'}`
         : `${label} · chưa hiển thị ảnh để tránh dùng sai đối tượng`;
       pestImage.setAttribute('aria-label', button.textContent);
       pestImage.style.opacity = '1';
