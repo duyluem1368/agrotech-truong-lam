@@ -144,7 +144,7 @@ const cropNames = {rice:'Lúa',tea:'Chè',lychee:'Vải',cucumber:'Dưa chuột'
 const libraryPhotos = {
   'Sâu cuốn lá nhỏ':'assets/pests/rice-leaf-folder-larva.jpg',
   'Rầy nâu':'assets/pests/brown-planthopper.jpg',
-  'Sâu đục thân lúa':'assets/pests/rice-stem-borer.webp',
+  'Sâu đục thân lúa':'assets/pests/rice-stem-borer-inside-rice-v2.png',
   'Đạo ôn':'assets/pests/rice-blast.jpg',
   'Đen lép hạt':'assets/pests/rice-grain-discoloration.webp',
   'Bọ xít muỗi':'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg/500px-Tea_Mosquito_Bug_%28Helopeltis_Theivora%29_%2835811112746%29.jpg?utm_source=commons.wikimedia.org',
