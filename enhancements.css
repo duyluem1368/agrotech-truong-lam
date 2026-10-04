@@ -137,10 +137,15 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
     padding:22px clamp(18px,5vw,34px) 28px;
     overflow-y:auto;
     background:
-      linear-gradient(135deg,rgba(3,43,31,.96),rgba(7,82,59,.9)),
-      url("assets/hero-agroscience-v2.png") center 42%/cover no-repeat;
+      linear-gradient(135deg,rgba(3,43,31,.92),rgba(7,82,59,.78)),
+      url("assets/crop-process-science-v1.webp") center 48%/cover no-repeat;
     border-top:3px solid var(--lime);
     box-shadow:0 22px 45px rgba(2,31,22,.34);
+  }
+  .site-header .nav.open{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:stretch;
   }
   .site-header .nav:before{
     content:"DANH MỤC";
@@ -149,7 +154,9 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
     color:#dff29a;
     font:800 12px/1.2 Manrope,Arial,sans-serif;
     letter-spacing:.2em;
+    grid-column:1/-1;
   }
+  .site-header .nav a:last-child{grid-column:1/-1}
   .site-header .nav a{
     display:flex;
     align-items:center;
@@ -172,6 +179,11 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
     border-color:#e2ef9c;
     text-shadow:none;
   }
+}
+
+@media(max-width:420px){
+  .site-header .nav{padding-left:12px;padding-right:12px}
+  .site-header .nav a{padding:11px 10px;font-size:13px;letter-spacing:.035em}
 }
 
 @media(min-width:701px) and (max-width:980px){
