@@ -228,8 +228,9 @@
         <label>Họ và tên<input type="text" name="name" placeholder="Nhập họ tên" required></label>
         <label>Số điện thoại<input type="tel" name="phone" placeholder="Ví dụ: 09xx xxx xxx" required></label>
         <label>Cây trồng / tình trạng<textarea name="issue" rows="3" placeholder="Ví dụ: Ngô xuất hiện sâu ăn lá..."></textarea></label>
-        <button class="btn btn-accent" type="submit">Gửi nội dung qua Zalo <span>→</span></button>
-        <p class="form-note">Sau khi bấm, Zalo của Agrotech Trường Lâm sẽ mở với nội dung đã điền để Sếp gửi trực tiếp.</p>
+        <label class="consult-consent"><input type="checkbox" name="consent" required><span>Tôi đồng ý để Agrotech Trường Lâm lưu thông tin trên nhằm liên hệ và tư vấn.</span></label>
+        <button class="btn btn-accent" type="submit"><span class="submit-label">Gửi đăng ký tư vấn</span> <span aria-hidden="true">→</span></button>
+        <p class="form-note" aria-live="polite">Thông tin sẽ được lưu riêng để đội ngũ liên hệ; sau đó Zalo sẽ mở với nội dung đã điền.</p>
       </form>
     </section>
 

@@ -409,12 +409,16 @@ document.querySelectorAll('[data-filter]').forEach(button => button.addEventList
 
 const form = document.querySelector('#consultForm');
 const toast = document.querySelector('.toast');
-form.addEventListener('submit', event => {
+const CONSULT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzkL6gkY3hUs1zgZ2FqMAq_1knnpZNUbkXUjohSwyKio_Rq3VL7ieEzENSAUF7907_n/exec';
+
+form.addEventListener('submit', async event => {
   event.preventDefault();
   const data = new FormData(form);
   const name = String(data.get('name') || '').trim();
   const phone = String(data.get('phone') || '').trim();
   const issue = String(data.get('issue') || '').trim();
+  const submitButton = form.querySelector('button[type="submit"]');
+  const submitLabel = submitButton.querySelector('.submit-label');
   const message = [
     'YÊU CẦU TƯ VẤN THUỐC BVTV',
     `Họ tên: ${name}`,
@@ -423,10 +427,41 @@ form.addEventListener('submit', event => {
     `Gửi từ website lúc: ${new Date().toLocaleString('vi-VN')}`
   ].join('\n');
   const zaloUrl = `https://zalo.me/0388051282?text=${encodeURIComponent(message)}`;
-  window.open(zaloUrl, '_blank', 'noopener,noreferrer');
-  toast.textContent = 'Đang mở Zalo với nội dung tư vấn đã điền.';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+  const zaloWindow = window.open('', '_blank');
+
+  submitButton.disabled = true;
+  submitButton.classList.add('is-sending');
+  submitLabel.textContent = 'Đang lưu thông tin...';
+
+  try {
+    const payload = new URLSearchParams({ name, phone, issue });
+    const response = await fetch(CONSULT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: payload
+    });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || 'Không thể lưu thông tin');
+
+    toast.textContent = 'Đã lưu đăng ký thành công. Đang mở Zalo để Sếp gửi nội dung.';
+    toast.classList.add('show');
+    form.reset();
+    if (zaloWindow) {
+      zaloWindow.opener = null;
+      zaloWindow.location.href = zaloUrl;
+    } else {
+      window.location.href = zaloUrl;
+    }
+  } catch (error) {
+    if (zaloWindow) zaloWindow.close();
+    toast.textContent = 'Chưa thể lưu thông tin. Vui lòng kiểm tra mạng và thử lại hoặc gọi 0388 051 282.';
+    toast.classList.add('show');
+  } finally {
+    submitButton.disabled = false;
+    submitButton.classList.remove('is-sending');
+    submitLabel.textContent = 'Gửi đăng ký tư vấn';
+    setTimeout(() => toast.classList.remove('show'), 5000);
+  }
 });
 const backgroundMusic = document.querySelector('#backgroundMusic');
 const musicToggle = document.querySelector('#musicToggle');
