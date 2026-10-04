@@ -13,6 +13,6 @@ Các ảnh nhận diện sâu bệnh được dùng nhằm mục đích minh h�
 - Bọ xít vải (`Tessaratoma papillosa`): Wikimedia Commons, tệp `Tessaratoma papillosa (34910603342).jpg`.
 - Sâu đo (họ `Geometridae`): Wikimedia Commons, tệp `Geometridae caterpillar (26798418231).jpg`.
 
-Các ảnh minh họa triệu chứng đen lép hạt lúa, sâu que trên vải, thán thư vải, sương mai vải, thán thư chè, Phytophthora trên sầu riêng, thán thư cà phê, thán thư thanh long và đạo ôn cổ bông được tạo theo dạng minh họa khoa học từ mô tả triệu chứng nông học. Những ảnh này dùng để hỗ trợ nhận biết đặc điểm điển hình, không phải ảnh mẫu giám định.
+Các ảnh minh họa triệu chứng đen lép hạt lúa, sâu que trên vải, thán thư vải, sương mai vải, thán thư chè, Phytophthora trên sầu riêng, thán thư cà phê, thán thư thanh long và đạo ôn cổ bông được tạo theo dạng minh họa khoa học từ mô tả triệu chứng nông học. Bộ ảnh sầu riêng bổ sung gồm vàng lá thối rễ, nứt thân xì mủ, cháy lá chết ngọn, thán thư và thối trái cũng là minh họa khoa học theo triệu chứng điển hình. Những ảnh này dùng để hỗ trợ nhận biết đặc điểm điển hình, không phải ảnh mẫu giám định.
 
 Ảnh chỉ hỗ trợ nhận diện ban đầu; không thay thế chẩn đoán tại đồng ruộng.
