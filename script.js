@@ -334,6 +334,11 @@ function openProcessDetail(processCard) {
   const hint = copy.querySelector('.process-zoom-hint');
   if (hint) hint.remove();
   large.appendChild(copy);
+  const protectionMark = document.createElement('div');
+  protectionMark.className = 'process-protection-mark';
+  protectionMark.setAttribute('aria-hidden', 'true');
+  protectionMark.innerHTML = '<strong>AGROTECH TRƯỜNG LÂM</strong><span>© Nội dung được bảo hộ</span>';
+  large.appendChild(protectionMark);
   processDetailModal.showModal();
 }
 document.querySelector('.process-detail-close').addEventListener('click', () => processDetailModal.close());
@@ -449,8 +454,8 @@ if (backgroundMusic && musicToggle) {
   });
 }
 
-// Hạn chế thao tác sao chép/lưu ảnh thông thường trên máy tính và điện thoại.
-// Đây là lớp bảo vệ giao diện; ảnh hiển thị trên web vẫn có thể bị chụp màn hình.
+// Hạn chế thao tác sao chép/lưu nội dung thông thường trên máy tính và điện thoại.
+// Đây là lớp bảo vệ giao diện; nội dung hiển thị trên web vẫn có thể bị chụp màn hình.
 const protectedMediaSelector = [
   'img',
   '.featured-media',
@@ -461,8 +466,20 @@ const protectedMediaSelector = [
   '.pest-sprite',
   '.pest-detail-image',
   '.photo-frame',
-  '.hero'
+  '.hero',
+  '.crop-process-panel',
+  '.process-detail-modal'
 ].join(',');
+
+const editableSelector = 'input, textarea, select, [contenteditable="true"]';
+let protectionNoticeTimer;
+function showProtectionNotice() {
+  if (!toast) return;
+  toast.textContent = 'Nội dung thuộc bản quyền Agrotech Trường Lâm. Vui lòng không sao chép.';
+  toast.classList.add('show');
+  clearTimeout(protectionNoticeTimer);
+  protectionNoticeTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+}
 
 document.querySelectorAll('img').forEach(image => {
   image.draggable = false;
@@ -470,9 +487,37 @@ document.querySelectorAll('img').forEach(image => {
 });
 
 document.addEventListener('dragstart', event => {
-  if (event.target.closest?.(protectedMediaSelector)) event.preventDefault();
+  if (event.target.closest?.(protectedMediaSelector)) {
+    event.preventDefault();
+    showProtectionNotice();
+  }
 });
 
 document.addEventListener('contextmenu', event => {
-  if (event.target.closest?.(protectedMediaSelector)) event.preventDefault();
+  if (!event.target.closest?.(editableSelector)) {
+    event.preventDefault();
+    showProtectionNotice();
+  }
+});
+
+document.addEventListener('copy', event => {
+  if (!event.target.closest?.(editableSelector)) {
+    event.preventDefault();
+    if (event.clipboardData) event.clipboardData.setData('text/plain', '© Agrotech Trường Lâm — Nội dung được bảo hộ.');
+    showProtectionNotice();
+  }
+});
+
+document.addEventListener('cut', event => {
+  if (!event.target.closest?.(editableSelector)) event.preventDefault();
+});
+
+document.addEventListener('keydown', event => {
+  if (event.target.closest?.(editableSelector)) return;
+  const key = event.key.toLowerCase();
+  const blockedShortcut = (event.ctrlKey || event.metaKey) && ['c', 's', 'u'].includes(key);
+  if (blockedShortcut || event.key === 'F12' || ((event.ctrlKey || event.metaKey) && event.shiftKey && ['i', 'j', 'c'].includes(key))) {
+    event.preventDefault();
+    showProtectionNotice();
+  }
 });
