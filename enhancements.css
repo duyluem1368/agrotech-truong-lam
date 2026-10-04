@@ -70,13 +70,13 @@
 /* Keep tall RHETT and IMITADO packs fully visible instead of filling/cropping the frame. */
 .catalog-photo.product-overview{display:grid;place-items:center;background:linear-gradient(145deg,#f4f7f2,#dfe9e2)}
 .catalog-photo.product-overview img,.catalog-photo.product-overview.portrait img{width:auto;height:auto;max-width:82%;max-height:88%;padding:0;object-fit:contain;object-position:center;filter:drop-shadow(0 12px 14px rgba(18,48,35,.2))}
-.catalog-photo.product-overview-rhett img{max-width:76%;max-height:90%}
+.catalog-photo.product-overview-rhett img{max-width:94%;max-height:90%}
 .catalog-photo.product-overview-imitado img{max-width:72%;max-height:91%;border-radius:5px}
-.featured-media.product-overview-rhett>img{width:auto;height:auto;max-width:66%;max-height:430px;object-fit:contain;object-position:center}
+.featured-media.product-overview-rhett>img{width:auto;height:auto;max-width:90%;max-height:430px;object-fit:contain;object-position:center}
 
 @media(max-width:620px){
   .catalog-photo.product-overview img,.catalog-photo.product-overview.portrait img{max-width:78%;max-height:88%}
-  .featured-media.product-overview-rhett>img{max-width:58%;max-height:250px}
+  .featured-media.product-overview-rhett>img{max-width:90%;max-height:250px}
 }
 .pest-sprite{background-repeat:no-repeat;background-color:#eef3ef}
 .pest-sprite.photo-pending{position:relative;background-image:none!important}
