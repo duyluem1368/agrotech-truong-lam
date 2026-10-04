@@ -311,8 +311,28 @@ function renderCropProcess(crop) {
   const item = cropProcesses.find(process => process.crop === cropNames[crop]);
   const panel = document.querySelector('#cropProcessPanel');
   if (!item || !panel) return;
-  panel.innerHTML = `<article><div class="crop-process-cover" style="background-image:url('${item.image}')"><div><small>Quy trình theo cây trồng</small><h4>${item.crop}</h4></div></div><div class="crop-process-content"><div class="crop-process-head"><h4>Quy trình xử lý sâu, bệnh hại</h4><span class="label-status${item.exact ? ' exact' : ''}">${item.exact ? 'Có sản phẩm đúng nhãn' : 'Tham khảo theo hoạt chất'}</span></div><p class="process-target">${item.target}</p><ol class="process-steps">${item.steps.map((step,index) => `<li><b>${index + 1}</b><div><strong>${['Thăm đồng & nhận diện','Canh tác & phòng ngừa','Can thiệp có mục tiêu','Đánh giá & luân phiên'][index]}</strong>${step}</div></li>`).join('')}</ol><div class="process-product"><strong>Sản phẩm Agrotech Trường Lâm:</strong> ${item.product}</div><p class="process-legal">Chỉ sử dụng khi nhãn sản phẩm ghi đúng cây trồng, đối tượng, liều lượng và thời gian cách ly. Nội dung “tham khảo theo hoạt chất” là căn cứ kỹ thuật để đối chiếu, không thay thế đăng ký trên nhãn.</p></div></article>`;
+  panel.innerHTML = `<article><div class="crop-process-cover" style="background-image:url('${item.image}')" role="button" tabindex="0" aria-label="Phóng to ảnh quy trình cây ${item.crop}"><span class="process-zoom-hint" aria-hidden="true">⌕ Chạm để phóng to</span><div><small>Quy trình theo cây trồng</small><h4>${item.crop}</h4></div></div><div class="crop-process-content"><div class="crop-process-head"><h4>Quy trình xử lý sâu, bệnh hại</h4><span class="label-status${item.exact ? ' exact' : ''}">${item.exact ? 'Có sản phẩm đúng nhãn' : 'Tham khảo theo hoạt chất'}</span></div><p class="process-target">${item.target}</p><ol class="process-steps">${item.steps.map((step,index) => `<li><b>${index + 1}</b><div><strong>${['Thăm đồng & nhận diện','Canh tác & phòng ngừa','Can thiệp có mục tiêu','Đánh giá & luân phiên'][index]}</strong>${step}</div></li>`).join('')}</ol><div class="process-product"><strong>Sản phẩm Agrotech Trường Lâm:</strong> ${item.product}</div><p class="process-legal">Chỉ sử dụng khi nhãn sản phẩm ghi đúng cây trồng, đối tượng, liều lượng và thời gian cách ly. Nội dung “tham khảo theo hoạt chất” là căn cứ kỹ thuật để đối chiếu, không thay thế đăng ký trên nhãn.</p></div></article>`;
+  const cover = panel.querySelector('.crop-process-cover');
+  const openImage = () => openProcessImage(item);
+  cover.addEventListener('click', openImage);
+  cover.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openImage();
+    }
+  });
 }
+
+const processImageModal = document.querySelector('#processImageModal');
+function openProcessImage(item) {
+  const image = document.querySelector('#processImageLarge');
+  image.src = item.image;
+  image.alt = `Ảnh quy trình xử lý sâu, bệnh hại cây ${item.crop}`;
+  document.querySelector('#processImageTitle').textContent = `Quy trình cây ${item.crop}`;
+  processImageModal.showModal();
+}
+document.querySelector('.process-image-close').addEventListener('click', () => processImageModal.close());
+processImageModal.addEventListener('click', event => { if (event.target === processImageModal) processImageModal.close(); });
 renderCrop('rice');
 
 const newsGrid = document.querySelector('#newsGrid');
