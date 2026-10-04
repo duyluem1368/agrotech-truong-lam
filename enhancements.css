@@ -26,6 +26,23 @@
 .hero{display:block;min-height:calc(100vh - 140px);padding-right:clamp(24px,10vw,170px);background-image:linear-gradient(90deg,rgba(2,31,22,.76) 0%,rgba(3,43,30,.52) 42%,rgba(25,64,34,.08) 82%,transparent 100%),url("assets/hero-lua-che-v4-no-sun.png");background-position:center 48%}
 .hero:after{content:none}.hero-content{max-width:890px}
 .hero-orb{display:none!important}
+
+/* Ánh lấp lánh nhẹ trên các bông lúa tiền cảnh. */
+.rice-glints{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.rice-glints i{--glint-size:clamp(9px,1.05vw,17px);position:absolute;left:var(--x);top:var(--y);width:var(--glint-size);height:var(--glint-size);opacity:0;filter:drop-shadow(0 0 5px rgba(255,224,95,.95));animation:rice-grain-glint 5.8s ease-in-out infinite;animation-delay:var(--delay)}
+.rice-glints i:before,.rice-glints i:after{content:"";position:absolute;left:50%;top:50%;border-radius:999px;background:#fffbe3;transform:translate(-50%,-50%)}
+.rice-glints i:before{width:2px;height:100%;box-shadow:0 0 8px 2px rgba(255,218,72,.82)}
+.rice-glints i:after{width:100%;height:2px;box-shadow:0 0 7px 2px rgba(255,255,238,.8)}
+.rice-glints i:nth-child(1){--x:83%;--y:68%;--delay:-.4s}
+.rice-glints i:nth-child(2){--x:91%;--y:75%;--delay:-2.1s;--glint-size:12px}
+.rice-glints i:nth-child(3){--x:75%;--y:78%;--delay:-4.2s;--glint-size:10px}
+.rice-glints i:nth-child(4){--x:96%;--y:58%;--delay:-3.2s;--glint-size:9px}
+.rice-glints i:nth-child(5){--x:68%;--y:88%;--delay:-1.35s;--glint-size:11px}
+.rice-glints i:nth-child(6){--x:87%;--y:89%;--delay:-5s;--glint-size:14px}
+.rice-glints i:nth-child(7){--x:62%;--y:72%;--delay:-2.9s;--glint-size:8px}
+@keyframes rice-grain-glint{0%,68%,100%{opacity:0;transform:scale(.35) rotate(0deg)}73%{opacity:.95;transform:scale(1) rotate(45deg)}78%{opacity:.18;transform:scale(.55) rotate(82deg)}82%{opacity:.72;transform:scale(.82) rotate(105deg)}88%{opacity:0;transform:scale(.3) rotate(140deg)}}
+@media(max-width:620px){.rice-glints i:nth-child(3),.rice-glints i:nth-child(5),.rice-glints i:nth-child(7){display:none}.rice-glints i:nth-child(1){--x:85%;--y:70%}.rice-glints i:nth-child(2){--x:72%;--y:84%}.rice-glints i:nth-child(4){--x:94%;--y:60%}.rice-glints i:nth-child(6){--x:90%;--y:91%}}
+@media(prefers-reduced-motion:reduce){.rice-glints{display:none}}
 .featured-media{background:linear-gradient(145deg,#eef4ef,#d9e6de);display:grid;place-items:center;padding:42px}.featured-media>img{width:100%;height:100%;max-height:470px;object-fit:contain;filter:drop-shadow(0 24px 24px rgba(18,48,35,.2))}
 .modal-product-image{height:430px;padding:20px;display:grid;place-items:center;background:linear-gradient(145deg,#f3f7f4,#dfe9e3)}.modal-product-image img{object-fit:contain;filter:drop-shadow(0 16px 18px rgba(18,48,35,.2))}
 .target-hint{font-size:10px;color:var(--muted);margin:-6px 0 10px}.target-chips button{border:1px solid #bfd0c5;background:#f0f6f1;color:var(--green);padding:8px 11px;font:800 10px Manrope;cursor:pointer;text-align:left}.target-chips button:hover,.target-chips button.active{background:var(--green);color:#fff;border-color:var(--green)}
