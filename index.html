@@ -62,7 +62,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20261003-motto-mobile">
   <link rel="stylesheet" href="catalog.css">
-  <link rel="stylesheet" href="enhancements.css?v=20261004-process-image-zoom-v1">
+  <link rel="stylesheet" href="enhancements.css?v=20261004-process-full-zoom-v2">
 </head>
 <body>
   <div class="topbar">Tư vấn kỹ thuật tận tâm · Đồng hành cùng mùa vụ bội thu</div>
@@ -313,17 +313,11 @@
     </div>
     <p class="modal-disclaimer">Cần kiểm tra thực tế đồng ruộng và ưu tiên quản lý dịch hại tổng hợp (IPM). Khi dùng thuốc bảo vệ thực vật, chỉ sử dụng sản phẩm có đăng ký và tuân thủ đúng nhãn.</p>
   </dialog>
-  <dialog id="processImageModal" class="process-image-modal" aria-labelledby="processImageTitle">
-    <button class="modal-close process-image-close" type="button" aria-label="Đóng ảnh phóng to">×</button>
-    <figure>
-      <img id="processImageLarge" src="" alt="">
-      <figcaption>
-        <strong id="processImageTitle"></strong>
-        <span>Ảnh minh họa quy trình xử lý sâu, bệnh hại</span>
-      </figcaption>
-    </figure>
+  <dialog id="processDetailModal" class="process-detail-modal" aria-label="Quy trình xử lý sâu, bệnh hại phóng to">
+    <button class="modal-close process-detail-close" type="button" aria-label="Đóng quy trình phóng to">×</button>
+    <div id="processDetailLarge" class="process-detail-large"></div>
   </dialog>
   <div class="toast" role="status" aria-live="polite">Đã ghi nhận. Vui lòng gọi hotline để được tư vấn ngay.</div>
-  <script src="script.js?v=20261004-process-image-zoom-v1"></script>
+  <script src="script.js?v=20261004-process-full-zoom-v2"></script>
 </body>
 </html>
