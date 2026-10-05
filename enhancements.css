@@ -93,6 +93,17 @@
 .featured-techtimex .featured-media>img{max-width:92%;max-height:445px;border-radius:8px}
 .featured-samtako .featured-media>img{max-width:96%;max-height:455px;border-radius:8px}
 .featured-rocky .featured-media>img{max-width:96%;max-height:455px}
+.featured-tuktuk .featured-media{padding:0;background:#32106b}
+.featured-tuktuk .featured-media:before{display:none}
+.featured-tuktuk .featured-media>img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;filter:none;transform:none}
+.featured-tuktuk .featured-media>span{background:linear-gradient(135deg,#b7072f,#e23822);font-size:11px;box-shadow:0 10px 26px rgba(91,0,29,.34)}
+.featured-tuktuk .featured-copy{background:linear-gradient(160deg,#fff 0%,#fff8ed 100%)}
+.featured-tuktuk .featured-copy h3{font-size:54px}
+.featured-tuktuk .featured-priority{border-left-color:#b7072f;background:#fff0e8}
+.catalog-card-tuktuk{border:2px solid #b7072f;box-shadow:0 22px 48px rgba(105,6,35,.2)}
+.catalog-card-tuktuk .catalog-body small,.catalog-card-tuktuk .catalog-body h3{color:#8f082d}
+.catalog-photo.product-overview-tuktuk{padding:0;background:#32106b}
+.catalog-photo.product-overview-tuktuk>img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover}
 .featured-media>span{z-index:2;box-shadow:0 8px 22px rgba(0,0,0,.18)}
 .consult-form .btn-accent{background:#08714e}
 .consult-form .btn-accent:hover{background:#06563d}
@@ -100,6 +111,7 @@
 @media(max-width:620px){.featured-media>img{max-width:88%;max-height:285px}.featured-crop-flower .featured-media>img{max-width:56%;max-height:290px}.featured-techtimex .featured-media>img{max-width:90%;max-height:275px}.featured-media:before{inset:2%}}
 @media(max-width:620px){.featured-samtako .featured-media>img{max-width:96%;max-height:275px}}
 @media(max-width:620px){.featured-rocky .featured-media>img{max-width:96%;max-height:275px}}
+@media(max-width:620px){.featured-tuktuk .featured-media{min-height:360px}.featured-tuktuk .featured-media>img{max-width:none;max-height:none}.featured-tuktuk .featured-copy h3{font-size:40px}}
 /* Company registration details in the site footer */
 footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .footer-contact p{margin:7px 0;line-height:1.55}
