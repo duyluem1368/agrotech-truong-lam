@@ -249,3 +249,34 @@ input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;use
 
 /* Trì hoãn dựng các thẻ sản phẩm ngoài màn hình để cuộn trang nhẹ hơn. */
 .catalog-card{content-visibility:auto;contain-intrinsic-size:420px 620px}
+
+/* Hai cánh bướm bay một vòng rồi đậu lên cặp lá xanh của logo đầu trang. */
+.brand{position:relative;overflow:visible}
+.logo-butterfly{
+  position:fixed;
+  z-index:80;
+  width:24px;
+  height:20px;
+  pointer-events:none;
+  filter:drop-shadow(0 3px 3px rgba(16,54,39,.24));
+  transform-origin:50% 70%;
+  will-change:left,top,transform;
+}
+.logo-butterfly svg{display:block;width:100%;height:100%;overflow:visible}
+.logo-butterfly .wing-left{transform-origin:11px 11px;animation:butterfly-wing-left .18s ease-in-out infinite alternate}
+.logo-butterfly .wing-right{transform-origin:13px 11px;animation:butterfly-wing-right .18s ease-in-out infinite alternate}
+.logo-butterfly--two{width:20px;height:17px;filter:drop-shadow(0 2px 3px rgba(16,54,39,.2))}
+.logo-butterfly.is-landed{
+  position:absolute;
+  z-index:4;
+  animation:butterfly-rest 3.8s ease-in-out infinite;
+  will-change:transform;
+}
+.logo-butterfly.is-landed .wing-left,.logo-butterfly.is-landed .wing-right{animation-duration:1.25s}
+.logo-butterfly--one.is-landed{left:68%;top:5%;transform:translate(-50%,-50%) rotate(-13deg)}
+.logo-butterfly--two.is-landed{left:82%;top:16%;transform:translate(-50%,-50%) rotate(15deg)}
+@keyframes butterfly-wing-left{from{transform:rotateY(18deg) rotate(-4deg)}to{transform:rotateY(72deg) rotate(-12deg)}}
+@keyframes butterfly-wing-right{from{transform:rotateY(-18deg) rotate(4deg)}to{transform:rotateY(-72deg) rotate(12deg)}}
+@keyframes butterfly-rest{0%,100%{margin-top:0}50%{margin-top:-1.5px}}
+@media(max-width:700px){.logo-butterfly{width:20px;height:17px}.logo-butterfly--two{width:17px;height:15px}.logo-butterfly--one.is-landed{left:69%;top:4%}.logo-butterfly--two.is-landed{left:83%;top:16%}}
+@media(prefers-reduced-motion:reduce){.logo-butterfly,.logo-butterfly *{animation:none!important}}

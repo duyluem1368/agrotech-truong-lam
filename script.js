@@ -578,3 +578,72 @@ document.addEventListener('keydown', event => {
     showProtectionNotice();
   }
 });
+
+// Hai con bướm bay quanh phần đầu trang rồi đậu lên hai lá xanh của logo.
+function createLogoButterfly(index) {
+  const butterfly = document.createElement('span');
+  butterfly.className = `logo-butterfly logo-butterfly--${index === 0 ? 'one' : 'two'}`;
+  butterfly.setAttribute('aria-hidden', 'true');
+  const palette = index === 0
+    ? ['#ffcb45', '#ef6b35', '#6f2aa8']
+    : ['#72d6e7', '#2f7fd3', '#7147ae'];
+  butterfly.innerHTML = `<svg viewBox="0 0 24 20" focusable="false">
+    <g class="wing-left"><path d="M11.5 10.8C8.2 2.2 1.2 1.1 1.7 7.1c.3 3.7 4.7 5.3 9.8 4.9Z" fill="${palette[0]}" stroke="${palette[2]}" stroke-width=".8"/><path d="M10.8 12.2C6.5 11.8 3 14.1 5.1 17c1.7 2.3 5.2.1 6.7-3.4Z" fill="${palette[1]}" stroke="${palette[2]}" stroke-width=".8"/></g>
+    <g class="wing-right"><path d="M12.5 10.8c3.3-8.6 10.3-9.7 9.8-3.7-.3 3.7-4.7 5.3-9.8 4.9Z" fill="${palette[0]}" stroke="${palette[2]}" stroke-width=".8"/><path d="M13.2 12.2c4.3-.4 7.8 1.9 5.7 4.8-1.7 2.3-5.2.1-6.7-3.4Z" fill="${palette[1]}" stroke="${palette[2]}" stroke-width=".8"/></g>
+    <path d="M12 7.4c1.15 0 1.55 2.1 1.05 6.8-.17 1.6-1.93 1.6-2.1 0C10.45 9.5 10.85 7.4 12 7.4Z" fill="#28362f"/><path d="M11.6 7.8C10.7 5.5 9.7 4.5 8.8 4M12.4 7.8c.9-2.3 1.9-3.3 2.8-3.8" fill="none" stroke="#28362f" stroke-width=".7" stroke-linecap="round"/>
+  </svg>`;
+  return butterfly;
+}
+
+function landButterflyOnLogo(butterfly, brand) {
+  butterfly.getAnimations().forEach(animation => animation.cancel());
+  brand.appendChild(butterfly);
+  butterfly.style.left = '';
+  butterfly.style.top = '';
+  butterfly.style.transform = '';
+  butterfly.classList.add('is-landed');
+}
+
+function startLogoButterflies() {
+  const brand = document.querySelector('.site-header .brand');
+  if (!brand || !window.Element?.prototype.animate) return;
+
+  const butterflies = [createLogoButterfly(0), createLogoButterfly(1)];
+  butterflies.forEach(butterfly => document.body.appendChild(butterfly));
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    butterflies.forEach(butterfly => landButterflyOnLogo(butterfly, brand));
+    return;
+  }
+
+  const brandBox = brand.getBoundingClientRect();
+  const targets = [
+    {x: brandBox.left + brandBox.width * .68, y: brandBox.top + brandBox.height * .05},
+    {x: brandBox.left + brandBox.width * .82, y: brandBox.top + brandBox.height * .16}
+  ];
+  const vw = window.innerWidth;
+  const vh = Math.min(window.innerHeight, 900);
+  const routes = [
+    [[vw + 25, vh * .28, -18], [vw * .72, vh * .12, -28], [vw * .48, vh * .38, 18], [vw * .25, vh * .22, -20], [vw * .52, 78, 24]],
+    [[-30, vh * .5, 18], [vw * .2, vh * .17, 24], [vw * .58, vh * .28, -18], [vw * .78, 105, 22], [vw * .38, 55, -22]]
+  ];
+
+  butterflies.forEach((butterfly, index) => {
+    const points = routes[index].concat([[targets[index].x, targets[index].y, index ? 15 : -13]]);
+    const frames = points.map((point, frameIndex) => ({
+      left: `${point[0]}px`,
+      top: `${point[1]}px`,
+      transform: `translate(-50%,-50%) rotate(${point[2]}deg)`,
+      offset: frameIndex / (points.length - 1)
+    }));
+    const animation = butterfly.animate(frames, {
+      duration: index === 0 ? 7200 : 7900,
+      delay: index * 380,
+      easing: 'cubic-bezier(.36,.05,.28,1)',
+      fill: 'forwards'
+    });
+    animation.finished.then(() => landButterflyOnLogo(butterfly, brand)).catch(() => {});
+  });
+}
+
+window.addEventListener('load', () => window.setTimeout(startLogoButterflies, 450), {once:true});
