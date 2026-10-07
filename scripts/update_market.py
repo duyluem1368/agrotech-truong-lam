@@ -296,7 +296,7 @@ def render_price_page(payload):
     <p class="lead">Cập nhật giá tham khảo các loại phân Urê, NPK, DAP, Kali và Lân phổ biến trên thị trường. Mỗi mức giá đều kèm nguồn công khai để người đọc kiểm tra trực tiếp.</p>
     <div class="table-wrap"><table><thead><tr><th>Loại phân bón</th><th>Giá tham khảo</th><th>Ngày giá</th><th>Nguồn</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>
     <p class="note"><strong>Lưu ý:</strong> Giá có thể chênh lệch theo khu vực, đại lý, thương hiệu, chi phí vận chuyển và quy cách đóng gói. Hãy liên hệ điểm bán tại địa phương trước khi giao dịch.</p>
-    <section class="content"><h2>Cách đọc bảng giá phân bón</h2><p>Các khoảng giá thể hiện mức thấp nhất và cao nhất tìm thấy trong bảng nguồn theo khu vực hoặc thương hiệu. DAP và NPK thường có biên độ rộng do khác nhà sản xuất và hàm lượng dinh dưỡng.</p><h2>Bảng giá được cập nhật như thế nào?</h2><p>Hệ thống Agrotech Trường Lâm kiểm tra nguồn công khai mỗi sáng, đọc giá trong nội dung bảng và ghi lại ngày nguồn công bố. Khi nguồn chính gặp lỗi, hệ thống dùng kết quả tìm kiếm tin tức làm phương án dự phòng, không tự suy đoán giá.</p><h2>Cần báo giá tại khu vực của Sếp?</h2><p>Gọi trực tiếp để được hỗ trợ đối chiếu loại phân, quy cách bao và giá tại khu vực.</p><a class="cta" href="tel:0388051282">Gọi 0388 051 282</a></section>
+    <section class="content"><h2>Cách đọc bảng giá phân bón</h2><p>Các khoảng giá thể hiện mức thấp nhất và cao nhất tìm thấy trong bảng nguồn theo khu vực hoặc thương hiệu. DAP và NPK thường có biên độ rộng do khác nhà sản xuất và hàm lượng dinh dưỡng.</p><h2>Bảng giá được cập nhật như thế nào?</h2><p>Hệ thống Agrotech Trường Lâm kiểm tra nguồn công khai mỗi sáng, đọc giá trong nội dung bảng và ghi lại ngày nguồn công bố. Khi nguồn chính gặp lỗi, hệ thống dùng kết quả tìm kiếm tin tức làm phương án dự phòng, không tự suy đoán giá.</p><h2>Cần báo giá tại khu vực của quý khách?</h2><p>Gọi trực tiếp để được hỗ trợ đối chiếu loại phân, quy cách bao và giá tại khu vực.</p><a class="cta" href="tel:0388051282">Gọi 0388 051 282</a></section>
   </main>
   <footer>© {year} Công ty TNHH Agrotech Trường Lâm · MST 0111231570 · Hà Nội</footer>
 </body>
@@ -317,6 +317,18 @@ def render_price_page(payload):
     <lastmod>{source_date}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://agrotechtruonglam.com.vn/phap-luat-thuoc-bao-ve-thuc-vat/</loc>
+    <lastmod>{source_date}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://agrotechtruonglam.com.vn/chinh-sach-bao-mat/</loc>
+    <lastmod>{source_date}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>
 '''

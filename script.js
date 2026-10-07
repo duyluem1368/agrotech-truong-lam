@@ -434,7 +434,7 @@ form.addEventListener('submit', async event => {
   submitLabel.textContent = 'Đang lưu thông tin...';
 
   try {
-    const payload = new URLSearchParams({ name, phone, issue });
+    const payload = new URLSearchParams({ name, phone, issue, consent: 'accepted' });
     const response = await fetch(CONSULT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
@@ -443,7 +443,7 @@ form.addEventListener('submit', async event => {
     const result = await response.json();
     if (!response.ok || !result.ok) throw new Error(result.error || 'Không thể lưu thông tin');
 
-    toast.textContent = 'Đã lưu đăng ký thành công. Đang mở Zalo để Sếp gửi nội dung.';
+    toast.textContent = 'Đã lưu đăng ký thành công. Đang mở Zalo để quý khách gửi nội dung.';
     toast.classList.add('show');
     form.reset();
     if (zaloWindow) {

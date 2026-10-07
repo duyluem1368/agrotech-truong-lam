@@ -1,7 +1,7 @@
 .site-header{height:108px}
 .brand{align-self:stretch;display:flex;align-items:center}
 .brand img{width:230px;height:98px;filter:drop-shadow(0 7px 14px rgba(5,52,37,.12))}
-.hero{min-height:calc(100vh - 140px);background-image:linear-gradient(90deg,rgba(3,43,31,.96) 0%,rgba(3,49,35,.82) 38%,rgba(3,49,35,.22) 72%,rgba(3,49,35,.04) 100%),url("assets/hero-agroscience-v2.png");background-size:cover;background-position:center;color:#fff}
+.hero{min-height:calc(100vh - 140px);background-image:linear-gradient(90deg,rgba(3,43,31,.96) 0%,rgba(3,49,35,.82) 38%,rgba(3,49,35,.22) 72%,rgba(3,49,35,.04) 100%),url("assets/hero-agroscience-v2.lossless.webp");background-size:cover;background-position:center;color:#fff}
 .hero:before{background:linear-gradient(0deg,rgba(0,24,16,.3),transparent 45%)}
 .hero .eyebrow{color:#d8ee91}.hero h1 em{color:#d7ed78}.hero-copy{color:#e2eee8}.hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(0,0,0,.12)}
 .hero .trust-row div{border-color:rgba(255,255,255,.28)}.hero .trust-row span{color:#c8dad2}
@@ -15,7 +15,7 @@
 @media(max-width:620px){.brand img{width:155px;height:72px}.science-strip{gap:12px;padding:18px 20px}.science-strip strong{font-size:22px}.science-strip span{font-size:8px}.pest-showcase{margin-top:50px}.pest-showcase-copy{padding:28px 22px}.pest-showcase h3{font-size:32px}.product-modal{padding:24px 18px}.product-modal h2{font-size:34px}.modal-product-image{height:280px}.modal-pest-reference{grid-template-columns:1fr}.modal-pest-reference img{width:100%}}
 
 /* v3: lúa chín, đồi chè và catalog phân tích chuyên sâu */
-.hero{grid-template-columns:minmax(0,760px) 1fr;background-image:linear-gradient(90deg,rgba(2,31,22,.92) 0%,rgba(3,43,30,.72) 38%,rgba(3,43,30,.15) 68%,transparent 100%),url("assets/hero-lua-che-v3.png");background-position:center;color:#fff}
+.hero{grid-template-columns:minmax(0,760px) 1fr;background-image:linear-gradient(90deg,rgba(2,31,22,.92) 0%,rgba(3,43,30,.72) 38%,rgba(3,43,30,.15) 68%,transparent 100%),url("assets/hero-lua-che-v3.lossless.webp");background-position:center;color:#fff}
 .hero-visual{display:none!important}.hero-content{max-width:760px}.hero h1{text-shadow:0 3px 24px rgba(0,0,0,.24)}
 .featured-slider{max-width:1200px;margin:auto;overflow:hidden;background:#fff;box-shadow:var(--shadow);position:relative}.featured-track{display:flex;transition:transform .65s cubic-bezier(.22,.61,.36,1)}.featured-slide{min-width:100%;display:grid;grid-template-columns:.92fr 1.08fr}.featured-media{min-height:560px;background:#dfe9e3;position:relative;overflow:hidden}.featured-media>img{width:100%;height:100%;object-fit:cover}.featured-media>span{position:absolute;left:22px;top:22px;background:var(--red);color:#fff;padding:8px 12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.featured-copy{padding:52px}.featured-copy h3{font:700 48px/1.05 "Playfair Display";margin:20px 0 5px}.featured-copy h3 b{color:var(--red)}.featured-copy>p:not(.tagline){color:var(--muted)}.featured-priority{display:grid;gap:7px;border-left:3px solid var(--lime);background:#f0f5ee;padding:18px 20px;margin:28px 0}.featured-priority small{text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}.featured-priority strong{color:var(--green);font-size:19px}.featured-priority span{font-size:12px}.slider-controls{position:absolute;right:24px;bottom:22px;display:flex;align-items:center;gap:14px;z-index:4}.slider-controls>button{width:39px;height:39px;border:1px solid #bdc9c1;background:#fff;color:var(--green);cursor:pointer}.slider-dots{display:flex;gap:7px}.slider-dots button{width:8px;height:8px;border:0;border-radius:50%;padding:0;background:#aab7af;cursor:pointer}.slider-dots button.active{background:var(--red);transform:scale(1.35)}.rhett-placeholder{display:grid;place-items:center;background:radial-gradient(circle at 70% 20%,#3a8b68,#062f23 66%);color:#fff}.rhett-placeholder div{text-align:center;border:1px solid rgba(255,255,255,.35);padding:60px 44px}.rhett-placeholder strong,.rhett-placeholder span{display:block}.rhett-placeholder strong{font:800 64px "Playfair Display";letter-spacing:.08em}.rhett-placeholder span{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#cce76f}
 .pest-library{margin-top:80px;background:#fff;box-shadow:var(--shadow);padding:46px}.pest-library-head{display:flex;justify-content:space-between;gap:40px;align-items:end}.pest-library-head h3{font:700 40px/1.1 "Playfair Display";margin:10px 0 0}.pest-library-head>p{max-width:520px;color:var(--muted);font-size:13px}.crop-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 24px;padding-bottom:18px;border-bottom:1px solid var(--line)}.crop-tabs button{border:1px solid #bcc9c1;background:#fff;color:var(--green);padding:10px 15px;font:700 11px Manrope;cursor:pointer}.crop-tabs button.active{background:var(--green);color:#fff;border-color:var(--green)}.pest-library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.pest-item{border:1px solid var(--line);background:#fbfcf9}.pest-item>div:last-child{padding:16px}.pest-item small{color:var(--red);font-size:9px;text-transform:uppercase;font-weight:800;letter-spacing:.1em}.pest-item h4{font:700 22px "Playfair Display";margin:3px 0}.pest-item p{font-size:11px;color:var(--muted);margin:0}.pest-sprite{height:210px;background-repeat:no-repeat;background-size:300% 200%;background-color:#dce7df}.mode-analysis{background:#edf4ef;border-left:3px solid var(--green);padding:15px 17px;margin:16px 0}.mode-analysis small,.mode-analysis strong{display:block}.mode-analysis small{text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800;font-size:9px}.mode-analysis strong{color:var(--green);margin:4px 0}.mode-analysis p{font-size:12px;color:var(--muted);margin:5px 0 0}.modal-pest-reference .pest-sprite{height:150px}.target-chips span:first-child{background:var(--green);color:#fff;border-color:var(--green)}
@@ -23,7 +23,7 @@
 @media(max-width:620px){.featured-media{min-height:320px}.featured-copy{padding:30px 21px 76px}.featured-copy h3{font-size:36px}.rhett-placeholder strong{font-size:44px}.pest-library{padding:28px 18px;margin-top:52px}.pest-library-head h3{font-size:32px}.pest-library-grid{grid-template-columns:1fr}.pest-sprite{height:190px}.slider-controls{right:18px;bottom:18px}}
 
 /* v4: khung đầu trang rộng, bình minh và tương tác chi tiết */
-.hero{display:block;min-height:calc(100vh - 140px);padding-right:clamp(24px,10vw,170px);background-image:linear-gradient(90deg,rgba(2,31,22,.76) 0%,rgba(3,43,30,.52) 42%,rgba(25,64,34,.08) 82%,transparent 100%),url("assets/hero-lua-che-v4-no-sun.png");background-position:center 48%}
+.hero{display:block;min-height:calc(100vh - 140px);padding-right:clamp(24px,10vw,170px);background-image:linear-gradient(90deg,rgba(2,31,22,.76) 0%,rgba(3,43,30,.52) 42%,rgba(25,64,34,.08) 82%,transparent 100%),url("assets/hero-lua-che-v4-no-sun.lossless.webp");background-position:center 48%}
 .hero:after{content:none}.hero-content{max-width:890px}
 .hero-orb{display:none!important}
 
@@ -84,9 +84,9 @@
 
 /* v7: crop-led featured presentation and a stronger product focal point. */
 .featured-media{isolation:isolate;background-size:cover;background-position:center}
-.featured-crop-corn .featured-media{background-image:linear-gradient(135deg,rgba(3,39,24,.08),rgba(3,39,24,.38)),url("assets/featured-bg-corn-v1.png")}
-.featured-crop-rice .featured-media{background-image:linear-gradient(135deg,rgba(4,50,32,.08),rgba(4,50,32,.34)),url("assets/featured-bg-rice-v1.png")}
-.featured-crop-flower .featured-media{background-image:linear-gradient(135deg,rgba(5,49,30,.08),rgba(5,49,30,.36)),url("assets/featured-bg-chrysanthemum-v1.png")}
+.featured-crop-corn .featured-media{background-image:linear-gradient(135deg,rgba(3,39,24,.08),rgba(3,39,24,.38)),url("assets/featured-bg-corn-v1.lossless.webp")}
+.featured-crop-rice .featured-media{background-image:linear-gradient(135deg,rgba(4,50,32,.08),rgba(4,50,32,.34)),url("assets/featured-bg-rice-v1.lossless.webp")}
+.featured-crop-flower .featured-media{background-image:linear-gradient(135deg,rgba(5,49,30,.08),rgba(5,49,30,.36)),url("assets/featured-bg-chrysanthemum-v1.lossless.webp")}
 .featured-media:before{content:"";position:absolute;inset:9%;z-index:-1;background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,.52) 30%,transparent 68%);filter:blur(10px)}
 .featured-media>img{position:relative;z-index:1;max-width:88%;max-height:470px;filter:drop-shadow(0 30px 25px rgba(0,24,13,.5)) drop-shadow(0 0 18px rgba(255,255,255,.72));transform:translateY(-3px)}
 .featured-crop-flower .featured-media>img{max-width:62%;max-height:500px}
@@ -246,3 +246,6 @@ img,.featured-media,.catalog-photo,.product-image,.modal-product-image,
 /* Bảo vệ nội dung toàn trang; vẫn cho phép nhập/chỉnh sửa trong biểu mẫu. */
 body{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;user-select:text;-webkit-user-select:text}
+
+/* Trì hoãn dựng các thẻ sản phẩm ngoài màn hình để cuộn trang nhẹ hơn. */
+.catalog-card{content-visibility:auto;contain-intrinsic-size:420px 620px}
