@@ -604,6 +604,50 @@ function landButterflyOnLogo(butterfly, brand) {
   butterfly.classList.add('is-landed');
 }
 
+function getButterflyTarget(brand, index) {
+  const box = brand.getBoundingClientRect();
+  return index === 0
+    ? {x: box.left + box.width * .68, y: box.top + box.height * .05, angle: -13}
+    : {x: box.left + box.width * .82, y: box.top + box.height * .16, angle: 15};
+}
+
+function flyButterflyLoop(butterfly, brand, index, firstFlight = false) {
+  if (!document.body.contains(butterfly) || !document.body.contains(brand)) return;
+
+  const currentBox = butterfly.getBoundingClientRect();
+  const start = firstFlight
+    ? (index === 0 ? [window.innerWidth + 30, window.innerHeight * .3, -18] : [-30, window.innerHeight * .5, 18])
+    : [currentBox.left + currentBox.width / 2, currentBox.top + currentBox.height / 2, index ? 15 : -13];
+
+  document.body.appendChild(butterfly);
+  butterfly.classList.remove('is-landed');
+  const vw = window.innerWidth;
+  const vh = Math.min(window.innerHeight, 900);
+  const target = getButterflyTarget(brand, index);
+  const loops = index === 0
+    ? [[vw * .28, vh * .16, -24], [vw * .58, vh * .35, 18], [vw * .82, vh * .13, -18], [vw * .48, 78, 22], [vw * .2, vh * .27, -16]]
+    : [[vw * .22, vh * .38, 19], [vw * .5, vh * .14, -17], [vw * .78, vh * .32, 20], [vw * .62, 68, -20], [vw * .34, vh * .18, 16]];
+  const points = [start].concat(loops, [[target.x, target.y, target.angle]]);
+  const frames = points.map((point, frameIndex) => ({
+    left: `${point[0]}px`,
+    top: `${point[1]}px`,
+    transform: `translate(-50%,-50%) rotate(${point[2]}deg)`,
+    offset: frameIndex / (points.length - 1)
+  }));
+  const animation = butterfly.animate(frames, {
+    duration: index === 0 ? 12800 : 13900,
+    delay: firstFlight ? index * 650 : index * 280,
+    easing: 'cubic-bezier(.42,.08,.36,1)',
+    fill: 'forwards'
+  });
+
+  animation.finished.then(() => {
+    landButterflyOnLogo(butterfly, brand);
+    const restTime = index === 0 ? 4700 : 5300;
+    window.setTimeout(() => flyButterflyLoop(butterfly, brand, index), restTime);
+  }).catch(() => {});
+}
+
 function startLogoButterflies() {
   const brand = document.querySelector('.site-header .brand');
   if (!brand || !window.Element?.prototype.animate) return;
@@ -616,34 +660,7 @@ function startLogoButterflies() {
     return;
   }
 
-  const brandBox = brand.getBoundingClientRect();
-  const targets = [
-    {x: brandBox.left + brandBox.width * .68, y: brandBox.top + brandBox.height * .05},
-    {x: brandBox.left + brandBox.width * .82, y: brandBox.top + brandBox.height * .16}
-  ];
-  const vw = window.innerWidth;
-  const vh = Math.min(window.innerHeight, 900);
-  const routes = [
-    [[vw + 25, vh * .28, -18], [vw * .72, vh * .12, -28], [vw * .48, vh * .38, 18], [vw * .25, vh * .22, -20], [vw * .52, 78, 24]],
-    [[-30, vh * .5, 18], [vw * .2, vh * .17, 24], [vw * .58, vh * .28, -18], [vw * .78, 105, 22], [vw * .38, 55, -22]]
-  ];
-
-  butterflies.forEach((butterfly, index) => {
-    const points = routes[index].concat([[targets[index].x, targets[index].y, index ? 15 : -13]]);
-    const frames = points.map((point, frameIndex) => ({
-      left: `${point[0]}px`,
-      top: `${point[1]}px`,
-      transform: `translate(-50%,-50%) rotate(${point[2]}deg)`,
-      offset: frameIndex / (points.length - 1)
-    }));
-    const animation = butterfly.animate(frames, {
-      duration: index === 0 ? 7200 : 7900,
-      delay: index * 380,
-      easing: 'cubic-bezier(.36,.05,.28,1)',
-      fill: 'forwards'
-    });
-    animation.finished.then(() => landButterflyOnLogo(butterfly, brand)).catch(() => {});
-  });
+  butterflies.forEach((butterfly, index) => flyButterflyLoop(butterfly, brand, index, true));
 }
 
 window.addEventListener('load', () => window.setTimeout(startLogoButterflies, 450), {once:true});
