@@ -92,7 +92,11 @@
 .featured-crop-flower .featured-media>img{max-width:62%;max-height:500px}
 .featured-techtimex .featured-media>img{max-width:92%;max-height:445px;border-radius:8px}
 .featured-samtako .featured-media>img{max-width:96%;max-height:455px;border-radius:8px}
-.featured-rocky .featured-media>img{max-width:96%;max-height:455px}
+.featured-rocky .featured-media{padding:0;background:#d8ead8}
+.featured-rocky .featured-media:before{display:none}
+.featured-rocky .featured-media>img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;filter:none;transform:none}
+.catalog-photo.catalog-photo-rocky{padding:0;background:#d8ead8}
+.catalog-photo.catalog-photo-rocky>img{width:100%;height:100%;padding:0;object-fit:cover;filter:none}
 .featured-tuktuk .featured-media{padding:0;background:#32106b}
 .featured-tuktuk .featured-media:before{display:none}
 .featured-tuktuk .featured-media>img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;filter:none;transform:none}
@@ -110,7 +114,7 @@
 .consult-consent{display:flex!important;align-items:flex-start;gap:10px;font-size:10px!important;line-height:1.55;color:#526159}.consult-consent input{flex:none;width:17px!important;height:17px;margin:1px 0 0;accent-color:#08714e}.consult-form button:disabled{cursor:wait;opacity:.72}.consult-form button.is-sending span:last-child{animation:consultPulse .8s ease-in-out infinite alternate}@keyframes consultPulse{to{transform:translateX(6px)}}
 @media(max-width:620px){.featured-media>img{max-width:88%;max-height:285px}.featured-crop-flower .featured-media>img{max-width:56%;max-height:290px}.featured-techtimex .featured-media>img{max-width:90%;max-height:275px}.featured-media:before{inset:2%}}
 @media(max-width:620px){.featured-samtako .featured-media>img{max-width:96%;max-height:275px}}
-@media(max-width:620px){.featured-rocky .featured-media>img{max-width:96%;max-height:275px}}
+@media(max-width:620px){.featured-rocky .featured-media>img{max-width:none;max-height:none}}
 @media(max-width:620px){.featured-tuktuk .featured-media{min-height:360px}.featured-tuktuk .featured-media>img{max-width:none;max-height:none}.featured-tuktuk .featured-copy h3{font-size:40px}}
 /* Company registration details in the site footer */
 footer{grid-template-columns:1.35fr 1.35fr 1fr}
