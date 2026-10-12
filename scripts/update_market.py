@@ -36,6 +36,17 @@ PRICE_RE = re.compile(
 )
 
 DAILY_PRICE_URL = "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/"
+RICE_PRICE_URL = "https://banggianongsan.com/gia-lua-gao-hom-nay/"
+RICE_PRODUCTS = [
+    {"group": "Lúa tươi", "name": "Lúa OM 18"},
+    {"group": "Lúa tươi", "name": "Lúa Đài Thơm 8"},
+    {"group": "Lúa tươi", "name": "Lúa IR 50404"},
+    {"group": "Lúa tươi", "name": "Lúa OM 5451"},
+    {"group": "Gạo", "name": "Gạo NL OM 5451"},
+    {"group": "Gạo", "name": "Gạo NL IR 504"},
+    {"group": "Gạo", "name": "Gạo Thơm Jasmine"},
+    {"group": "Gạo", "name": "Gạo Đài Thơm"},
+]
 
 
 class TableParser(HTMLParser):
@@ -136,6 +147,49 @@ def fetch_daily_prices():
     return items
 
 
+def fetch_rice_prices():
+    """Read selected current rice prices from the source's dated primary table."""
+    request = urllib.request.Request(RICE_PRICE_URL, headers={"User-Agent": "AgrotechTruongLam/3.0"})
+    html = urllib.request.urlopen(request, timeout=30).read().decode("utf-8", "replace")
+    date_match = re.search(r"Bảng giá lúa gạo mới nhất\s*-\s*(\d{1,2})/(\d{1,2})/(\d{4})", html, re.I)
+    if not date_match:
+        date_match = re.search(r"Cập nhật ngày:\s*(\d{1,2})/(\d{1,2})/(\d{4})", html, re.I)
+    if not date_match:
+        raise ValueError("Nguồn giá lúa gạo không có ngày công bố")
+    day, month, year = map(int, date_match.groups())
+    price_date = f"{year:04d}-{month:02d}-{day:02d}"
+    parser = TableParser()
+    parser.feed(html)
+    wanted = {normalise(product["name"]): product for product in RICE_PRODUCTS}
+    items = {}
+    for row in parser.rows:
+        if len(row) < 3:
+            continue
+        raw_name, _old_price, current_price = row[:3]
+        clean_name = re.sub(r"\s*\(đ/kg\)\s*$", "", raw_name, flags=re.I).strip()
+        product = wanted.get(normalise(clean_name))
+        if not product:
+            continue
+        values = [int(re.sub(r"\D", "", value)) for value in re.findall(r"\d{1,3}(?:[.\s]\d{3})+", current_price)]
+        values = [value for value in values if 3_000 <= value <= 100_000]
+        if not values:
+            continue
+        low, high = min(values), max(values)
+        low_text = f"{low:,}".replace(",", ".")
+        high_text = f"{high:,}".replace(",", ".")
+        price_text = f"{low_text} đồng/kg" if low == high else f"{low_text} – {high_text} đồng/kg"
+        items[product["name"]] = {
+            "name": product["name"],
+            "price": price_text,
+            "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+            "source": "Bảng Giá Nông Sản",
+            "date": price_date,
+            "url": RICE_PRICE_URL,
+            "sourceTitle": f"Bảng giá lúa gạo mới nhất ngày {day:02d}/{month:02d}/{year}",
+        }
+    return items
+
+
 def search(query):
     params = {"q": query, "hl": "vi", "gl": "VN", "ceid": "VN:vi"}
     url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(params)
@@ -217,14 +271,15 @@ def load_previous():
 
 def render_price_page(payload):
     """Build an indexable HTML landing page from the same verified price data."""
-    all_items = [item for group in payload["groups"] for item in group["items"]]
+    fertilizer_groups = [group for group in payload["groups"] if group.get("category", "fertilizer") == "fertilizer"]
+    all_items = [item for group in fertilizer_groups for item in group["items"]]
     source_date = max((item["date"] for item in all_items), default=datetime.now(timezone.utc).date().isoformat())
     year, month, day = source_date.split("-")
     display_date = f"{day}/{month}/{year}"
     rows = []
     position = 0
     schema_items = []
-    for group in payload["groups"]:
+    for group in fertilizer_groups:
         rows.append(f'<tr class="group"><th colspan="4">{html_lib.escape(group["name"])}</th></tr>')
         for item in group["items"]:
             position += 1
@@ -348,11 +403,26 @@ for product in PRODUCTS:
     if item:
         found.append((product["group"], item))
 
+try:
+    rice_daily = fetch_rice_prices()
+except Exception as exc:
+    print(f"Không đọc được bảng giá lúa gạo theo ngày: {exc}")
+    rice_daily = {}
+rice_found = []
+for product in RICE_PRODUCTS:
+    item = rice_daily.get(product["name"]) or previous.get(product["name"])
+    if item:
+        rice_found.append((product["group"], item))
+
 groups = []
 for group_name in dict.fromkeys(product["group"] for product in PRODUCTS):
     rows = [item for group, item in found if group == group_name]
     if rows:
-        groups.append({"name": group_name, "items": rows})
+        groups.append({"category": "fertilizer", "name": group_name, "items": rows})
+for group_name in dict.fromkeys(product["group"] for product in RICE_PRODUCTS):
+    rows = [item for group, item in rice_found if group == group_name]
+    if rows:
+        groups.append({"category": "rice", "name": group_name, "items": rows})
 
 # Never replace a useful published list with an empty result after a temporary
 # network/search failure.
@@ -361,7 +431,7 @@ if not groups and previous:
 
 payload = {
     "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    "method": "Tự động tìm kiếm online; ưu tiên bảng giá theo ngày và giữ liên kết nguồn công khai",
+    "method": "Tự động tìm kiếm online hằng ngày cho giá phân bón và lúa gạo; giữ ngày cùng liên kết nguồn công khai",
     "groups": groups,
 }
 Path("market-data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

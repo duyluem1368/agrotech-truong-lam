@@ -380,11 +380,19 @@ fetch('news-data.json', { cache: 'no-store' }).then(response => response.ok ? re
 });
 
 const marketGrid = document.querySelector('#marketGrid');
+const fertilizerMarket = document.querySelector('#fertilizerMarket');
+const riceMarket = document.querySelector('#riceMarket');
 const marketUpdated = document.querySelector('#marketUpdated');
 let marketGroups = [];
+const marketGroupMarkup = groups => groups.length ? groups.map(group => `<section class="market-price-group"><h4>${escapeNews(group.name)}</h4><ul>${(group.items || []).map(item => `<li><div class="market-price-line"><strong>${escapeNews(item.name)}:</strong> <span>${escapeNews(item.price)}</span></div>${item.detail ? `<small>${escapeNews(item.detail)}</small>` : ''}<a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer" title="${escapeNews(item.sourceTitle || '')}">${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')} ↗</a></li>`).join('')}</ul></section>`).join('') : '<section class="market-price-group market-empty"><p>Chưa có báo giá phù hợp. Hệ thống sẽ thử lại trong lần cập nhật tiếp theo.</p></section>';
 function renderMarket() {
   if (!marketGrid) return;
-  marketGrid.innerHTML = marketGroups.length ? marketGroups.map(group => `<section class="market-price-group"><h3>${escapeNews(group.name)}</h3><ul>${(group.items || []).map(item => `<li><div class="market-price-line"><strong>${escapeNews(item.name)}:</strong> <span>${escapeNews(item.price)}</span></div>${item.detail ? `<small>${escapeNews(item.detail)}</small>` : ''}<a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer" title="${escapeNews(item.sourceTitle || '')}">${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')} ↗</a></li>`).join('')}</ul></section>`).join('') : '<section class="market-price-group"><h3>Chưa có báo giá phù hợp</h3><p>Hệ thống sẽ hiển thị khi tìm thấy nguồn công khai có giá và ngày đăng rõ ràng.</p></section>';
+  const fertilizerGroups = marketGroups.filter(group => (group.category || 'fertilizer') === 'fertilizer');
+  const riceGroups = marketGroups.filter(group => group.category === 'rice');
+  if (fertilizerMarket && riceMarket) {
+    fertilizerMarket.innerHTML = marketGroupMarkup(fertilizerGroups);
+    riceMarket.innerHTML = marketGroupMarkup(riceGroups);
+  }
 }
 if (marketGrid && marketUpdated) {
   fetch('market-data.json', { cache: 'no-store' }).then(response => response.ok ? response.json() : Promise.reject()).then(data => {

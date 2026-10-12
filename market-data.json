@@ -1,8 +1,9 @@
 {
-  "updatedAt": "2026-10-12T02:24:05+00:00",
-  "method": "Tự động tìm kiếm online; ưu tiên bảng giá theo ngày và giữ liên kết nguồn công khai",
+  "updatedAt": "2026-10-12T03:15:18+00:00",
+  "method": "Tự động tìm kiếm online hằng ngày cho giá phân bón và lúa gạo; giữ ngày cùng liên kết nguồn công khai",
   "groups": [
     {
+      "category": "fertilizer",
       "name": "Phân Urê",
       "items": [
         {
@@ -35,6 +36,7 @@
       ]
     },
     {
+      "category": "fertilizer",
       "name": "Phân NPK",
       "items": [
         {
@@ -67,6 +69,7 @@
       ]
     },
     {
+      "category": "fertilizer",
       "name": "Phân Kali và Lân",
       "items": [
         {
@@ -95,6 +98,90 @@
           "date": "2026-10-12",
           "url": "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/",
           "sourceTitle": "Bảng giá phân bón mới nhất ngày 12/10/2026"
+        }
+      ]
+    },
+    {
+      "category": "rice",
+      "name": "Lúa tươi",
+      "items": [
+        {
+          "name": "Lúa OM 18",
+          "price": "6.200 – 6.300 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Lúa Đài Thơm 8",
+          "price": "6.200 – 6.300 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Lúa IR 50404",
+          "price": "5.900 – 6.000 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Lúa OM 5451",
+          "price": "6.000 – 6.100 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        }
+      ]
+    },
+    {
+      "category": "rice",
+      "name": "Gạo",
+      "items": [
+        {
+          "name": "Gạo NL OM 5451",
+          "price": "9.550 – 9.650 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Gạo NL IR 504",
+          "price": "8.600 – 8.700 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Gạo Thơm Jasmine",
+          "price": "13.000 – 20.500 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
+        },
+        {
+          "name": "Gạo Đài Thơm",
+          "price": "15.000 – 16.000 đồng/kg",
+          "detail": "Giá tham khảo tại Đồng bằng sông Cửu Long",
+          "source": "Bảng Giá Nông Sản",
+          "date": "2026-10-12",
+          "url": "https://banggianongsan.com/gia-lua-gao-hom-nay/",
+          "sourceTitle": "Bảng giá lúa gạo mới nhất ngày 12/10/2026"
         }
       ]
     }
