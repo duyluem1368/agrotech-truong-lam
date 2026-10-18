@@ -258,6 +258,29 @@ img,.featured-media,.catalog-photo,.product-image,.modal-product-image,
  */
 img{pointer-events:none}
 
+/*
+ * Một số bản Chromium WebView vẫn nhận diện ảnh nằm dưới điểm chạm dù thẻ img
+ * đã có pointer-events:none. Lớp chắn trong suốt nằm trên vùng ảnh khiến thao
+ * tác nhấn giữ nhắm vào phần tử giao diện thông thường, nhưng cú chạm vẫn nổi
+ * bọt lên thẻ sản phẩm để mở chi tiết như trước.
+ */
+.featured-media,.catalog-photo,.modal-product-image,
+.modal-pest-reference,.pest-detail-image,.photo-frame,.visitor-counter{
+  position:relative;
+}
+.featured-media::after,.catalog-photo::after,
+.modal-product-image::after,.modal-pest-reference::after,
+.pest-detail-image::after,.photo-frame::after,.visitor-counter::after{
+  content:"";
+  position:absolute;
+  z-index:20;
+  inset:0;
+  background:transparent;
+  -webkit-touch-callout:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
 /* Bảo vệ nội dung toàn trang; vẫn cho phép nhập/chỉnh sửa trong biểu mẫu. */
 body{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;user-select:text;-webkit-user-select:text}
