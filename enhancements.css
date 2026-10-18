@@ -251,6 +251,13 @@ img,.featured-media,.catalog-photo,.product-image,.modal-product-image,
   -webkit-user-select:none;
 }
 
+/*
+ * Zalo/Android WebView có thể mở menu tải ảnh trước khi sự kiện contextmenu
+ * của JavaScript chạy. Không để WebView nhắm trực tiếp vào thẻ ảnh; thao tác
+ * chạm vẫn được phần tử cha nhận nên liên kết và thẻ sản phẩm tiếp tục hoạt động.
+ */
+img{pointer-events:none}
+
 /* Bảo vệ nội dung toàn trang; vẫn cho phép nhập/chỉnh sửa trong biểu mẫu. */
 body{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;user-select:text;-webkit-user-select:text}
