@@ -380,20 +380,45 @@ fetch('news-data.json', { cache: 'no-store' }).then(response => response.ok ? re
 });
 
 const marketGrid = document.querySelector('#marketGrid');
-const fertilizerMarket = document.querySelector('#fertilizerMarket');
-const riceMarket = document.querySelector('#riceMarket');
+const marketContent = document.querySelector('#marketContent');
+const marketTitle = document.querySelector('#marketTitle');
+const marketEyebrow = document.querySelector('#marketEyebrow');
+const marketMore = document.querySelector('#marketMore');
 const marketUpdated = document.querySelector('#marketUpdated');
 let marketGroups = [];
+let activeMarketCategory = 'fertilizer';
+const marketCategories = {
+  fertilizer:{title:'Giá phân bón',eyebrow:'Vật tư đầu vào',more:'Xem đầy đủ giá phân bón →',url:'/gia-phan-bon-hom-nay/'},
+  rice:{title:'Giá lúa gạo',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá lúa gạo →',url:'https://banggianongsan.com/gia-lua-gao-hom-nay/'},
+  coffee:{title:'Giá cà phê',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá cà phê →',url:'https://banggianongsan.com/bang-gia-ca-phe/'},
+  durian:{title:'Giá sầu riêng',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá sầu riêng →',url:'https://banggianongsan.com/bang-gia-sau-rieng/'}
+};
 const marketGroupMarkup = groups => groups.length ? groups.map(group => `<section class="market-price-group"><h4>${escapeNews(group.name)}</h4><ul>${(group.items || []).map(item => `<li><div class="market-price-line"><strong>${escapeNews(item.name)}:</strong> <span>${escapeNews(item.price)}</span></div>${item.detail ? `<small>${escapeNews(item.detail)}</small>` : ''}<a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer" title="${escapeNews(item.sourceTitle || '')}">${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')} ↗</a></li>`).join('')}</ul></section>`).join('') : '<section class="market-price-group market-empty"><p>Chưa có báo giá phù hợp. Hệ thống sẽ thử lại trong lần cập nhật tiếp theo.</p></section>';
 function renderMarket() {
-  if (!marketGrid) return;
-  const fertilizerGroups = marketGroups.filter(group => (group.category || 'fertilizer') === 'fertilizer');
-  const riceGroups = marketGroups.filter(group => group.category === 'rice');
-  if (fertilizerMarket && riceMarket) {
-    fertilizerMarket.innerHTML = marketGroupMarkup(fertilizerGroups);
-    riceMarket.innerHTML = marketGroupMarkup(riceGroups);
+  if (!marketGrid || !marketContent) return;
+  const config = marketCategories[activeMarketCategory];
+  marketTitle.textContent = config.title;
+  marketEyebrow.textContent = config.eyebrow;
+  marketMore.textContent = config.more;
+  marketMore.href = config.url;
+  if (activeMarketCategory === 'fertilizer') {
+    marketMore.removeAttribute('target');
+    marketMore.removeAttribute('rel');
+  } else {
+    marketMore.setAttribute('target', '_blank');
+    marketMore.setAttribute('rel', 'noopener noreferrer');
   }
+  marketContent.innerHTML = marketGroupMarkup(marketGroups.filter(group => (group.category || 'fertilizer') === activeMarketCategory));
 }
+document.querySelectorAll('[data-market-category]').forEach(button => button.addEventListener('click', () => {
+  activeMarketCategory = button.dataset.marketCategory;
+  document.querySelectorAll('[data-market-category]').forEach(item => {
+    const selected = item === button;
+    item.classList.toggle('active', selected);
+    item.setAttribute('aria-selected', String(selected));
+  });
+  renderMarket();
+}));
 if (marketGrid && marketUpdated) {
   fetch('market-data.json', { cache: 'no-store' }).then(response => response.ok ? response.json() : Promise.reject()).then(data => {
     marketGroups = Array.isArray(data.groups) ? data.groups : [];

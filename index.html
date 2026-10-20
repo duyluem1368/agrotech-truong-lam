@@ -200,15 +200,20 @@
 
     <section class="market-section section" id="gia-vat-tu">
       <div class="section-heading market-heading">
-        <div><div class="section-kicker">Tìm kiếm online mỗi ngày</div><h2>Giá phân bón và lúa gạo hiện tại</h2></div>
-        <p>Giá tham khảo được chia thành hai nhóm rõ ràng. Chạm vào tên nguồn ở mỗi dòng để kiểm tra bài đăng gốc.</p>
+        <div><div class="section-kicker">Tìm kiếm online mỗi ngày</div><h2>Giá nông sản và vật tư hôm nay</h2></div>
+        <p>Chọn một nhóm để xem nhanh các mức giá tiêu biểu. Chạm vào tên nguồn ở mỗi dòng để kiểm tra bài đăng gốc.</p>
       </div>
       <div class="market-toolbar">
         <div class="market-status"><span class="live-dot"></span><div><strong>Tự động tìm và cập nhật hằng ngày</strong><small id="marketUpdated">Đang tải dữ liệu…</small></div></div>
       </div>
-      <div class="market-split" id="marketGrid" aria-live="polite">
-        <section class="market-column"><div class="market-column-head"><span>Vật tư đầu vào</span><h3>Giá phân bón</h3></div><div class="market-groups" id="fertilizerMarket"></div><a class="market-more" href="/gia-phan-bon-hom-nay/">Xem đầy đủ giá phân bón →</a></section>
-        <section class="market-column market-column-rice"><div class="market-column-head"><span>Thị trường nông sản</span><h3>Giá lúa gạo</h3></div><div class="market-groups" id="riceMarket"></div><a class="market-more" href="https://banggianongsan.com/gia-lua-gao-hom-nay/" target="_blank" rel="noopener noreferrer">Xem nguồn giá lúa gạo →</a></section>
+      <div class="market-tabs" role="tablist" aria-label="Chọn nhóm giá">
+        <button class="active" type="button" role="tab" aria-selected="true" data-market-category="fertilizer">Phân bón</button>
+        <button type="button" role="tab" aria-selected="false" data-market-category="rice">Lúa gạo</button>
+        <button type="button" role="tab" aria-selected="false" data-market-category="coffee">Cà phê</button>
+        <button type="button" role="tab" aria-selected="false" data-market-category="durian">Sầu riêng</button>
+      </div>
+      <div class="market-panel" id="marketGrid" aria-live="polite">
+        <section class="market-column"><div class="market-column-head"><span id="marketEyebrow">Vật tư đầu vào</span><h3 id="marketTitle">Giá phân bón</h3></div><div class="market-groups" id="marketContent"></div><a class="market-more" id="marketMore" href="/gia-phan-bon-hom-nay/">Xem đầy đủ giá phân bón →</a></section>
       </div>
       <div class="market-note"><strong>Lưu ý:</strong> Mức giá trên mạng chỉ mang tính tham khảo và có thể chênh lệch tùy khu vực, đại lý, thời điểm và quy cách đóng gói.</div>
     </section>

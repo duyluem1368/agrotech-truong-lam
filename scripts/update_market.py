@@ -37,6 +37,8 @@ PRICE_RE = re.compile(
 
 DAILY_PRICE_URL = "https://banggianongsan.com/bang-gia-phan-bon-hom-nay/"
 RICE_PRICE_URL = "https://banggianongsan.com/gia-lua-gao-hom-nay/"
+COFFEE_PRICE_URL = "https://banggianongsan.com/bang-gia-ca-phe/"
+DURIAN_PRICE_URL = "https://banggianongsan.com/bang-gia-sau-rieng/"
 RICE_PRODUCTS = [
     {"group": "Lúa tươi", "name": "Lúa OM 18"},
     {"group": "Lúa tươi", "name": "Lúa Đài Thơm 8"},
@@ -46,6 +48,18 @@ RICE_PRODUCTS = [
     {"group": "Gạo", "name": "Gạo NL IR 504"},
     {"group": "Gạo", "name": "Gạo Thơm Jasmine"},
     {"group": "Gạo", "name": "Gạo Đài Thơm"},
+]
+COFFEE_PRODUCTS = [
+    {"group": "Giá thu mua trong nước", "name": "Cà phê Đắk Lắk"},
+    {"group": "Giá thu mua trong nước", "name": "Cà phê Đắk Nông"},
+    {"group": "Giá thu mua trong nước", "name": "Cà phê Gia Lai"},
+    {"group": "Giá thu mua trong nước", "name": "Cà phê Lâm Đồng"},
+]
+DURIAN_PRODUCTS = [
+    {"group": "Đồng bằng sông Cửu Long", "name": "Sầu Thái loại A – ĐBSCL"},
+    {"group": "Đồng bằng sông Cửu Long", "name": "Sầu Thái loại B – ĐBSCL"},
+    {"group": "Đồng bằng sông Cửu Long", "name": "Sầu riêng Ri6 loại A – ĐBSCL"},
+    {"group": "Đồng bằng sông Cửu Long", "name": "Sầu riêng Ri6 loại B – ĐBSCL"},
 ]
 
 
@@ -188,6 +202,46 @@ def fetch_rice_prices():
             "sourceTitle": f"Bảng giá lúa gạo mới nhất ngày {day:02d}/{month:02d}/{year}",
         }
     return items
+
+
+def fetch_dataset_prices(url, products, detail):
+    """Read a small verified selection from the source page's Dataset JSON-LD."""
+    request = urllib.request.Request(url, headers={"User-Agent": "AgrotechTruongLam/3.0"})
+    page = urllib.request.urlopen(request, timeout=30).read().decode("utf-8", "replace")
+    datasets = []
+    for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', page, re.I | re.S):
+        try:
+            value = json.loads(html_lib.unescape(raw))
+        except Exception:
+            continue
+        candidates = value.get("@graph", []) if isinstance(value, dict) and "@graph" in value else [value]
+        datasets.extend(item for item in candidates if isinstance(item, dict) and item.get("@type") == "Dataset")
+    dataset = next((item for item in datasets if item.get("variableMeasured")), None)
+    if not dataset:
+        raise ValueError("Nguồn không có Dataset JSON-LD")
+    modified = dataset.get("dateModified", "")[:10]
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", modified):
+        raise ValueError("Nguồn dữ liệu không có ngày cập nhật hợp lệ")
+    measured = {normalise(item.get("name", "")): item for item in dataset["variableMeasured"]}
+    result = {}
+    for product in products:
+        prefix = normalise(product["name"])
+        row = next((item for name, item in measured.items() if name.startswith(prefix)), None)
+        if not row:
+            continue
+        low = row.get("minValue", row.get("value"))
+        high = row.get("maxValue", row.get("value"))
+        if low is None or high is None:
+            continue
+        unit = "đồng/kg" if row.get("unitText") == "VND" else row.get("unitText", "")
+        fmt = lambda number: f"{int(float(number)):,}".replace(",", ".")
+        price = f"{fmt(low)} {unit}" if float(low) == float(high) else f"{fmt(low)} – {fmt(high)} {unit}"
+        result[product["name"]] = {
+            "name": product["name"], "price": price, "detail": detail,
+            "source": "Bảng Giá Nông Sản", "date": modified, "url": url,
+            "sourceTitle": f"Bảng giá cập nhật ngày {modified[8:10]}/{modified[5:7]}/{modified[:4]}",
+        }
+    return result
 
 
 def search(query):
@@ -414,6 +468,22 @@ for product in RICE_PRODUCTS:
     if item:
         rice_found.append((product["group"], item))
 
+try:
+    coffee_daily = fetch_dataset_prices(COFFEE_PRICE_URL, COFFEE_PRODUCTS, "Giá thu mua cà phê nhân xô tại địa phương")
+except Exception as exc:
+    print(f"Không đọc được bảng giá cà phê: {exc}")
+    coffee_daily = {}
+coffee_found = [(product["group"], coffee_daily.get(product["name"]) or previous.get(product["name"])) for product in COFFEE_PRODUCTS]
+coffee_found = [(group, item) for group, item in coffee_found if item]
+
+try:
+    durian_daily = fetch_dataset_prices(DURIAN_PRICE_URL, DURIAN_PRODUCTS, "Giá thu mua tham khảo tại ĐBSCL")
+except Exception as exc:
+    print(f"Không đọc được bảng giá sầu riêng: {exc}")
+    durian_daily = {}
+durian_found = [(product["group"], durian_daily.get(product["name"]) or previous.get(product["name"])) for product in DURIAN_PRODUCTS]
+durian_found = [(group, item) for group, item in durian_found if item]
+
 groups = []
 for group_name in dict.fromkeys(product["group"] for product in PRODUCTS):
     rows = [item for group, item in found if group == group_name]
@@ -423,6 +493,11 @@ for group_name in dict.fromkeys(product["group"] for product in RICE_PRODUCTS):
     rows = [item for group, item in rice_found if group == group_name]
     if rows:
         groups.append({"category": "rice", "name": group_name, "items": rows})
+for category, products, found_items in (("coffee", COFFEE_PRODUCTS, coffee_found), ("durian", DURIAN_PRODUCTS, durian_found)):
+    for group_name in dict.fromkeys(product["group"] for product in products):
+        rows = [item for group, item in found_items if group == group_name]
+        if rows:
+            groups.append({"category": category, "name": group_name, "items": rows})
 
 # Never replace a useful published list with an empty result after a temporary
 # network/search failure.
@@ -431,7 +506,7 @@ if not groups and previous:
 
 payload = {
     "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    "method": "Tự động tìm kiếm online hằng ngày cho giá phân bón và lúa gạo; giữ ngày cùng liên kết nguồn công khai",
+    "method": "Tự động tìm kiếm online hằng ngày cho giá phân bón, lúa gạo, cà phê và sầu riêng; giữ ngày cùng liên kết nguồn công khai",
     "groups": groups,
 }
 Path("market-data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
