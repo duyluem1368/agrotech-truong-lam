@@ -216,11 +216,12 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .market-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 14px;padding:6px;background:rgba(255,255,255,.55);border:1px solid #ceddd1;border-radius:7px}
 .market-tabs button{min-height:45px;border:0;border-radius:5px;background:transparent;color:#52645a;font:800 12px/1.2 Manrope;cursor:pointer;transition:.2s ease}
 .market-tabs button:hover{background:#eef4eb;color:var(--green)}.market-tabs button.active{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(7,82,59,.16)}
-.market-panel{max-width:820px;margin:auto}
-.market-column{padding:22px;background:rgba(255,255,255,.58);border:1px solid #ceddd1;border-radius:4px}
+.market-panel{--market-background:url("assets/market-backgrounds/fertilizer-v1.webp");max-width:880px;margin:auto;padding:clamp(18px,3vw,34px);position:relative;isolation:isolate;overflow:hidden;border-radius:12px;background-image:linear-gradient(110deg,rgba(2,43,30,.68),rgba(8,76,52,.28)),var(--market-background);background-size:cover;background-position:center;box-shadow:0 20px 44px rgba(4,50,35,.18);transition:background-image .25s ease}
+.market-panel:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,32,21,.2));pointer-events:none}
+.market-column{padding:22px;background:rgba(249,252,250,.91);border:1px solid rgba(255,255,255,.72);border-radius:8px;box-shadow:0 12px 35px rgba(2,35,24,.14);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
 .market-column-head{display:flex;align-items:end;justify-content:space-between;gap:15px;padding-bottom:15px;border-bottom:1px solid #d8e3da}.market-column-head span{color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.market-column-head h3{font:700 26px/1.15 "Playfair Display";margin:0;color:var(--green)}
 .market-column-rice .market-column-head h3{color:#8b5d12}.market-groups{display:grid;gap:14px;margin-top:15px}
-.market-price-group{padding:20px;background:#fff;border:1px solid #d8e3da;border-left:4px solid var(--green);box-shadow:0 10px 26px rgba(5,52,37,.055)}
+.market-price-group{padding:20px;background:rgba(255,255,255,.94);border:1px solid #d8e3da;border-left:4px solid var(--green);box-shadow:0 10px 26px rgba(5,52,37,.075)}
 .market-column-rice .market-price-group{border-left-color:#d3a62a}.market-price-group h4{font:700 20px/1.25 "Playfair Display";margin:0 0 15px;color:var(--green)}.market-column-rice .market-price-group h4{color:#79500f}
 .market-price-group ul{list-style:none;padding:0;margin:0}.market-price-group li{padding:0 0 16px;margin:0 0 16px;border-bottom:1px solid var(--line)}.market-price-group li:last-child{border:0;margin:0;padding:0}
 .market-price-line{font-size:14px;line-height:1.55;color:#27372e}.market-price-line strong{font-weight:800}.market-price-line span{color:var(--red);font-weight:700}

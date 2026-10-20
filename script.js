@@ -388,15 +388,17 @@ const marketUpdated = document.querySelector('#marketUpdated');
 let marketGroups = [];
 let activeMarketCategory = 'fertilizer';
 const marketCategories = {
-  fertilizer:{title:'Giá phân bón',eyebrow:'Vật tư đầu vào',more:'Xem đầy đủ giá phân bón →',url:'/gia-phan-bon-hom-nay/'},
-  rice:{title:'Giá lúa gạo',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá lúa gạo →',url:'https://banggianongsan.com/gia-lua-gao-hom-nay/'},
-  coffee:{title:'Giá cà phê',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá cà phê →',url:'https://banggianongsan.com/bang-gia-ca-phe/'},
-  durian:{title:'Giá sầu riêng',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá sầu riêng →',url:'https://banggianongsan.com/bang-gia-sau-rieng/'}
+  fertilizer:{title:'Giá phân bón',eyebrow:'Vật tư đầu vào',more:'Xem đầy đủ giá phân bón →',url:'/gia-phan-bon-hom-nay/',image:'assets/market-backgrounds/fertilizer-v1.webp'},
+  rice:{title:'Giá lúa gạo',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá lúa gạo →',url:'https://banggianongsan.com/gia-lua-gao-hom-nay/',image:'assets/market-backgrounds/rice-v1.webp'},
+  coffee:{title:'Giá cà phê',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá cà phê →',url:'https://banggianongsan.com/bang-gia-ca-phe/',image:'assets/market-backgrounds/coffee-v1.webp'},
+  durian:{title:'Giá sầu riêng',eyebrow:'Thị trường nông sản',more:'Xem nguồn giá sầu riêng →',url:'https://banggianongsan.com/bang-gia-sau-rieng/',image:'assets/market-backgrounds/durian-v1.webp'}
 };
 const marketGroupMarkup = groups => groups.length ? groups.map(group => `<section class="market-price-group"><h4>${escapeNews(group.name)}</h4><ul>${(group.items || []).map(item => `<li><div class="market-price-line"><strong>${escapeNews(item.name)}:</strong> <span>${escapeNews(item.price)}</span></div>${item.detail ? `<small>${escapeNews(item.detail)}</small>` : ''}<a href="${escapeNews(item.url)}" target="_blank" rel="noopener noreferrer" title="${escapeNews(item.sourceTitle || '')}">${escapeNews(item.source)} · ${new Date(item.date).toLocaleDateString('vi-VN')} ↗</a></li>`).join('')}</ul></section>`).join('') : '<section class="market-price-group market-empty"><p>Chưa có báo giá phù hợp. Hệ thống sẽ thử lại trong lần cập nhật tiếp theo.</p></section>';
 function renderMarket() {
   if (!marketGrid || !marketContent) return;
   const config = marketCategories[activeMarketCategory];
+  marketGrid.style.setProperty('--market-background', `url("${config.image}")`);
+  marketGrid.dataset.category = activeMarketCategory;
   marketTitle.textContent = config.title;
   marketEyebrow.textContent = config.eyebrow;
   marketMore.textContent = config.more;
