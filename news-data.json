@@ -1,13 +1,6 @@
 {
-  "updatedAt": "2026-10-19T01:16:39+00:00",
+  "updatedAt": "2026-10-20T01:49:59+00:00",
   "items": [
-    {
-      "title": "Tập trung thu hoạch lúa đã chín, ứng phó kịp thời đợt di trú của rầy nâu",
-      "source": "Vietnam.vn",
-      "date": "2026-10-12",
-      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQdVlMLThKVzdzWGZFcXRPTUJtdXdmN09kVHU0LTJGb0JwdHBLazRYeUtYWmFLMmhhR3JqSTV3Z1FpV1pUeGxHTngwc1cyZnpmRk5OaV8yeWhzeWtPTXp2OW9qUW1aNzlNaHR4bXhMZ3pzT0JWQVlNWk52YnJOWlFxeWJVUW5XZDNhX0JnNUV2TGRMX1pLdkxmZ2p3?oc=5",
-      "summary": "Bản tin liên quan đến dịch hại trên lúa. Cần tăng tần suất thăm đồng, kiểm tra theo giai đoạn sinh trưởng và hướng dẫn tại địa phương."
-    },
     {
       "title": "Dự báo tình hình sinh vật gây hại (SVGH) cây trồng trên địa bàn thành phố Quảng Ninh (từ ngày 01 đến ngày 07/10/2026)",
       "source": "Cổng thông tin Quảng Ninh",
@@ -16,18 +9,18 @@
       "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
     },
     {
+      "title": "Tập trung thu hoạch lúa đã chín, ứng phó kịp thời đợt di trú của rầy nâu",
+      "source": "Vietnam.vn",
+      "date": "2026-10-12",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQdVlMLThKVzdzWGZFcXRPTUJtdXdmN09kVHU0LTJGb0JwdHBLazRYeUtYWmFLMmhhR3JqSTV3Z1FpV1pUeGxHTngwc1cyZnpmRk5OaV8yeWhzeWtPTXp2OW9qUW1aNzlNaHR4bXhMZ3pzT0JWQVlNWk52YnJOWlFxeWJVUW5XZDNhX0JnNUV2TGRMX1pLdkxmZ2p3?oc=5",
+      "summary": "Bản tin liên quan đến dịch hại trên lúa. Cần tăng tần suất thăm đồng, kiểm tra theo giai đoạn sinh trưởng và hướng dẫn tại địa phương."
+    },
+    {
       "title": "Khẩn trương thu hoạch lúa mùa và chủ động phòng trừ sinh vật gây hại",
       "source": "Vietnam.vn",
       "date": "2026-10-05",
       "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNX3dsMlhXVk80b2RoZXlUUFViaklwMHJGV2RWQTh4enI0QWlGeWZDTEZZMDBxX016X19uWE9mRmE5bUZTSjVhbnFGZVFQcmNRemRXMjBaVnFtUk9JZHF3TWV6N2Fib3gwS3lKN2FxbjJlLVY2WTVCa2JiTGVycUU5Ukt2aUpVenloZUhpT3libnh5V0Rwa0E?oc=5",
       "summary": "Bản tin liên quan đến dịch hại trên lúa. Cần tăng tần suất thăm đồng, kiểm tra theo giai đoạn sinh trưởng và hướng dẫn tại địa phương."
-    },
-    {
-      "title": "Mô hình phòng trừ sinh vật gây hại góp phần nâng cao hiệu quả sản xuất hồng Bảo Lâm",
-      "source": "Vietnam.vn",
-      "date": "2026-10-01",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQOFY4YUhnTnJFaE9qSWRzczJWcTIwTGw0djZuQjl1WmdqTjhoV1RkRDFQX2F4YWNiSG5TNmd3X0pYWnE1NGUwX1FCUHY4RWpkVWhwYVh1Wm1jc0M3Y2ZhamtJcTdfVHVXdDEya1FfSHMtYlpjN1JsM2tSQ2JuX3U5enFQcUpwZTVmSGpJTklaTEE1RXE4YmxpSHZaNE05VFZHV2xRZkx3RHBFcEhwQWc?oc=5",
-      "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
     },
     {
       "title": "Phòng trừ sinh vật gây hại trên lúa vụ Mùa 2026",
@@ -41,6 +34,13 @@
       "source": "Báo Lai Châu điện tử",
       "date": "2026-09-29",
       "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQS29ITHdXcFRwT1RaS2FFUmJ4ajNhQzRpdGxCejRNNVF4M0xxWEk4cnFmVDRWc205MHV4RzBFcFQzbWdicC14WURKSmFoOFQwTVN5Qlctemt2cDdkOFBlVEpxT1E4V3RCTEtrMFdNNjlGVGg5S2Z0RUpHdGhsQUJ3X3NoOWVfNXdZNThXMW1rd1MydlFzZGxMV0dvaVhqdw?oc=5",
+      "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
+    },
+    {
+      "title": "Dự báo tình hình sinh vật gây hại (SVGH) cây trồng trên địa bàn thành phố Quảng Ninh (từ ngày 17 đến ngày 23/9/2026)",
+      "source": "Cổng thông tin Quảng Ninh",
+      "date": "2026-09-25",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPT0l1NXVWcy1fMUZVRkpMX01qUkhpV2kxeGJFM2pYY0xFMTM3aUxrU25DT2hGUnBxMTBjR2k0Y0J4V0RHd1lNTEhzMGl6ZnRrT0dFU0syMjJrMXNIamhLcVRTaDZUa2NJTGRvSndyT2YyaG5fNTdiM2J1U2FzOHcxWUhKbjVURk1iM3c?oc=5",
       "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
     }
   ]
