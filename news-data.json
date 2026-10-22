@@ -1,13 +1,6 @@
 {
-  "updatedAt": "2026-10-21T01:35:40+00:00",
+  "updatedAt": "2026-10-22T01:31:57+00:00",
   "items": [
-    {
-      "title": "Dự báo tình hình sinh vật gây hại (SVGH) cây trồng trên địa bàn thành phố Quảng Ninh (từ ngày 01 đến ngày 07/10/2026)",
-      "source": "Cổng thông tin Quảng Ninh",
-      "date": "2026-10-12",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQT3VXQ08yTnUzenlXdWdEaVhYcEQ4RTFIRzZLMUFlcEpzdEVCcW9oUG1Ec0NGZEljeTY4ZTZWMmxnUkZjbHBvUFZnNkJNeEZhb3Q3YVhsOFI1SVBISWtTZFFIaUtyZkkzTUp2Q1kxZWFkWlhLVi1nYl9iM0pQSVRicmhFb3ZWQVdja25B?oc=5",
-      "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
-    },
     {
       "title": "Tập trung thu hoạch lúa đã chín, ứng phó kịp thời đợt di trú của rầy nâu",
       "source": "Vietnam.vn",
@@ -35,6 +28,13 @@
       "date": "2026-09-29",
       "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQS29ITHdXcFRwT1RaS2FFUmJ4ajNhQzRpdGxCejRNNVF4M0xxWEk4cnFmVDRWc205MHV4RzBFcFQzbWdicC14WURKSmFoOFQwTVN5Qlctemt2cDdkOFBlVEpxT1E4V3RCTEtrMFdNNjlGVGg5S2Z0RUpHdGhsQUJ3X3NoOWVfNXdZNThXMW1rd1MydlFzZGxMV0dvaVhqdw?oc=5",
       "summary": "Thông tin dự tính, cảnh báo hoặc hướng dẫn phòng trừ mới. Mở nguồn gốc để kiểm tra địa bàn, thời gian và đối tượng cụ thể."
+    },
+    {
+      "title": "Dịch rầy nâu tấn công nhiều cánh đồng lúa ở Cao Bằng",
+      "source": "Laodong.vn",
+      "date": "2026-09-25",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOcnFhbHJ4V21KcVMxR1J4d0R5Ty1iV1VxNlVsOWpkTklKalBhb2V5a0swQXgxaWg0dW14S2FNWktIb3pvV2hYZ3MtcjB0cjBrbkFlNVJ0elE1aksxNTJGMEhmY1Q1aXZXVGNVaHVwMUVkaUVobThoNGNfUG5veUN0TlZrNU9sc0N0M19OVjM1cHlfMklr?oc=5",
+      "summary": "Bản tin liên quan đến dịch hại trên lúa. Cần tăng tần suất thăm đồng, kiểm tra theo giai đoạn sinh trưởng và hướng dẫn tại địa phương."
     },
     {
       "title": "Xây dựng 6 điểm ứng dụng phòng trừ sinh học trên cây dừa",
