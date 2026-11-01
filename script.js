@@ -297,7 +297,9 @@ function openPestDetail(crop, item) {
   document.querySelector('#pestDetailGrowth').textContent = details[0];
   document.querySelector('#pestDetailDamage').textContent = details[1];
   document.querySelector('#pestDetailControl').textContent = details[2];
-  document.querySelector('#pestDetailSolution').textContent = getPestSolution(crop, name, atlas);
+  const solution = getPestSolution(crop, name, atlas);
+  document.querySelector('#pestDetailSolution').textContent = solution;
+  renderSolutionProducts(solution);
   pestDetailModal.showModal();
 }
 function getPestSolution(crop, name, atlas) {
@@ -313,6 +315,27 @@ function getPestSolution(crop, name, atlas) {
   if (n.includes('bọ trĩ') || n.includes('rệp') || n.includes('bọ phấn') || n.includes('rầy')) return `Acetamiprid + Flonicamid (Cetamiusavb 35WG), Clothianidin (SV-Stellar 30SC) hoặc Imidacloprid (IMITADO 350SC) — ưu tiên nhóm chích hút; chỉ dùng cho ${cropName} khi nhãn ghi đúng đối tượng và cây trồng.`;
   if (n.includes('nhện') || n.includes('ruồi') || n.includes('ốc') || n.includes('tuyến trùng') || n.includes('mọt')) return `Chưa có dữ liệu nhãn xác nhận của Trường Lâm cho đối tượng này trên ${cropName}; ưu tiên biện pháp canh tác/bẫy và liên hệ chuyên viên để đối chiếu nhãn.`;
   return `Chlorantraniliprole (Pitako USA 18.5SC), Chlorantraniliprole + Chlorfenapyr (Sharking 25SC), Chlorantraniliprole + Indoxacarb (SAMTAKO 20SC) hoặc Emamectin benzoate + Matrine (Techtimex 50WG) — nhóm sâu non ăn lá; chỉ dùng cho ${cropName} khi nhãn ghi đúng đối tượng.`;
+}
+const solutionProductImages = {
+  'Pitako USA 18.5SC':'assets/pitako-usa-18-5sc-cutout-v2.lossless.webp',
+  'Sharking 25SC':'assets/sharking-25sc-cutout-v2.lossless.webp',
+  'SAMTAKO 20SC':'assets/samtako-20sc.jpg',
+  'Techtimex 50WG':'assets/techtimex-50wg-photo-v2.jpg',
+  'Cetamiusavb 35WG':'assets/cetamiusavb-35wg.jpg',
+  'SV-Stellar 30SC':'assets/sv-stellar-30sc.jpg',
+  'IMITADO 350SC':'assets/mitado-350sc.jpg',
+  'Rocky 150SC':'assets/rocky-150sc-packaging-v5.webp',
+  'Unizeb M-45 80WP':'assets/unizeb-m45-80wp.jpg',
+  'Rhett 60WG':'assets/rhett-60wg-cutout-v2.webp',
+  'Masterone 26SC':'assets/masterone-26sc-mockup-v2.lossless.webp',
+  'Nofada 822WP':'assets/nofada-822wp-mockup-v2.lossless.webp',
+  'Matsu Power 12SC':'assets/matsu-power-12sc-photo-v2.jpg'
+};
+function renderSolutionProducts(solution) {
+  const box = document.querySelector('#pestSolutionProducts');
+  if (!box) return;
+  const names = Object.keys(solutionProductImages).filter(product => solution.includes(product));
+  box.innerHTML = names.map(product => `<figure class="solution-product"><img src="${solutionProductImages[product]}" alt="Bao bì ${product}" loading="lazy"><figcaption>${product}</figcaption></figure>`).join('');
 }
 function renderCrop(crop) {
   renderCropProcess(crop);
