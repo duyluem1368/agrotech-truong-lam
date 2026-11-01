@@ -82,7 +82,7 @@
     <button class="nav-toggle" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="nav" aria-label="Điều hướng chính">
       <a href="#gioi-thieu">Giới thiệu</a>
-      <a href="#san-pham">Sản phẩm</a>
+      <a href="#san-pham">Sản phẩm</a><a href="#tra-cuu-san-pham">Tra cứu sản phẩm</a>
       <a href="/gia-phan-bon-hom-nay/">Giá phân bón</a>
       <a href="/phap-luat-thuoc-bao-ve-thuc-vat/">Văn bản pháp luật</a>
       <a href="#tin-tuc">Tin dự báo</a>
@@ -174,6 +174,14 @@
         <h3>Danh mục sản phẩm</h3>
         <div class="catalog-filters" aria-label="Lọc sản phẩm"><button class="active" data-filter="all">Tất cả</button><button data-filter="insecticide">Thuốc trừ sâu</button><button data-filter="fungicide">Thuốc trừ bệnh</button></div>
       </div>
+      <section class="product-search-panel" id="tra-cuu-san-pham" aria-labelledby="tra-cuu-title">
+        <div class="section-kicker">Tra cứu sản phẩm</div>
+        <h3 id="tra-cuu-title">Tra cứu thuốc bảo vệ thực vật</h3>
+        <p class="catalog-search-note">Tìm theo tên sản phẩm, công ty hoặc hoạt chất. Bấm vào sản phẩm để xem đối tượng theo đăng ký và phân tích hiệu lực theo cơ chế hoạt chất.</p>
+        <div class="catalog-search-fields"><input id="productSearchName" type="search" placeholder="Tên sản phẩm..." aria-label="Tìm theo tên sản phẩm"><input id="productSearchCompany" type="search" placeholder="Tên công ty..." aria-label="Tìm theo tên công ty"><input id="productSearchActive" type="search" placeholder="Tên hoạt chất..." aria-label="Tìm theo tên hoạt chất"></div>
+        <div id="catalogSearchStats" class="catalog-search-stats">Đang tải danh mục...</div><div id="catalogSearchResults" class="catalog-search-results"></div>
+        <div id="catalogDossier" class="catalog-dossier" hidden></div>
+      </section>
       <div class="catalog-grid">
         <article class="catalog-card catalog-card-tuktuk reveal" data-category="insecticide"><div class="catalog-photo product-overview product-overview-tuktuk"><img src="assets/tuk-tuk-20sc-facebook-mien-bac-v1.lossless.webp" alt="Poster sản phẩm thuốc trừ sâu Tuk Tuk 20SC" loading="lazy" decoding="async"><span>Nổi bật</span></div><div class="catalog-body"><small>Sản phẩm chủ lực · Hỗn hợp hoạt chất</small><h3>TukTuk 20SC</h3><p><b>Lambda-cyhalothrin + Thiamethoxam</b><br>Giải pháp kiểm soát sâu hại. Liên hệ chuyên viên để được tư vấn và sử dụng theo đúng hướng dẫn trên nhãn.</p><div><span>Dạng chai</span><a href="tel:0388051282">Tư vấn →</a></div></div></article>
         <article class="catalog-card reveal" data-category="insecticide"><div class="catalog-photo"><img src="assets/sharking-25sc.jpg" alt="Thuốc trừ sâu Sharking 25SC"><span>Trừ sâu</span></div><div class="catalog-body"><small>Kiểm soát phổ rộng</small><h3>Sharking 25SC</h3><p><b>Chlorantraniliprole 15% + Chlorfenapyr 10%</b><br>Ưu tiên sâu keo, sâu đục thân lúa và sâu đục quả. Đăng ký trừ sâu keo trên ngô; cách ly 7 ngày.</p><div><span>Gói 25 ml</span><a href="tel:0388051282">Tư vấn →</a></div></div></article>
@@ -339,5 +347,6 @@
   </dialog>
   <div class="toast" role="status" aria-live="polite">Đã ghi nhận. Vui lòng gọi hotline để được tư vấn ngay.</div>
   <script src="script.js?v=20261101-product-images-v1" defer></script>
+  <script src="product-search.js?v=f305754" defer></script>
 </body>
 </html>
