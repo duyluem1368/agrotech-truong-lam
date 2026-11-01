@@ -297,7 +297,22 @@ function openPestDetail(crop, item) {
   document.querySelector('#pestDetailGrowth').textContent = details[0];
   document.querySelector('#pestDetailDamage').textContent = details[1];
   document.querySelector('#pestDetailControl').textContent = details[2];
+  document.querySelector('#pestDetailSolution').textContent = getPestSolution(crop, name, atlas);
   pestDetailModal.showModal();
+}
+function getPestSolution(crop, name, atlas) {
+  const n = name.toLowerCase();
+  const cropName = cropNames[crop];
+  if (atlas === 'disease') {
+    if (crop === 'rice' && n.includes('đạo ôn')) return 'Tricyclazole + Isoprothiolane + Hexaconazole (Nofada 822WP) — đúng nhãn đạo ôn trên lúa; cách ly 14 ngày.';
+    if (crop === 'coffee' && n.includes('thán thư')) return 'Fenoxanil + Kresoxim-methyl (Masterone 26SC) — đúng nhãn thán thư trên cà phê; cách ly 10 ngày.';
+    if (crop === 'dragonfruit' && n.includes('thán thư')) return 'Mancozeb (Unizeb M-45 80WP) — đúng nhãn thán thư trên thanh long; đối chiếu liều và cách ly trên nhãn.';
+    if (crop === 'rose' && n.includes('gỉ sắt')) return 'Metiram + Pyraclostrobin (Rhett 60WG) có dữ liệu đăng ký trên hoa cúc, không mặc nhiên áp dụng cho hoa hồng; phải đối chiếu nhãn.';
+    return `Mancozeb (Unizeb M-45 80WP) hoặc Metiram + Pyraclostrobin (Rhett 60WG) — tham khảo nhóm bệnh nấm cho ${cropName}; phải xác nhận đúng đăng ký trên nhãn.`;
+  }
+  if (n.includes('bọ trĩ') || n.includes('rệp') || n.includes('bọ phấn') || n.includes('rầy')) return `Acetamiprid + Flonicamid (Cetamiusavb 35WG), Clothianidin (SV-Stellar 30SC) hoặc Imidacloprid (IMITADO 350SC) — ưu tiên nhóm chích hút; chỉ dùng cho ${cropName} khi nhãn ghi đúng đối tượng và cây trồng.`;
+  if (n.includes('nhện') || n.includes('ruồi') || n.includes('ốc') || n.includes('tuyến trùng') || n.includes('mọt')) return `Chưa có dữ liệu nhãn xác nhận của Trường Lâm cho đối tượng này trên ${cropName}; ưu tiên biện pháp canh tác/bẫy và liên hệ chuyên viên để đối chiếu nhãn.`;
+  return `Chlorantraniliprole (Pitako USA 18.5SC), Chlorantraniliprole + Chlorfenapyr (Sharking 25SC), Chlorantraniliprole + Indoxacarb (SAMTAKO 20SC) hoặc Emamectin benzoate + Matrine (Techtimex 50WG) — nhóm sâu non ăn lá; chỉ dùng cho ${cropName} khi nhãn ghi đúng đối tượng.`;
 }
 function renderCrop(crop) {
   renderCropProcess(crop);
