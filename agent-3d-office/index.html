@@ -13,7 +13,7 @@ canvas{display:block}
 .top{padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start}
 .title{font-size:clamp(20px,3vw,36px);font-weight:800;letter-spacing:-.04em;text-shadow:0 0 25px #23d8ff}
 .sub{color:#7ca2b4;margin-top:5px}
-.badge{background:#0b2536cc;border:1px solid #1c6b82;border-radius:999px;padding:9px 14px;color:#65f5c4;box-shadow:0 0 25px #00d9ff22}
+.top-actions{display:flex;gap:10px;align-items:center}.task-top{border:1px solid #45e0d0;background:#0b3544;color:#8ffff0;border-radius:999px;padding:9px 14px;font-weight:700;cursor:pointer}.task-top:hover{background:#126077}.badge{background:#0b2536cc;border:1px solid #1c6b82;border-radius:999px;padding:9px 14px;color:#65f5c4;box-shadow:0 0 25px #00d9ff22}
 .panel{position:absolute;right:24px;top:100px;width:min(330px,calc(100vw - 48px));background:#081b2be8;border:1px solid #23657a;border-radius:18px;padding:20px;pointer-events:auto;backdrop-filter:blur(16px);box-shadow:0 20px 70px #0008}
 .panel h2{margin:0 0 5px;font-size:22px}
 .role{color:#69e6ff;margin-bottom:17px}
@@ -27,7 +27,7 @@ canvas{display:block}
 }
 
 </style></head>
-<body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="badge">● 6 agents đang hoạt động</div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div><label class="task-label" for="taskInput">Giao nhiệm vụ mới</label><textarea id="taskInput" placeholder="Nhập nội dung công việc..."></textarea><button id="assignBtn" class="assign">Giao việc cho Agent</button><div id="assignMsg" class="assign-msg"></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
+<body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="top-actions"><button id="openTask" class="task-top">＋ Giao nhiệm vụ</button><div class="badge">● 6 agents đang hoạt động</div></div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div><label class="task-label" for="taskInput">Giao nhiệm vụ mới</label><textarea id="taskInput" placeholder="Nhập nội dung công việc..."></textarea><button id="assignBtn" class="assign">Giao việc cho Agent</button><div id="assignMsg" class="assign-msg"></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js"}}
 </script>
@@ -133,6 +133,7 @@ if(hit){let g=hit.object;
 while(g.parent&&!g.userData.name)g=g.parent;
 show(g.userData)}});
 let selectedAgent=null;
+openTask.addEventListener('click',()=>show(agents[0]));
 function show(a){selectedAgent=a;pname.textContent=a.name;
 prole.textContent=a.role;
 ptask.textContent=taskStore[a.name]||a.task;
