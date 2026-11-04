@@ -4,20 +4,145 @@
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>AI Agent Office</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#07111f;color:#dff8ff;font:14px Inter,system-ui,sans-serif;overflow:hidden}#app{height:100vh;position:relative}canvas{display:block}.hud{position:absolute;inset:0;pointer-events:none}.top{padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start}.title{font-size:clamp(20px,3vw,36px);font-weight:800;letter-spacing:-.04em;text-shadow:0 0 25px #23d8ff}.sub{color:#7ca2b4;margin-top:5px}.badge{background:#0b2536cc;border:1px solid #1c6b82;border-radius:999px;padding:9px 14px;color:#65f5c4;box-shadow:0 0 25px #00d9ff22}.panel{position:absolute;right:24px;top:100px;width:min(330px,calc(100vw - 48px));background:#081b2be8;border:1px solid #23657a;border-radius:18px;padding:20px;pointer-events:auto;backdrop-filter:blur(16px);box-shadow:0 20px 70px #0008}.panel h2{margin:0 0 5px;font-size:22px}.role{color:#69e6ff;margin-bottom:17px}.row{display:flex;justify-content:space-between;border-top:1px solid #ffffff12;padding:11px 0;color:#9db9c5}.status{color:#65f5c4}.hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#071a2acc;padding:10px 16px;border-radius:999px;color:#8db4c1;border:1px solid #1d5064;white-space:nowrap}.close{float:right;background:none;color:#a8c9d4;border:0;font-size:20px;cursor:pointer}@media(max-width:600px){.panel{top:auto;bottom:60px;right:12px}.top{padding:15px}.hint{font-size:11px;bottom:14px}}
-</style></head><body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="badge">● 6 agents đang hoạt động</div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
+
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:#dff8ff;font:14px Inter,system-ui,sans-serif;overflow:hidden}
+#app{height:100vh;position:relative}
+canvas{display:block}
+.hud{position:absolute;inset:0;pointer-events:none}
+.top{padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start}
+.title{font-size:clamp(20px,3vw,36px);font-weight:800;letter-spacing:-.04em;text-shadow:0 0 25px #23d8ff}
+.sub{color:#7ca2b4;margin-top:5px}
+.badge{background:#0b2536cc;border:1px solid #1c6b82;border-radius:999px;padding:9px 14px;color:#65f5c4;box-shadow:0 0 25px #00d9ff22}
+.panel{position:absolute;right:24px;top:100px;width:min(330px,calc(100vw - 48px));background:#081b2be8;border:1px solid #23657a;border-radius:18px;padding:20px;pointer-events:auto;backdrop-filter:blur(16px);box-shadow:0 20px 70px #0008}
+.panel h2{margin:0 0 5px;font-size:22px}
+.role{color:#69e6ff;margin-bottom:17px}
+.row{display:flex;justify-content:space-between;border-top:1px solid #ffffff12;padding:11px 0;color:#9db9c5}
+.status{color:#65f5c4}
+.hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#071a2acc;padding:10px 16px;border-radius:999px;color:#8db4c1;border:1px solid #1d5064;white-space:nowrap}
+.close{float:right;background:none;color:#a8c9d4;border:0;font-size:20px;cursor:pointer}
+@media(max-width:600px){.panel{top:auto;bottom:60px;right:12px}
+.top{padding:15px}
+.hint{font-size:11px;bottom:14px}
+}
+
+</style></head>
+<body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="badge">● 6 agents đang hoạt động</div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js"}}
 </script>
 <script type="module">
 import * as THREE from 'three';
+
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js';
+
 const agents=[['TL Sếp','Điều phối trung tâm','Điều phối toàn hệ thống','DuyliemClaw','#55eaff'],['TLvideoeditor','Dựng video & motion','Đang dựng video 3D','video-producer','#ff6b9d'],['TLhoahoc','Trợ giảng hóa học','Mô phỏng phân tử & bài giảng','chemistry-tutor','#bc7cff'],['Công nợ','Phân tích tài chính','Đối chiếu công nợ FIFO','finance-agent','#ffd166'],['Nội dung','Chiến lược nội dung','Soạn bài & lịch đăng','content-agent','#65f5c4'],['Nghiên cứu','Tìm kiếm tri thức','Tổng hợp dữ liệu mới','research-agent','#ff9f43']];
-const scene=new THREE.Scene();scene.background=new THREE.Color('#07111f');scene.fog=new THREE.Fog('#07111f',18,34);const cam=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);cam.position.set(11,9,14);const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;document.getElementById('app').prepend(renderer.domElement);const controls=new OrbitControls(cam,renderer.domElement);controls.target.set(0,1,0);controls.enableDamping=true;controls.maxDistance=24;controls.minDistance=7;
-scene.add(new THREE.HemisphereLight('#9eeaff','#08111f',2));const key=new THREE.PointLight('#36d9ff',18,25);key.position.set(0,8,2);scene.add(key);const floor=new THREE.Mesh(new THREE.BoxGeometry(18,.3,14),new THREE.MeshStandardMaterial({color:'#10293a',metalness:.5,roughness:.6}));floor.position.y=-.15;floor.receiveShadow=true;scene.add(floor);
-function mat(c,em=0){return new THREE.MeshStandardMaterial({color:c,emissive:em?c:'#000000',emissiveIntensity:em,metalness:.3,roughness:.5})}function label(text,color='#dff8ff',size=32){const c=document.createElement('canvas');c.width=512;c.height=90;const x=c.getContext('2d');x.font='bold 28px Arial';x.fillStyle=color;x.textAlign='center';x.fillText(text,256,52);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));s.scale.set(3.1,.55,1);return s}
-const group=new THREE.Group();scene.add(group);const deskMat=mat('#173c50');const positions=[[0,1,0],[-5,0,-3],[5,0,-3],[-5,0,3],[5,0,3],[0,0,5]];let clickable=[];
-positions.forEach((p,i)=>{let [name,role,task,model,color]=agents[i];let g=new THREE.Group();g.position.set(...p);let desk=new THREE.Mesh(new THREE.BoxGeometry(2.8,.35,1.5),deskMat);desk.position.y=1.05;desk.castShadow=true;g.add(desk);let screen=new THREE.Mesh(new THREE.BoxGeometry(1.25,.8,.08),mat(color,0.3));screen.position.set(0,1.7,-.48);screen.rotation.x=-.08;g.add(screen);let body=new THREE.Mesh(new THREE.CylinderGeometry(.35,.42,.9,16),mat(color,0.12));body.position.y=.8;g.add(body);let head=new THREE.Mesh(new THREE.SphereGeometry(.32,20,14),mat('#d3f4ff'));head.position.y=1.45;g.add(head);let ring=new THREE.Mesh(new THREE.TorusGeometry(1.15,.025,8,64),new THREE.MeshBasicMaterial({color}));ring.rotation.x=-Math.PI/2;ring.position.y=.03;g.add(ring);let lab=label(name,color);lab.position.set(0,2.45,0);g.add(lab);g.userData={name,role,task,model};group.add(g);clickable.push(g)});
-const center=new THREE.Mesh(new THREE.CylinderGeometry(2.2,.9,.28,64),mat('#0b5872',.25));center.position.y=.5;scene.add(center);const core=new THREE.Mesh(new THREE.SphereGeometry(.55,24,16),mat('#55eaff',.8));core.position.y=1.1;scene.add(core);for(let i=0;i<6;i++){const a=i*Math.PI/3;const line=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,Math.hypot(positions[i][0],positions[i][2])-2),new THREE.MeshBasicMaterial({color:'#2cd8e655'}));line.rotation.z=Math.PI/2;line.rotation.y=-a;line.position.set(Math.cos(a)*2.7,.65,Math.sin(a)*2.7);scene.add(line)}
-const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,cam);let hit=ray.intersectObjects(clickable,true)[0];if(hit){let g=hit.object;while(g.parent&&!g.userData.name)g=g.parent;show(g.userData)}});function show(a){pname.textContent=a.name;prole.textContent=a.role;ptask.textContent=a.task;pmodel.textContent=a.model;panel.style.display='block'}window.closePanel=()=>panel.style.display='none';addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});function loop(t){core.position.y=1.1+Math.sin(t*.002)*.08;controls.update();renderer.render(scene,cam);requestAnimationFrame(loop)}loop(0);
-</script></body></html>
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color('#07111f');
+scene.fog=new THREE.Fog('#07111f',18,34);
+const cam=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);
+cam.position.set(11,9,14);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+document.getElementById('app').prepend(renderer.domElement);
+const controls=new OrbitControls(cam,renderer.domElement);
+controls.target.set(0,1,0);
+controls.enableDamping=true;
+controls.maxDistance=24;
+controls.minDistance=7;
+
+scene.add(new THREE.HemisphereLight('#9eeaff','#08111f',2));
+const key=new THREE.PointLight('#36d9ff',18,25);
+key.position.set(0,8,2);
+scene.add(key);
+const floor=new THREE.Mesh(new THREE.BoxGeometry(18,.3,14),new THREE.MeshStandardMaterial({color:'#10293a',metalness:.5,roughness:.6}));
+floor.position.y=-.15;
+floor.receiveShadow=true;
+scene.add(floor);
+
+function mat(c,em=0){return new THREE.MeshStandardMaterial({color:c,emissive:em?c:'#000000',emissiveIntensity:em,metalness:.3,roughness:.5})}function label(text,color='#dff8ff',size=32){const c=document.createElement('canvas');
+c.width=512;
+c.height=90;
+const x=c.getContext('2d');
+x.font='bold 28px Arial';
+x.fillStyle=color;
+x.textAlign='center';
+x.fillText(text,256,52);
+const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));
+s.scale.set(3.1,.55,1);
+return s}
+const group=new THREE.Group();
+scene.add(group);
+const deskMat=mat('#173c50');
+const positions=[[0,1,0],[-5,0,-3],[5,0,-3],[-5,0,3],[5,0,3],[0,0,5]];
+let clickable=[];
+
+positions.forEach((p,i)=>{let [name,role,task,model,color]=agents[i];
+let g=new THREE.Group();
+g.position.set(...p);
+let desk=new THREE.Mesh(new THREE.BoxGeometry(2.8,.35,1.5),deskMat);
+desk.position.y=1.05;
+desk.castShadow=true;
+g.add(desk);
+let screen=new THREE.Mesh(new THREE.BoxGeometry(1.25,.8,.08),mat(color,0.3));
+screen.position.set(0,1.7,-.48);
+screen.rotation.x=-.08;
+g.add(screen);
+let body=new THREE.Mesh(new THREE.CylinderGeometry(.35,.42,.9,16),mat(color,0.12));
+body.position.y=.8;
+g.add(body);
+let head=new THREE.Mesh(new THREE.SphereGeometry(.32,20,14),mat('#d3f4ff'));
+head.position.y=1.45;
+g.add(head);
+let ring=new THREE.Mesh(new THREE.TorusGeometry(1.15,.025,8,64),new THREE.MeshBasicMaterial({color}));
+ring.rotation.x=-Math.PI/2;
+ring.position.y=.03;
+g.add(ring);
+let lab=label(name,color);
+lab.position.set(0,2.45,0);
+g.add(lab);
+g.userData={name,role,task,model};
+group.add(g);
+clickable.push(g)});
+
+const center=new THREE.Mesh(new THREE.CylinderGeometry(2.2,.9,.28,64),mat('#0b5872',.25));
+center.position.y=.5;
+scene.add(center);
+const core=new THREE.Mesh(new THREE.SphereGeometry(.55,24,16),mat('#55eaff',.8));
+core.position.y=1.1;
+scene.add(core);
+for(let i=0;
+i<6;
+i++){const a=i*Math.PI/3;
+const line=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,Math.hypot(positions[i][0],positions[i][2])-2),new THREE.MeshBasicMaterial({color:'#2cd8e655'}));
+line.rotation.z=Math.PI/2;
+line.rotation.y=-a;
+line.position.set(Math.cos(a)*2.7,.65,Math.sin(a)*2.7);
+scene.add(line)}
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();
+renderer.domElement.addEventListener('click',e=>{mouse.x=e.clientX/innerWidth*2-1;
+mouse.y=-(e.clientY/innerHeight)*2+1;
+ray.setFromCamera(mouse,cam);
+let hit=ray.intersectObjects(clickable,true)[0];
+if(hit){let g=hit.object;
+while(g.parent&&!g.userData.name)g=g.parent;
+show(g.userData)}});
+function show(a){pname.textContent=a.name;
+prole.textContent=a.role;
+ptask.textContent=a.task;
+pmodel.textContent=a.model;
+panel.style.display='block'}window.closePanel=()=>panel.style.display='none';
+addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;
+cam.updateProjectionMatrix();
+renderer.setSize(innerWidth,innerHeight)});
+function loop(t){core.position.y=1.1+Math.sin(t*.002)*.08;
+controls.update();
+renderer.render(scene,cam);
+requestAnimationFrame(loop)}loop(0);
+
+</script>
+</body>
+</html>
