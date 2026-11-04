@@ -20,19 +20,21 @@ canvas{display:block}
 .row{display:flex;justify-content:space-between;border-top:1px solid #ffffff12;padding:11px 0;color:#9db9c5}
 .status{color:#65f5c4}
 .hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#071a2acc;padding:10px 16px;border-radius:999px;color:#8db4c1;border:1px solid #1d5064;white-space:nowrap}
-.close{float:right;background:none;color:#a8c9d4;border:0;font-size:20px;cursor:pointer}
+.close{float:right;background:none;color:#a8c9d4;border:0;font-size:20px;cursor:pointer}.task-label{display:block;margin-top:18px;margin-bottom:7px;color:#9db9c5}.panel textarea{width:100%;min-height:76px;resize:vertical;border:1px solid #28677b;border-radius:10px;background:#061521;color:#dff8ff;padding:10px;font:inherit}.assign{width:100%;margin-top:9px;border:0;border-radius:10px;padding:11px;background:linear-gradient(90deg,#1bb7d8,#48e5a7);color:#03131c;font-weight:800;cursor:pointer}.assign:hover{filter:brightness(1.12)}.assign-msg{min-height:18px;margin-top:8px;color:#65f5c4;font-size:12px}
 @media(max-width:600px){.panel{top:auto;bottom:60px;right:12px}
 .top{padding:15px}
 .hint{font-size:11px;bottom:14px}
 }
 
 </style></head>
-<body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="badge">● 6 agents đang hoạt động</div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
+<body><div id="app"><div class="hud"><div class="top"><div><div class="title">AI AGENT OFFICE</div><div class="sub">Phòng điều hành thông minh · Agrotech Trường Lâm</div></div><div class="badge">● 6 agents đang hoạt động</div></div><div id="panel" class="panel" style="display:none"><button class="close" onclick="closePanel()">×</button><h2 id="pname"></h2><div id="prole" class="role"></div><div class="row"><span>Trạng thái</span><b class="status">● Đang làm việc</b></div><div class="row"><span>Nhiệm vụ</span><b id="ptask"></b></div><div class="row"><span>Model</span><b id="pmodel"></b></div><label class="task-label" for="taskInput">Giao nhiệm vụ mới</label><textarea id="taskInput" placeholder="Nhập nội dung công việc..."></textarea><button id="assignBtn" class="assign">Giao việc cho Agent</button><div id="assignMsg" class="assign-msg"></div></div><div class="hint">Kéo để xoay · Cuộn để zoom · Bấm vào Agent để xem chi tiết</div></div></div>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js"}}
 </script>
 <script type="module">
 import * as THREE from 'three';
+
+const taskStore=JSON.parse(localStorage.getItem('agentOfficeTasks')||'{}');
 
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.161/examples/jsm/controls/OrbitControls.js';
 
@@ -130,11 +132,15 @@ let hit=ray.intersectObjects(clickable,true)[0];
 if(hit){let g=hit.object;
 while(g.parent&&!g.userData.name)g=g.parent;
 show(g.userData)}});
-function show(a){pname.textContent=a.name;
+let selectedAgent=null;
+function show(a){selectedAgent=a;pname.textContent=a.name;
 prole.textContent=a.role;
-ptask.textContent=a.task;
+ptask.textContent=taskStore[a.name]||a.task;
 pmodel.textContent=a.model;
-panel.style.display='block'}window.closePanel=()=>panel.style.display='none';
+taskInput.value=taskStore[a.name]||'';
+assignMsg.textContent='';panel.style.display='block'}
+assignBtn.addEventListener('click',()=>{if(!selectedAgent)return;const task=taskInput.value.trim();if(!task){assignMsg.textContent='Hãy nhập nội dung nhiệm vụ.';return}taskStore[selectedAgent.name]=task;localStorage.setItem('agentOfficeTasks',JSON.stringify(taskStore));ptask.textContent=task;assignMsg.textContent='Đã giao việc thành công.'});
+window.closePanel=()=>{panel.style.display='none';selectedAgent=null};
 addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;
 cam.updateProjectionMatrix();
 renderer.setSize(innerWidth,innerHeight)});
