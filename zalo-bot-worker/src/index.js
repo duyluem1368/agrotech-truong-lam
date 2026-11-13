@@ -10,15 +10,25 @@ export default {
     }
 
     if (request.method === "GET" && url.pathname === "/diagnostics/zalo-webhook") {
-      if (!env.ZALO_BOT_TOKEN) {
-        return json({ ok: false, error: "bot_token_not_configured" }, 503);
+      if (!env.ZALO_BOT_TOKEN || !env.ZALO_SECRET_TOKEN) {
+        return json({ ok: false, error: "zalo_secrets_not_configured" }, 503);
       }
 
+      const webhookUrl = `${url.origin}/webhook/zalo`;
+      const configured = await callZaloBotApi("setWebhook", env.ZALO_BOT_TOKEN, {
+        url: webhookUrl,
+        secret_token: env.ZALO_SECRET_TOKEN
+      });
       const [info, test] = await Promise.all([
         callZaloBotApi("getWebhookInfo", env.ZALO_BOT_TOKEN),
         callZaloBotApi("testWebhook", env.ZALO_BOT_TOKEN)
       ]);
-      return json({ ok: info.ok && test.ok, webhook_info: info.body, webhook_test: test.body });
+      return json({
+        ok: configured.ok && info.ok && test.ok,
+        webhook_set: configured.body,
+        webhook_info: info.body,
+        webhook_test: test.body
+      });
     }
 
     if (request.method !== "POST" || url.pathname !== "/webhook/zalo") {
@@ -165,12 +175,12 @@ async function sendMessage(chatId, text, botToken) {
   if (!response.ok) throw new Error(`Zalo sendMessage failed: ${response.status} ${await response.text()}`);
 }
 
-async function callZaloBotApi(method, botToken) {
+async function callZaloBotApi(method, botToken, payload = {}) {
   try {
     const response = await fetch(`${ZALO_API}/bot${botToken}/${method}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: "{}"
+      body: JSON.stringify(payload)
     });
     const body = await response.json().catch(() => ({ ok: false, error: "invalid_response" }));
     return { ok: response.ok && body?.ok !== false, status: response.status, body };
