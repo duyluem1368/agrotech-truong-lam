@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
       const test = await callZalo("testWebhook");
       return res.status(200).json({ ok: configured.ok && test.ok, webhook_url: webhookUrl, webhook_set: configured, webhook_test: test });
     }
-    return res.status(200).json({ ok: true, service: "agrotech-zalo-assistant-vercel", version: VERSION, source: "agrotech_website_products" });
+    return res.status(200).json({ ok: true, service: "agrotech-zalo-assistant-vercel", version: VERSION, source: "agrotech_website_products", ai_enabled: Boolean(process.env.GEMINI_API_KEY) });
   }
 
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "method_not_allowed" });
