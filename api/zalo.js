@@ -1,7 +1,7 @@
 const ZALO_API = "https://bot-api.zaloplatforms.com";
 const WEBSITE_URL = "https://agrotechtruonglam.com.vn/#san-pham";
 const HOTLINE = "0388 051 282";
-const VERSION = "agrotech-crop-advisor-v2";
+const VERSION = "agrotech-gemini-advisor-v3";
 const KNOWN_CROPS = [
   "lúa", "ngô", "bắp", "sắn", "khoai", "khoai lang", "khoai tây", "rau", "bắp cải", "cải", "cải thảo", "cải xanh", "cà chua", "ớt", "dưa", "dưa leo", "dưa hấu", "bí", "mướp", "đậu", "lạc", "mía",
   "cà phê", "hồ tiêu", "điều", "cao su", "chè", "thanh long", "cam", "quýt", "bưởi", "chanh", "xoài", "nhãn", "vải", "sầu riêng", "bơ", "chuối", "dứa", "ổi", "nho", "hoa cúc", "hoa hồng"
@@ -63,7 +63,10 @@ module.exports = async function handler(req, res) {
       await sendMessage(chatId, "Hiện em hỗ trợ tốt nhất bằng tin nhắn văn bản. Anh/chị hãy gửi tên cây trồng, sâu bệnh/triệu chứng hoặc tên sản phẩm cần tra cứu.");
     } else {
       const question = message.text.trim().slice(0, 1500);
-      await sendMessage(chatId, buildAnswer(question).slice(0, 2000));
+      const answer = process.env.GEMINI_API_KEY
+        ? await buildAIAnswer(question)
+        : buildAnswer(question);
+      await sendMessage(chatId, answer.slice(0, 2000));
     }
     return res.status(200).json({ ok: true });
   } catch (error) {
@@ -89,6 +92,60 @@ async function sendMessage(chatId, text) {
     body: JSON.stringify({ chat_id: chatId, text })
   });
   if (!response.ok) throw new Error(`Zalo sendMessage failed: ${response.status} ${await response.text()}`);
+}
+
+async function buildAIAnswer(question) {
+  if (isGreeting(question)) return buildAnswer(question);
+
+  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+  const productKnowledge = AGROTECH_PRODUCTS.map((product) => ({
+    name: product.name,
+    type: product.type,
+    active: product.active,
+    crops: product.crops,
+    targets: product.targets,
+    registration: product.registration || "",
+    dose: product.dose || "",
+    phi: product.phi || "",
+    package: product.package || "",
+    advantage: product.advantage
+  }));
+  const prompt = `Bạn là trợ lý tư vấn nông nghiệp và bán hàng của Agrotech Trường Lâm tại Việt Nam.
+
+NHIỆM VỤ:
+- Hiểu cây trồng, triệu chứng, sâu bệnh và hỏi bổ sung tự nhiên, lịch sự.
+- Nếu chưa đủ căn cứ, nói rõ đây mới là khả năng và hỏi MỘT nhóm thông tin quan trọng tiếp theo; không chẩn đoán chắc chắn.
+- Phân biệt vấn đề dinh dưỡng, môi trường/úng hạn, sâu hại và bệnh hại trước khi giới thiệu thuốc.
+- Luôn ưu tiên sản phẩm Agrotech trong dữ liệu bên dưới, nhưng CHỈ giới thiệu khi cây trồng và đối tượng gây hại phù hợp với thông tin đăng ký/dữ liệu.
+- Tuyệt đối không bịa sản phẩm, hoạt chất, liều, thời gian cách ly hoặc công dụng ngoài dữ liệu.
+- Nếu không có sản phẩm Agrotech phù hợp, nói thẳng chưa có sản phẩm phù hợp trong danh mục hiện tại và hướng khách gọi chuyên viên.
+- Khi có sản phẩm phù hợp: giải thích vì sao phù hợp, hoạt chất, điểm nổi bật, đăng ký, liều/cách ly nếu dữ liệu có; nhắc đọc nhãn.
+- Kết thúc tự nhiên bằng liên kết ${WEBSITE_URL} và hotline ${HOTLINE} khi phù hợp.
+- Trả lời tiếng Việt, thân thiện, dễ hiểu, tối đa 1.600 ký tự. Không dùng lời quảng cáo tuyệt đối như “tốt nhất”, “an toàn tuyệt đối”, “đặc trị 100%”.
+
+DANH MỤC AGROTECH ĐÃ DUYỆT:
+${JSON.stringify(productKnowledge)}
+
+CÂU HỎI KHÁCH HÀNG:
+${question}`;
+
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.35, maxOutputTokens: 650 }
+    })
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    console.error("gemini_request_failed", response.status, detail.slice(0, 300));
+    return buildAnswer(question);
+  }
+  const body = await response.json();
+  const answer = body?.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim();
+  return answer || buildAnswer(question);
 }
 
 function findProducts(question) {
