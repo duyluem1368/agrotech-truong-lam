@@ -28,16 +28,6 @@ const AGROTECH_PRODUCTS = [
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
-    if (req.query?.diagnostics === "ai-once") {
-      if (!process.env.GEMINI_API_KEY) return res.status(503).json({ ok: false, error: "gemini_key_missing" });
-      const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-      const test = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: "Chỉ trả lời: OK" }] }], generationConfig: { maxOutputTokens: 10 } })
-      });
-      const body = await test.json().catch(() => ({}));
-      return res.status(test.ok ? 200 : 502).json({ ok: test.ok, model, status: test.status, error: body?.error?.message || null });
-    }
     if (req.query?.setup === "1") {
       if (!process.env.ZALO_BOT_TOKEN || !process.env.ZALO_SECRET_TOKEN) {
         return res.status(503).json({ ok: false, error: "zalo_secrets_not_configured" });
