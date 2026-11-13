@@ -9,6 +9,18 @@ export default {
       return json({ ok: true, service: "agrotech-zalo-assistant" });
     }
 
+    if (request.method === "GET" && url.pathname === "/diagnostics/zalo-webhook") {
+      if (!env.ZALO_BOT_TOKEN) {
+        return json({ ok: false, error: "bot_token_not_configured" }, 503);
+      }
+
+      const [info, test] = await Promise.all([
+        callZaloBotApi("getWebhookInfo", env.ZALO_BOT_TOKEN),
+        callZaloBotApi("testWebhook", env.ZALO_BOT_TOKEN)
+      ]);
+      return json({ ok: info.ok && test.ok, webhook_info: info.body, webhook_test: test.body });
+    }
+
     if (request.method !== "POST" || url.pathname !== "/webhook/zalo") {
       return new Response("Not found", { status: 404 });
     }
@@ -151,6 +163,20 @@ async function sendMessage(chatId, text, botToken) {
     body: JSON.stringify({ chat_id: chatId, text })
   });
   if (!response.ok) throw new Error(`Zalo sendMessage failed: ${response.status} ${await response.text()}`);
+}
+
+async function callZaloBotApi(method, botToken) {
+  try {
+    const response = await fetch(`${ZALO_API}/bot${botToken}/${method}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: "{}"
+    });
+    const body = await response.json().catch(() => ({ ok: false, error: "invalid_response" }));
+    return { ok: response.ok && body?.ok !== false, status: response.status, body };
+  } catch (error) {
+    return { ok: false, status: 0, body: { ok: false, error: String(error) } };
+  }
 }
 
 function normalize(value) {
