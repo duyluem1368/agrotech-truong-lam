@@ -28,3 +28,11 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: zalo-bot-worker
           command: deploy
+
+      - name: Synchronize Zalo webhook secret
+        working-directory: zalo-bot-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ZALO_SECRET_TOKEN: ${{ secrets.ZALO_SECRET_TOKEN }}
+        run: printf '%s' "$ZALO_SECRET_TOKEN" | npx wrangler secret put ZALO_SECRET_TOKEN
