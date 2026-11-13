@@ -97,7 +97,7 @@ async function sendMessage(chatId, text) {
 async function buildAIAnswer(question) {
   if (isGreeting(question)) return buildAnswer(question);
 
-  const model = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
   const productKnowledge = AGROTECH_PRODUCTS.map((product) => ({
     name: product.name,
     type: product.type,
