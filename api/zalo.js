@@ -30,7 +30,7 @@ module.exports = async function handler(req, res) {
   if (req.method === "GET") {
     if (req.query?.diagnostics === "verify-ai") {
       if (!process.env.GEMINI_API_KEY) return res.status(503).json({ ok: false, error: "gemini_key_missing" });
-      const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+      const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
       const test = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contents: [{ parts: [{ text: "Chỉ trả lời: OK" }] }], generationConfig: { maxOutputTokens: 10 } })
@@ -107,7 +107,7 @@ async function sendMessage(chatId, text) {
 async function buildAIAnswer(question) {
   if (isGreeting(question)) return buildAnswer(question);
 
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
   const productKnowledge = AGROTECH_PRODUCTS.map((product) => ({
     name: product.name,
     type: product.type,
