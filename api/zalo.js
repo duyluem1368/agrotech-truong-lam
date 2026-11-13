@@ -71,17 +71,32 @@ async function findProducts(question) {
   const response = await fetch(process.env.CATALOG_URL || CATALOG_URL);
   if (!response.ok) return [];
   const catalog = await response.json();
-  const terms = normalize(question).split(/\s+/).filter((term) => term.length > 1);
+  const normalizedQuestion = normalize(question);
+  const terms = meaningfulTerms(normalizedQuestion);
   if (!terms.length || !Array.isArray(catalog)) return [];
 
   return catalog.map((product) => {
     const registrations = Array.isArray(product.registered) ? product.registered : [];
-    const searchable = normalize([product.name, product.active, product.company, ...registrations.flatMap((item) => [item.crop, item.target])].filter(Boolean).join(" "));
     let score = 0;
+
+    for (const item of registrations) {
+      const crop = normalize(item.crop);
+      const target = normalize(item.target);
+      if (target && normalizedQuestion.includes(target)) score += 100;
+      if (crop && normalizedQuestion.includes(crop)) score += 35;
+      const cropTerms = new Set(crop.split(/\s+/));
+      const targetTerms = new Set(target.split(/\s+/));
+      for (const term of terms) {
+        if (targetTerms.has(term)) score += 12;
+        if (cropTerms.has(term)) score += 6;
+      }
+    }
+
+    const nameTerms = new Set(normalize(product.name).split(/\s+/));
+    const activeTerms = new Set(normalize(product.active).split(/\s+/));
     for (const term of terms) {
-      if (normalize(product.name || "").includes(term)) score += 8;
-      if (normalize(product.active || "").includes(term)) score += 5;
-      if (searchable.includes(term)) score += 2;
+      if (nameTerms.has(term)) score += 8;
+      if (activeTerms.has(term)) score += 5;
     }
     return { product, score };
   }).filter((item) => item.score > 1).sort((a, b) => b.score - a.score).slice(0, 3).map(({ product }) => product);
@@ -101,6 +116,11 @@ function fallbackAnswer(question, products) {
 
 function normalize(value) {
   return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function meaningfulTerms(value) {
+  const stopwords = new Set(["toi", "can", "tim", "thuoc", "dac", "tri", "benh", "cho", "ma", "gi", "nao", "co", "khong", "giup", "voi", "anh", "chi", "em", "cua", "tren"]);
+  return value.split(/[^a-z0-9]+/).filter((term) => term.length > 1 && !stopwords.has(term));
 }
 
 function safeEqual(left, right) {
