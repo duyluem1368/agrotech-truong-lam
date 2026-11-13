@@ -1,7 +1,11 @@
 const ZALO_API = "https://bot-api.zaloplatforms.com";
 const WEBSITE_URL = "https://agrotechtruonglam.com.vn/#san-pham";
 const HOTLINE = "0388 051 282";
-const VERSION = "agrotech-curated-sales-v1";
+const VERSION = "agrotech-crop-advisor-v2";
+const KNOWN_CROPS = [
+  "lúa", "ngô", "bắp", "sắn", "khoai", "khoai lang", "khoai tây", "rau", "bắp cải", "cải", "cải thảo", "cải xanh", "cà chua", "ớt", "dưa", "dưa leo", "dưa hấu", "bí", "mướp", "đậu", "lạc", "mía",
+  "cà phê", "hồ tiêu", "điều", "cao su", "chè", "thanh long", "cam", "quýt", "bưởi", "chanh", "xoài", "nhãn", "vải", "sầu riêng", "bơ", "chuối", "dứa", "ổi", "nho", "hoa cúc", "hoa hồng"
+];
 
 // Danh mục bán hàng được tuyển chọn từ chính website Agrotech Trường Lâm.
 // Không dùng catalog thị trường 6.919 sản phẩm để giới thiệu cho khách.
@@ -112,6 +116,8 @@ function buildAnswer(question) {
   if (isGreeting(question)) {
     return `Xin chào anh/chị 👋 Em là trợ lý tư vấn của Agrotech Trường Lâm. Em rất vui được hỗ trợ anh/chị.\n\nAnh/chị đang cần:\n1. Tìm sản phẩm theo cây trồng hoặc sâu bệnh\n2. Tra cứu công dụng, hoạt chất, cách dùng\n3. Kết nối chuyên viên kỹ thuật\n\nAnh/chị cho em biết đang trồng cây gì và gặp sâu bệnh/triệu chứng nào nhé. Sản phẩm chính hãng: ${WEBSITE_URL}`;
   }
+  const cropConsultation = buildCropConsultation(question);
+  if (cropConsultation) return cropConsultation;
   if (!hasSpecificNeed(question)) {
     return `Dạ, anh/chị đang quan tâm cây trồng nào ạ? Anh/chị cho em biết thêm tên sâu bệnh hoặc triệu chứng (ví dụ: lúa bị đạo ôn, ngô có sâu keo, sắn có bọ phấn) để em chọn đúng sản phẩm Agrotech và giải thích chi tiết.\n\nDanh mục chính hãng: ${WEBSITE_URL}`;
   }
@@ -124,6 +130,34 @@ function buildAnswer(question) {
     return `${index + 1}. ${product.name} — ${product.type}\n• Hoạt chất: ${product.active}\n• Điểm nổi bật: ${product.advantage}${details.length ? `\n• Thông tin: ${details.join("; ")}` : ""}`;
   });
   return `Xin chào anh/chị 👋 Với nhu cầu “${question}”, sản phẩm Agrotech phù hợp nhất là:\n\n${lines.join("\n\n")}\n\nAnh/chị xem hình ảnh và danh mục chính hãng tại: ${WEBSITE_URL}\nĐể chốt đúng liều theo tình trạng ruộng/vườn, vui lòng gửi thêm ảnh thực tế hoặc gọi ${HOTLINE}. Luôn đọc kỹ nhãn và tuân thủ thời gian cách ly.`;
+}
+
+function buildCropConsultation(question) {
+  const text = normalize(question);
+  const crop = extractCrop(text);
+  const hasYellowing = /vang la|la vang|vang la gan|vang ngon|vang tu/.test(text);
+  const hasWilting = /heo|he(o|u) ru|rot re|thoi re|chet cay/.test(text);
+  const hasLeafSpot = /dom la|chay la|vet nau|vet den|moc|phan trang/.test(text);
+  const hasChewing = /thung la|rach la|bi an la|sau an/.test(text);
+  const hasSucking = /xoan la|qu(e|ă)n la|dinh la|bo tri|ray|rep|bo phan/.test(text);
+
+  if (hasYellowing) {
+    return `Dạ, em đã nhận được cây ${crop || "trồng"} bị vàng lá. Vàng lá là triệu chứng, chưa thể kết luận ngay là một bệnh nên em chưa vội giới thiệu thuốc. Anh/chị kiểm tra giúp em:\n\n1. Lá già phía dưới vàng trước hay lá non phía ngọn vàng trước?\n2. Lá có đốm nâu/đen, cháy mép hoặc mốc không?\n3. Cây có héo, gốc mềm, rễ nâu/thối hay đất đang úng không?\n4. Mặt dưới lá có rệp, bọ phấn, bọ trĩ hoặc nhện nhỏ không?\n\n• Vàng đều, không có vết bệnh: thường cần kiểm tra dinh dưỡng, pH và úng/rễ trước.\n• Có đốm/cháy/mốc: nghi nhóm bệnh do nấm hoặc vi khuẩn.\n• Có côn trùng mặt dưới lá: xử lý theo đúng loại sâu chích hút.\n\nAnh/chị gửi 2 ảnh rõ mặt lá và gốc/rễ, kèm lá già hay lá non vàng trước. Em sẽ phân loại sâu hay bệnh rồi mới đối chiếu sản phẩm Trường Lâm phù hợp. Nếu danh mục hiện tại chưa có sản phẩm đăng ký đúng đối tượng, em sẽ nói rõ và chuyển chuyên viên ${HOTLINE}, không gợi ý bừa.\nSản phẩm Trường Lâm: ${WEBSITE_URL}`;
+  }
+
+  if (hasWilting || hasLeafSpot || hasChewing || hasSucking) {
+    const category = hasChewing ? "sâu ăn lá/miệng nhai" : hasSucking ? "côn trùng chích hút" : hasWilting ? "bệnh vùng gốc–rễ hoặc điều kiện úng" : "bệnh trên lá";
+    return `Dạ, biểu hiện trên cây ${crop || "trồng"} đang nghiêng về nhóm ${category}. Để chọn đúng sản phẩm Trường Lâm, anh/chị gửi giúp em ảnh toàn cây, hai mặt lá và phần gốc/rễ; đồng thời cho biết bệnh xuất hiện bao lâu và đang lan nhanh hay chậm. Em sẽ đối chiếu đúng cây trồng, đúng đối tượng đăng ký và chỉ tư vấn sản phẩm phù hợp trên ${WEBSITE_URL}. Hotline kỹ thuật: ${HOTLINE}.`;
+  }
+
+  if (crop && !hasSpecificNeed(question)) {
+    return `Dạ, với cây ${crop}, anh/chị đang cần phòng trừ vấn đề nào ạ?\n\n• Lá bị ăn thủng/cuốn lá → kiểm tra sâu miệng nhai\n• Lá xoăn, có rệp/rầy/bọ trĩ/bọ phấn → kiểm tra côn trùng chích hút\n• Lá có đốm, cháy, mốc → kiểm tra nhóm bệnh trên lá\n• Cây vàng, héo, rễ nâu/thối → kiểm tra dinh dưỡng, úng và bệnh vùng rễ\n\nAnh/chị mô tả dấu hiệu hoặc gửi ảnh, em sẽ phân loại trước rồi ưu tiên sản phẩm Trường Lâm đúng đối tượng; không chọn thuốc chỉ dựa vào tên cây. Danh mục: ${WEBSITE_URL}`;
+  }
+  return "";
+}
+
+function extractCrop(normalizedText) {
+  return [...KNOWN_CROPS].sort((a, b) => b.length - a.length).find((crop) => normalizedText.includes(normalize(crop))) || "";
 }
 
 function isGreeting(value) {
