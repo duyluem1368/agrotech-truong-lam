@@ -48,7 +48,8 @@ export default {
     try {
       event = await request.json();
     } catch {
-      return json({ ok: false, error: "invalid_json" }, 400);
+      // Zalo may send an empty request while verifying a newly configured webhook.
+      return json({ ok: true, verification: true });
     }
 
     const message = event?.message;
