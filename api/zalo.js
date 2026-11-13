@@ -28,24 +28,6 @@ const AGROTECH_PRODUCTS = [
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
-    if (req.query?.diagnostics === "final-ai-check") {
-      if (!process.env.GEMINI_API_KEY) return res.status(503).json({ ok: false, error: "gemini_key_missing" });
-      const model = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
-      const test = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: "Chỉ trả lời đúng hai chữ: XIN CHÀO" }] }], generationConfig: { maxOutputTokens: 20 } })
-      });
-      const body = await test.json().catch(() => ({}));
-      const text = body?.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim() || null;
-      return res.status(test.ok ? 200 : 502).json({ ok: test.ok, model, status: test.status, response_received: Boolean(text), error: body?.error?.message || null });
-    }
-    if (req.query?.diagnostics === "available-models") {
-      if (!process.env.GEMINI_API_KEY) return res.status(503).json({ ok: false, error: "gemini_key_missing" });
-      const modelsResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`);
-      const body = await modelsResponse.json().catch(() => ({}));
-      const models = (body.models || []).filter((item) => (item.supportedGenerationMethods || []).includes("generateContent")).map((item) => item.name);
-      return res.status(modelsResponse.ok ? 200 : 502).json({ ok: modelsResponse.ok, status: modelsResponse.status, models, error: body?.error?.message || null });
-    }
     if (req.query?.setup === "1") {
       if (!process.env.ZALO_BOT_TOKEN || !process.env.ZALO_SECRET_TOKEN) {
         return res.status(503).json({ ok: false, error: "zalo_secrets_not_configured" });
