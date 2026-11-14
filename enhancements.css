@@ -122,14 +122,6 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .footer-contact p{margin:7px 0;line-height:1.55}
 .footer-contact strong{color:#fff}
 @media(max-width:620px){footer{grid-template-columns:1fr}}
-/* Nhạc nền: chỉ phát sau khi người xem chủ động bật. */
-.music-toggle{position:fixed;right:1.2rem;bottom:5.2rem;z-index:60;display:flex;align-items:center;gap:.5rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.7rem 1rem;background:#064b36;color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.2);font:700 .82rem/1 Manrope,sans-serif;cursor:pointer;transition:.2s ease}
-.music-toggle:hover{transform:translateY(-2px);background:#087052}
-.music-toggle.is-playing{background:#d9a32a;color:#173c2f}
-.music-toggle.is-playing .music-icon{animation:musicPulse 1.25s ease-in-out infinite}
-.music-icon{font-size:1.15rem;line-height:1}
-@keyframes musicPulse{50%{transform:scale(1.25) rotate(8deg)}}
-
 /* Mobile header: keep the rotating motto visible as a dedicated lower ribbon. */
 @media(max-width:700px){
   .site-header{height:126px;padding-bottom:40px;position:sticky}
@@ -231,7 +223,6 @@ footer{grid-template-columns:1.35fr 1.35fr 1fr}
 .market-more{display:inline-block;margin:17px 4px 0;color:#fff;font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:4px;text-shadow:0 2px 9px rgba(0,25,16,.7)}.market-empty{color:var(--muted);font-size:12px}
 @media(max-width:980px){.market-toolbar{align-items:flex-start;flex-direction:column}}
 @media(max-width:620px){.market-tabs{grid-template-columns:repeat(2,1fr)}.market-panel{min-height:500px;padding:18px 14px;background-position:center}.market-panel:before{background:linear-gradient(90deg,rgba(2,43,30,.76) 0%,rgba(4,54,37,.56) 66%,rgba(4,54,37,.08) 86%,transparent 100%)}.market-column{width:76%;min-width:0;padding:0}.market-column-head{align-items:start;flex-direction:column}.market-column-head h3{font-size:26px}.market-price-group li{padding:12px 13px}.market-price-line{font-size:14px}.market-section:before{font-size:240px}}
-@media(max-width:640px){.music-toggle{right:.8rem;bottom:5rem;padding:.72rem}.music-label{display:none}}
 
 /* Compact legal-update gateway near the end of the homepage. */
 .legal-entry{display:grid;grid-template-columns:1.2fr .8fr;gap:46px;align-items:center;background:linear-gradient(135deg,#063c2d,#075b40 68%,#08714e);color:#fff;position:relative;overflow:hidden}

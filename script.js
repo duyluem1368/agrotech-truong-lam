@@ -536,9 +536,6 @@ form.addEventListener('submit', async event => {
     setTimeout(() => toast.classList.remove('show'), 5000);
   }
 });
-const backgroundMusic = document.querySelector('#backgroundMusic');
-const musicToggle = document.querySelector('#musicToggle');
-
 const mottoText = document.querySelector('#mottoText');
 if (mottoText) {
   const mottos = [
@@ -559,29 +556,6 @@ if (mottoText) {
       }, 560);
     }, 6500);
   }
-}
-
-if (backgroundMusic && musicToggle) {
-  backgroundMusic.volume = 0.22;
-  musicToggle.addEventListener('click', async () => {
-    if (backgroundMusic.paused) {
-      try {
-        await backgroundMusic.play();
-        musicToggle.classList.add('is-playing');
-        musicToggle.setAttribute('aria-pressed', 'true');
-        musicToggle.setAttribute('aria-label', 'Tắt nhạc nền');
-        musicToggle.querySelector('.music-label').textContent = 'Tắt nhạc';
-      } catch (error) {
-        musicToggle.querySelector('.music-label').textContent = 'Thử lại';
-      }
-    } else {
-      backgroundMusic.pause();
-      musicToggle.classList.remove('is-playing');
-      musicToggle.setAttribute('aria-pressed', 'false');
-      musicToggle.setAttribute('aria-label', 'Bật nhạc nền');
-      musicToggle.querySelector('.music-label').textContent = 'Bật nhạc';
-    }
-  });
 }
 
 // Hạn chế thao tác sao chép/lưu nội dung thông thường trên máy tính và điện thoại.
