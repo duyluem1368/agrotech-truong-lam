@@ -319,7 +319,7 @@ input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;use
 .floating-zalo {
   position: fixed;
   right: 22px;
-  bottom: 140px;
+  bottom: 88px;
   z-index: 25;
   display: flex;
   align-items: center;
@@ -371,7 +371,7 @@ input,textarea,select,[contenteditable="true"]{-webkit-touch-callout:default;use
 @media (max-width: 620px) {
   .floating-zalo {
     right: 14px;
-    bottom: 136px;
+    bottom: 84px;
     padding: 9px;
   }
 
